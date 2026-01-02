@@ -7,8 +7,13 @@ import Navbar from "./components/Navbar";
 import { CartProvider } from "./components/CartContext";
 import Cart from "./pages/Cart";
 import CourseDetails from "./pages/CourseDetails";
+<<<<<<< HEAD
 import AuthModal from "./components/AuthModal";
 import PrivacyPolicy from "./pages/privacyPolicy";
+=======
+import AuthModal from "./components/AuthModel";
+
+>>>>>>> 1e34fb5397762df4e30f5e0c48f5ab8ce4b446f4
 
 function App() {
   const [authOpen, setAuthOpen] = useState(false);

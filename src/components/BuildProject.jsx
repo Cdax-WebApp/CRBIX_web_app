@@ -8,7 +8,7 @@ import hero3 from "../assets/hero/7.jpg";
 const slides = [
   {
     title: "Build Job-Ready Skills for the Future",
-    desc: "Build real-world, job-ready skills with industry-focused courses designed for 2025 and beyond. Learn through hands-on projects, expert mentorship, and practical assignments that prepare you for real company requirements.",
+    desc: "Build real-world, job-ready skills with industry-focused courses designed for 2026 and beyond. Learn through hands-on projects, expert mentorship, and practical assignments that prepare you for real company requirements.",
     image: hero1,
     color: "from-blue-500/10 to-cyan-500/10",
     icon: "🎯"
@@ -22,7 +22,7 @@ const slides = [
   },
   {
     title: "Upgrade Your Career Faster",
-    desc: "Upgrade your career with future-ready skills through structured learning paths, expert guidance, and real-world projects. Stay ahead in the job market with skills that matter in 2025 and beyond.",
+    desc: "Upgrade your career with future-ready skills through structured learning paths, expert guidance, and real-world projects. Stay ahead in the job market with skills that matter in 2026 and beyond.",
     image: hero3,
     color: "from-orange-500/10 to-red-500/10",
     icon: "⚡"
@@ -248,7 +248,7 @@ export default function BuildProject() {
                 </motion.div>
               </AnimatePresence>
             </div>
-
+            
             {/* Navigation Buttons */}
             <div className="flex justify-end mt-4 gap-3">
               <motion.button

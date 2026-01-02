@@ -37,6 +37,7 @@ const exploreData = {
   Marketing: ["Digital Marketing", "SEO", "Content Marketing"],
 };
 
+<<<<<<< HEAD
 // Logout Confirmation Modal Component
 const LogoutConfirmation = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
@@ -109,6 +110,8 @@ const LogoutConfirmation = ({ isOpen, onClose, onConfirm }) => {
   );
 };
 
+=======
+>>>>>>> 1e34fb5397762df4e30f5e0c48f5ab8ce4b446f4
 export default function Navbar({ openLogin, openSignup }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -200,6 +203,7 @@ export default function Navbar({ openLogin, openSignup }) {
   }, [showUserMenu]);
 
   return (
+<<<<<<< HEAD
     <>
       <header className="sticky top-0 z-50 w-full h-[60px]">
         <div className="h-full bg-[#eaf9ff]/95 backdrop-blur border-b border-black/10">
@@ -218,6 +222,38 @@ export default function Navbar({ openLogin, openSignup }) {
               </Link>
               
               {/* EXPLORE MEGA MENU */}
+=======
+    <header className="sticky top-0 z-50 w-full h-[80px]">
+      <div className="h-full bg-[#eaf9ff]/95 backdrop-blur border-b border-black/10">
+        <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between relative">
+          {/* LOGO */}
+          <Link to="/">
+            <img src={logo} alt="CDAXX" className="h-14 md:h-16" />
+          </Link>
+
+          {/* CENTER */}
+          <div className="hidden lg:flex flex-1 items-center gap-8 mx-4">
+            <Link to="/">
+              <button className="font-medium px-2 py-1 hover:text-blue-600">
+                Home
+              </button>
+            </Link>
+            
+            {/* EXPLORE MEGA MENU */}
+            <div
+              className="relative"
+              onMouseEnter={() => setShowExplore(true)}
+              onMouseLeave={() => {
+                setShowExplore(false);
+                setActiveCategory(null);
+              }}
+            >
+              <button className="font-medium px-2 py-1 hover:text-blue-600">
+                Explore
+              </button>
+
+              {/* MEGA MENU */}
+>>>>>>> 1e34fb5397762df4e30f5e0c48f5ab8ce4b446f4
               <div
                 className="relative"
                 onMouseEnter={() => setShowExplore(true)}
@@ -226,6 +262,7 @@ export default function Navbar({ openLogin, openSignup }) {
                   setActiveCategory(null);
                 }}
               >
+<<<<<<< HEAD
                 <button className="font-medium px-2 py-1 hover:text-blue-600 transition-colors">
                   Explore
                 </button>
@@ -276,6 +313,44 @@ export default function Navbar({ openLogin, openSignup }) {
                       </div>
                     )}
                   </div>
+=======
+                <div className="flex">
+                  {/* LEFT – MAIN CATEGORIES */}
+                  <ul className="w-[320px] border-r">
+                    {Object.keys(exploreData).map((category) => (
+                      <li
+                        key={category}
+                        onMouseEnter={() => setActiveCategory(category)}
+                        className={`flex items-center justify-between px-5 py-3 cursor-pointer text-sm font-medium
+                          ${
+                            activeCategory === category
+                              ? "bg-blue-50 text-blue-600"
+                              : "hover:bg-blue-50"
+                          }`}
+                      >
+                        <span>{category}</span>
+                        <HiChevronRight className="text-gray-400" />
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* RIGHT – SUB CATEGORIES (ONLY ON HOVER) */}
+                  {activeCategory && (
+                    <div className="w-[320px] p-5">
+                      <ul className="space-y-3">
+                        {exploreData[activeCategory].map((sub) => (
+                          <li
+                            key={sub}
+                            className="flex items-center justify-between text-sm text-gray-700 hover:text-blue-600 cursor-pointer"
+                          >
+                            <span>{sub}</span>
+                            <HiChevronRight className="text-gray-300" />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+>>>>>>> 1e34fb5397762df4e30f5e0c48f5ab8ce4b446f4
                 </div>
               </div>
 
@@ -433,6 +508,7 @@ export default function Navbar({ openLogin, openSignup }) {
             </button>
           </div>
 
+<<<<<<< HEAD
           {/* MOBILE MENU */}
           {menuOpen && (
             <div className="lg:hidden px-4 pb-6 space-y-4 border-t bg-[#eaf9ff]">
@@ -568,9 +644,40 @@ export default function Navbar({ openLogin, openSignup }) {
               )}
             </div>
           )}
+=======
+          {/* RIGHT */}
+          <div className="hidden lg:flex items-center gap-4">
+            <Link to="/cart">
+              <motion.button className="flex items-center gap-1 px-4 py-2 rounded-full border text-sm">
+                <HiOutlineShoppingCart size={18} />
+                Cart
+              </motion.button>
+            </Link>
+
+            <button
+              onClick={openLogin}
+              className="px-4 py-2 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-50"
+            >
+              Login
+            </button>
+
+            <button
+              onClick={openSignup}
+              className="px-4 py-2 rounded-full bg-blue-500 text-white hover:bg-blue-600"
+            >
+              Sign up
+            </button>
+          </div>
+
+          {/* MOBILE */}
+          <button className="lg:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <HiX size={28} /> : <HiMenu size={28} />}
+          </button>
+>>>>>>> 1e34fb5397762df4e30f5e0c48f5ab8ce4b446f4
         </div>
       </header>
 
+<<<<<<< HEAD
       {/* Logout Confirmation Popup */}
       <LogoutConfirmation
         isOpen={showLogoutConfirm}
@@ -578,5 +685,29 @@ export default function Navbar({ openLogin, openSignup }) {
         onConfirm={handleLogout}
       />
     </>
+=======
+        {/* MOBILE MENU */}
+        {menuOpen && (
+          <div className="lg:hidden px-4 pb-6 space-y-4 border-t bg-[#eaf9ff]">
+            <Link to="/explore-courses">Explore</Link>
+            <Link to="/plans-pricing">Plans & Pricing</Link>
+            <Link to="/cart">Cart</Link>
+            <button
+              onClick={openLogin}
+              className="block w-full text-left py-2"
+            >
+              Login
+            </button>
+            <button
+              onClick={openSignup}
+              className="block w-full bg-blue-500 text-white text-center py-2 rounded-full"
+            >
+              Sign up
+            </button>
+          </div>
+        )}
+      </div>
+    </header>
+>>>>>>> 1e34fb5397762df4e30f5e0c48f5ab8ce4b446f4
   );
 }

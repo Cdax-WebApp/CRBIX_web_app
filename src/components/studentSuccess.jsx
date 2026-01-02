@@ -250,10 +250,10 @@ const Testimonials = () => {
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { label: "Total Reviews", value: "5,000+", color: "text-purple-600" },
-              { label: "Average Rating", value: "4.9/5.0", color: "text-yellow-600" },
-              { label: "Response Rate", value: "98%", color: "text-green-600" },
-              { label: "Happy Students", value: "50K+", color: "text-blue-600" },
+              { label: "Total Reviews", value: "2,000+", color: "text-purple-600" },
+              { label: "Average Rating", value: "4.2/5.0", color: "text-yellow-600" },
+              { label: "Response Rate", value: "85%", color: "text-green-600" },
+              { label: "Happy Students", value: "10K+", color: "text-blue-600" },
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <div className={`text-4xl md:text-5xl font-bold ${stat.color} mb-1`}>
