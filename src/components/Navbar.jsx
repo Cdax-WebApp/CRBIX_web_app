@@ -6,7 +6,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { HiChevronRight } from "react-icons/hi";
 
-/* 🔥 EXPLORE DATA */
+/* EXPLORE DATA */
 const exploreData = {
   "Learn AI": [
     "AI Fundamentals",
@@ -30,34 +30,14 @@ const exploreData = {
     "Client Simulation",
     "Mock Projects",
   ],
-  Development: [
-    "Web Development",
-    "Mobile Development",
-    "Game Development",
-  ],
-  Business: [
-    "Entrepreneurship",
-    "Management",
-    "Finance",
-  ],
-  "IT & Software": [
-    "Networking",
-    "Cyber Security",
-    "DevOps",
-  ],
-  Design: [
-    "UI Design",
-    "UX Research",
-    "Graphic Design",
-  ],
-  Marketing: [
-    "Digital Marketing",
-    "SEO",
-    "Content Marketing",
-  ],
+  Development: ["Web Development", "Mobile Development", "Game Development"],
+  Business: ["Entrepreneurship", "Management", "Finance"],
+  "IT & Software": ["Networking", "Cyber Security", "DevOps"],
+  Design: ["UI Design", "UX Research", "Graphic Design"],
+  Marketing: ["Digital Marketing", "SEO", "Content Marketing"],
 };
 
-export default function Navbar() {
+export default function Navbar({ openLogin, openSignup }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showExplore, setShowExplore] = useState(false);
@@ -73,7 +53,6 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full h-[80px]">
       <div className="h-full bg-[#eaf9ff]/95 backdrop-blur border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between relative">
-
           {/* LOGO */}
           <Link to="/">
             <img src={logo} alt="CDAXX" className="h-14 md:h-16" />
@@ -82,11 +61,12 @@ export default function Navbar() {
           {/* CENTER */}
           <div className="hidden lg:flex flex-1 items-center gap-8 mx-4">
             <Link to="/">
-               <button className="font-medium px-2 py-1 hover:text-blue-600">
+              <button className="font-medium px-2 py-1 hover:text-blue-600">
                 Home
               </button>
-              </Link>
-            {/* 🔥 EXPLORE MEGA MENU */}
+            </Link>
+            
+            {/* EXPLORE MEGA MENU */}
             <div
               className="relative"
               onMouseEnter={() => setShowExplore(true)}
@@ -95,7 +75,6 @@ export default function Navbar() {
                 setActiveCategory(null);
               }}
             >
-              
               <button className="font-medium px-2 py-1 hover:text-blue-600">
                 Explore
               </button>
@@ -110,7 +89,6 @@ export default function Navbar() {
                   }`}
               >
                 <div className="flex">
-
                   {/* LEFT – MAIN CATEGORIES */}
                   <ul className="w-[320px] border-r">
                     {Object.keys(exploreData).map((category) => (
@@ -146,7 +124,6 @@ export default function Navbar() {
                       </ul>
                     </div>
                   )}
-
                 </div>
               </div>
             </div>
@@ -181,17 +158,19 @@ export default function Navbar() {
               </motion.button>
             </Link>
 
-            <Link to="/login">
-              <button className="px-4 py-2 rounded-full border border-blue-500 text-blue-500">
-                Login
-              </button>
-            </Link>
+            <button
+              onClick={openLogin}
+              className="px-4 py-2 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-50"
+            >
+              Login
+            </button>
 
-            <Link to="/signin">
-              <button className="px-4 py-2 rounded-full bg-blue-500 text-white">
-                Sign up
-              </button>
-            </Link>
+            <button
+              onClick={openSignup}
+              className="px-4 py-2 rounded-full bg-blue-500 text-white hover:bg-blue-600"
+            >
+              Sign up
+            </button>
           </div>
 
           {/* MOBILE */}
@@ -206,13 +185,18 @@ export default function Navbar() {
             <Link to="/explore-courses">Explore</Link>
             <Link to="/plans-pricing">Plans & Pricing</Link>
             <Link to="/cart">Cart</Link>
-            <Link to="/login">Login</Link>
-            <Link
-              to="/signin"
-              className="block bg-blue-500 text-white text-center py-2 rounded-full"
+            <button
+              onClick={openLogin}
+              className="block w-full text-left py-2"
+            >
+              Login
+            </button>
+            <button
+              onClick={openSignup}
+              className="block w-full bg-blue-500 text-white text-center py-2 rounded-full"
             >
               Sign up
-            </Link>
+            </button>
           </div>
         )}
       </div>

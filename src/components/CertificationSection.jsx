@@ -5,21 +5,21 @@ import { TrendingUp, Users,  BarChart3, ChevronRight } from "lucide-react";
 const GetCertified = () => {
   const stats = [
     {
-      number: "8 Million+",
+      number: "20 lakhs+",
       label: "Careers advanced",
       icon: <TrendingUp size={24} />,
       color: "text-blue-600",
       bgColor: "bg-blue-100",
     },
     {
-      number: "1,500",
+      number: "300",
       label: "Live classes every month",
       icon: <Users size={24} />,
       color: "text-green-600",
       bgColor: "bg-green-100",
     },
     {
-      number: "85%",
+      number: "80%",
       label: "Report career benefits",
       icon: <BarChart3 size={24} />,
       color: "text-purple-600",
