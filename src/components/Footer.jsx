@@ -7,7 +7,7 @@ import {
   FaTwitter, 
   FaInstagram, 
   FaLinkedin, 
-  FaYoutube 
+  FaYoutube   
 } from "react-icons/fa";
 
 const Footer = () => {
@@ -84,7 +84,7 @@ const Footer = () => {
             <div>
               <h4 className="font-semibold text-black mb-4 text-lg">Legal Accessibility</h4>
               <ul className="space-y-2 text-gray-600" >
-                <li><Link to="/accessibility">Accessibility Statement</Link></li>
+                <li><Link to="Accessibility">Accessibility Statement</Link></li>
                 <li><Link to="/privacy-policy">Privacy Policy</Link></li>
                 <li><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
               </ul>
@@ -97,9 +97,9 @@ const Footer = () => {
             <div>
               <h4 className="font-semibold text-black mb-4 text-lg">Discover CDaX</h4>
               <ul className="space-y-3 text-gray-600">
-                <li><Link to="/tech">Tech on CDaX</Link></li>
-                <li><Link to="/pricing">Plans & Pricing</Link></li>
-                <li><Link to="/support">Help & Support</Link></li>
+                <li><Link to="/tech-on-cdax">Tech on CDaX</Link></li>
+                <li><Link to="/plans-pricing">Plans & Pricing</Link></li>
+                <li><Link to="/help-support">Help & Support</Link></li>
               </ul>
             </div>
 

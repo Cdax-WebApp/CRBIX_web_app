@@ -1,0 +1,101 @@
+// src/pages/AboutUs.jsx
+
+export default function AboutUs() {
+  return (
+    <div className="min-h-screen  px-6 py-12 bg-[#eaf9ff]">
+    <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-md p-8">
+      <h1 className="text-3xl font-bold mb-6 text-gray-900">
+        About CDaX
+      </h1>
+
+      <p className="text-sm text-gray-500 mb-8">
+        Last Updated: <span className="font-medium">01-01-2026</span>
+      </p>
+
+      {/* Intro */}
+      <p className="mb-6 text-lg">
+        <strong>CDaX</strong> is a modern online learning platform designed to
+        empower students, freshers, and professionals with practical,
+        job-ready skills in technology and software development.
+      </p>
+
+      <p className="mb-8">
+        Our mission is to bridge the gap between academic knowledge and
+        real-world industry requirements by offering high-quality courses,
+        hands-on learning, and expert-guided training.
+      </p>
+
+      {/* Vision */}
+      <h2 className="text-2xl font-semibold mt-10 mb-4">
+        Our Vision
+      </h2>
+      <p className="mb-6">
+        To become a trusted global learning platform that helps learners build
+        meaningful careers through accessible, affordable, and industry-aligned
+        education.
+      </p>
+
+      {/* Mission */}
+      <h2 className="text-2xl font-semibold mt-10 mb-4">
+        Our Mission
+      </h2>
+      <ul className="list-disc pl-6 space-y-2 mb-6">
+        <li>Provide practical, skill-based learning experiences</li>
+        <li>Offer affordable and high-value courses</li>
+        <li>Help learners stay relevant in a fast-changing tech industry</li>
+        <li>Support continuous learning and career growth</li>
+      </ul>
+
+      {/* What We Offer */}
+      <h2 className="text-2xl font-semibold mt-10 mb-4">
+        What We Offer
+      </h2>
+      <ul className="list-disc pl-6 space-y-2 mb-6">
+        <li>Programming and software development courses</li>
+        <li>Web, mobile, and backend development training</li>
+        <li>Data analytics, AI & ML, and cloud-related learning paths</li>
+        <li>Career-focused skill development for freshers and professionals</li>
+        <li>Structured courses with real-world examples</li>
+      </ul>
+
+      {/* Who It's For */}
+      <h2 className="text-2xl font-semibold mt-10 mb-4">
+        Who CDaX Is For
+      </h2>
+      <ul className="list-disc pl-6 space-y-2 mb-6">
+        <li>Students looking to strengthen technical foundations</li>
+        <li>Freshers preparing for IT and software roles</li>
+        <li>Working professionals upgrading their skills</li>
+        <li>Career switchers entering the tech industry</li>
+      </ul>
+
+      {/* Values */}
+      <h2 className="text-2xl font-semibold mt-10 mb-4">
+        Our Core Values
+      </h2>
+      <ul className="list-disc pl-6 space-y-2 mb-6">
+        <li><strong>Quality:</strong> Industry-relevant and up-to-date content</li>
+        <li><strong>Accessibility:</strong> Learning for everyone, everywhere</li>
+        <li><strong>Integrity:</strong> Transparent and learner-first approach</li>
+        <li><strong>Growth:</strong> Continuous improvement for learners and platform</li>
+      </ul>
+
+      {/* Why Choose */}
+      <h2 className="text-2xl font-semibold mt-10 mb-4">
+        Why Choose CDaX?
+      </h2>
+      <p className="mb-6">
+        CDaX focuses on practical learning, not just theory. Our platform is
+        built using modern technologies, designed for accessibility, and guided
+        by a commitment to helping learners succeed in real-world careers.
+      </p>
+
+      {/* Closing */}
+      <p className="mt-10 text-gray-600">
+        Whether you’re starting your journey in technology or advancing your
+        professional skills, CDaX is here to support you every step of the way.
+      </p>
+    </section>
+    </div>
+  );
+}
