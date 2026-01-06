@@ -29,7 +29,7 @@ export default function Cart() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-[#eaf9ff] ">
       <h1 className="text-2xl font-bold mb-6">My Cart</h1>
 
       {cart.length === 0 ? (

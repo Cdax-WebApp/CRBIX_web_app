@@ -5,7 +5,7 @@ export default function Careers() {
     <div className="min-h-screen  px-6 py-12 bg-[#eaf9ff]">
     <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-md p-8">
       <h1 className="text-3xl font-bold mb-6 text-gray-900">
-        Tech on CDaX
+        Careers at CDaX
       </h1>
 
       <p className="text-sm text-gray-500 mb-8">

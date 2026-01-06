@@ -23,10 +23,12 @@ import Accessibility from "./components/Accessibility";
 import TechOnCDaX from "./components/TechOnCDaX";
 import HelpSupport from "./components/HelpSupport";
 import AboutUs from "./components/aboutUs";
-import Careers from "./components/Careers";
 import ContactUs from "./components/ContactUs";
 import Blogs from "./components/Blogs";
 import Investors from "./components/Investors";
+import Careers from "./components/Careers";
+import { ProfileProvider } from "./components/ProfileContext";
+import ProfilePage from "./pages/ProfilePage";
 
 function AppContent() {
   const { authOpen, authMode, openLogin, openSignup, closeAuth } = useAuth();
@@ -65,6 +67,7 @@ function AppContent() {
               <Route path="/courses" element={<CourseGridSection />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/course/:id" element={<CourseDetails />} />
+              <Route path="/profile" element={<ProfilePage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/plans-pricing" element={<CoursePlans />} />
               <Route path="/favourites" element={<FavouritesPage />} /> 
@@ -97,7 +100,9 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <ProfileProvider>
+        <AppContent />
+      </ProfileProvider>
     </AuthProvider>
   );
 }

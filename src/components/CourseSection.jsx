@@ -129,14 +129,14 @@ export default function CourseGridSection() {
         ? await getCoursesForUser(user.id)
         : await getPublicCourses();
 
-      // 🔥 MAP BACKEND DATA → UI DATA
+      // MAP BACKEND DATA → UI DATA
       const mapped = data.map((c) => ({
         ...c,
         image:
           c.thumbnailUrl ||
           "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800",
-        price: 299,              // temporary / static
-        originalPrice: 1999,     // temporary
+        price: 299,              
+        originalPrice: 1999, 
         rating: 4.6,
         reviews: "2,500",
         badge: c.purchased ? "Enrolled" : "Bestseller",

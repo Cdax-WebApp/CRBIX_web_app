@@ -30,6 +30,7 @@ export default function HomeSections() {
       <DomeGallery />
     </div>
       <LearningExperience />
+        <div className="border-t border-gray-700 my-6"></div>
       <CertificationSection />
       <div className="border-t border-gray-700 my-6"></div>
       <section id="courses">
