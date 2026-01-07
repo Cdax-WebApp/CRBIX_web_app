@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
-import { useCart } from "./CartContext";
+import { useCart } from "../Navbar/CartContext";
 import { useNavigate } from "react-router-dom";
 
 export default function CourseHoverPreview({ course }) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCoursesForUser } from "../Api/course.api";
+
 
 const dummyCourses = [
   { id: 1, title: "Full Stack Development" },

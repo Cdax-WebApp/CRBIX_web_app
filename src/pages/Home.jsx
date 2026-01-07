@@ -1,14 +1,15 @@
-import CoursePlans from "../components/CoursePlans";
-import LearningExperience from "../components/LearningExperience";
-import CourseSection from "../components/CourseSection";
-import TrustedBy from "../components/TrustedBy";
-import CertificationSection from "../components/CertificationSection";
-import BuildProject from "../components/BuildProject";
-import WhyChooseUs from "../components/WhyChooseUs";
-import Testimonials from "../components/studentSuccess";
-import DomeGallery from "../components/HeroCarousel";
+
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import DomeGallery from "../components/Dashbord/HeroCarousel";
+import LearningExperience from "../components/Dashbord/LearningExperience";
+import CourseGridSection from "../components/Courses/CourseSection";
+import WhyChooseUs from "../components/Dashbord/WhyChooseUs";
+import CoursePlans from "../components/Courses/CoursePlans";
+import BuildProject from "../components/Dashbord/BuildProject";
+import TrustedBy from "../components/Dashbord/TrustedBy";
+import Testimonials from "../components/Dashbord/studentSuccess";
+import GetCertified from "../components/Dashbord/CertificationSection";
 
 /*  COMPONENT  */
 export default function HomeSections() {
@@ -31,10 +32,10 @@ export default function HomeSections() {
     </div>
       <LearningExperience />
         <div className="border-t border-gray-700 my-6"></div>
-      <CertificationSection />
+      < GetCertified />
       <div className="border-t border-gray-700 my-6"></div>
       <section id="courses">
-        <CourseSection />
+        <CourseGridSection />
       </section>
       <div className="border-t border-gray-700 my-6"></div>
       <WhyChooseUs /> 

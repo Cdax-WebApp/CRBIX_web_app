@@ -1,22 +1,19 @@
-// src/Api/auth.api.js
-
-const API_BASE = "https://cdaxx-app-yz51.onrender.com/api/auth";
+const API_BASE = "https://cdaxx-backend.onrender.com/api/auth";
 
 /**
  * Register a new user
- * @param {Object} userData - User registration data
- * @returns {Promise<Object>} Response object
+ * @param {Object} userData 
+ * @returns {Promise<Object>} 
  */
 export const registerUser = async (userData) => {
   try {
-    // Map frontend fields to backend fields
     const payload = {
       firstName: userData.firstName,
       lastName: userData.lastName,
       email: userData.email,
-      mobile: userData.phoneNo,  // Note: frontend uses phoneNo, backend expects mobile
+      mobile: userData.phoneNo,  
       password: userData.password,
-      cpassword: userData.cPass  // Note: frontend uses cPass, backend expects cpassword
+      cpassword: userData.cPass  
     };
 
     const response = await fetch(`${API_BASE}/register`, {
@@ -41,8 +38,8 @@ export const registerUser = async (userData) => {
 
 /**
  * Login user
- * @param {Object} credentials - Login credentials
- * @returns {Promise<Object>} Response object
+ * @param {Object} credentials 
+ * @returns {Promise<Object>} 
  */
 export const loginUser = async (credentials) => {
   try {
@@ -71,8 +68,8 @@ export const loginUser = async (credentials) => {
 
 /**
  * Get user by email
- * @param {string} email - User email
- * @returns {Promise<Object>} User data
+ * @param {string} email 
+ * @returns {Promise<Object>} 
  */
 export const getUserByEmail = async (email) => {
   try {
@@ -87,8 +84,8 @@ export const getUserByEmail = async (email) => {
 
 /**
  * Get first name by email
- * @param {string} email - User email
- * @returns {Promise<string>} First name
+ * @param {string} email 
+ * @returns {Promise<string>} 
  */
 export const getFirstName = async (email) => {
   try {
@@ -103,7 +100,7 @@ export const getFirstName = async (email) => {
 
 /**
  * Check if server is running
- * @returns {Promise<boolean>} Server status
+ * @returns {Promise<boolean>}
  */
 export const checkServerStatus = async () => {
   try {

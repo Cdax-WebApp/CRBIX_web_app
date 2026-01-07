@@ -1,13 +1,20 @@
-import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CreditCard, Lock } from "lucide-react";
+import { purchaseCourse } from "../Api/course.api";
+import { useAuth } from "../components/Login/AuthContext";
 
 export default function Payment() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { user, isAuthenticated, openLogin } = useAuth();
 
   const selectedCourses = state?.courses || [];
   const totalAmount = state?.total || 0;
+
+  if (!isAuthenticated) {
+    openLogin();
+    return null;
+  }
 
   if (selectedCourses.length === 0) {
     return (
@@ -17,17 +24,26 @@ export default function Payment() {
     );
   }
 
-  const handlePaymentSuccess = () => {
-    // 👉 First purchased course
-    const firstCourseId = selectedCourses[0].id;
+  /* ---------------- PAYMENT SUCCESS ---------------- */
 
-    // later yaha backend payment verify hoga
-    alert("Payment Successful 🎉");
+  const handlePaymentSuccess = async () => {
+    try {
+      for (const course of selectedCourses) {
+        const res = await purchaseCourse(user.id, course.id);
 
-    // 👉 Course Details Page redirect
-    navigate(`/course/${firstCourseId}`, {
-      replace: true,
-    });
+        if (!res.success && res.message !== "Purchase successful") {
+          throw new Error(res.message || "Purchase failed");
+        }
+      }
+
+      alert("Payment Successful 🎉");
+
+      // Redirect to first purchased course
+      navigate(`/course/${selectedCourses[0].id}`, { replace: true });
+    } catch (err) {
+      console.error(err);
+      alert("Payment failed. Please try again.");
+    }
   };
 
   return (
@@ -41,12 +57,24 @@ export default function Payment() {
           </h2>
 
           <div className="space-y-4">
-            <input className="w-full border px-4 py-3 rounded-lg" placeholder="Cardholder Name" />
-            <input className="w-full border px-4 py-3 rounded-lg" placeholder="Card Number" />
+            <input
+              className="w-full border px-4 py-3 rounded-lg"
+              placeholder="Cardholder Name"
+            />
+            <input
+              className="w-full border px-4 py-3 rounded-lg"
+              placeholder="Card Number"
+            />
 
             <div className="grid grid-cols-2 gap-4">
-              <input className="border px-4 py-3 rounded-lg" placeholder="MM / YY" />
-              <input className="border px-4 py-3 rounded-lg" placeholder="CVV" />
+              <input
+                className="border px-4 py-3 rounded-lg"
+                placeholder="MM / YY"
+              />
+              <input
+                className="border px-4 py-3 rounded-lg"
+                placeholder="CVV"
+              />
             </div>
 
             <button

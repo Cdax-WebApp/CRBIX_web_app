@@ -1,14 +1,16 @@
 import { useEffect, useMemo, useRef, useCallback, useState } from "react";
 import { useGesture } from "@use-gesture/react";
-import { motion, AnimatePresence } from "framer-motion"; // Add AnimatePresence
+import { motion, AnimatePresence } from "framer-motion"; 
 import "./DomeGallery.css";
-import java from "../assets/hero/java.png";
-import python from "../assets/hero/python.jpg";
-import sql from "../assets/hero/sql.png";
-import csharp from "../assets/hero/c#.png";
-import uiux from "../assets/hero/UI_UX.jpg";
-import powerBi from "../assets/hero/powerBI.jpg";
-import flutter from "../assets/hero/flutter.png";
+import java from "../../assets/hero/java.png";
+import python from "../../assets/hero/python.jpg";
+import sql from "../../assets/hero/sql.png";
+import csharp from "../../assets/hero/c#.png";
+import uiux from "../../assets/hero/UI_UX.jpg";
+import powerBI from "../../assets/hero/powerBI.jpg";
+import flutter from "../../assets/hero/flutter.png";
+
+
 
 // Add course data with more details
 const COURSE_DETAILS = {
@@ -148,7 +150,7 @@ const DEFAULT_IMAGES = [
     key: "UI_UX",
   },
   {
-    src: powerBi,
+    src: powerBI,
     alt: "Power BI Analytics",
     key: "powerBI",
   },

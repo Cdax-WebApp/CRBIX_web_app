@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Star, Trash2 } from "lucide-react";
-import { useCart } from "../components/CartContext";
+import { useCart } from "../components/Navbar/CartContext";
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { useNavigate } from "react-router-dom";

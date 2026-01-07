@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import logo from "../assets/cdaxxlogo.png";
+import logo from "../../assets/cdaxxlogo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
 import { HiOutlineShoppingCart, HiHeart } from "react-icons/hi";
 import { HiChevronRight } from "react-icons/hi";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../Login/AuthContext";
 import { useFavorites } from "./FavoritesContext";
 import { useCart } from "./CartContext";
 

@@ -5,7 +5,7 @@ import { FaFacebookF, FaGoogle, FaLinkedinIn } from "react-icons/fa";
 import { useAuth } from "./AuthContext";
 
 // ✅ API IMPORT
-import { loginUser, registerUser } from "../Api/auth.api";
+import { loginUser, registerUser } from "../../Api/auth.api";
 
 export default function AuthModal({ isOpen, onClose, mode = "login" }) {
   const { loginSuccess } = useAuth();

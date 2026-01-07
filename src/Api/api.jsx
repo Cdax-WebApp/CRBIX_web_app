@@ -4,7 +4,7 @@ import axios from "axios";
  * Central Axios instance (LOCAL BACKEND)
  */
 const api = axios.create({
-  baseURL: "https://cdaxx-app-yz51.onrender.com",
+  baseURL: "https://cdaxx-backend.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },

@@ -1,0 +1,97 @@
+import CourseCard from "./CourseCard";
+import { useAuth } from "../Login/AuthContext";
+import { useEffect, useState } from "react";
+import { getCourses, purchaseCourse } from "../../Api/course.api";
+import { useNavigate } from "react-router-dom";
+
+export default function CourseGridSection() {
+  const { user, isAuthenticated, openLogin } = useAuth();
+  const navigate = useNavigate();
+
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCourses = async () => {
+      setLoading(true);
+
+      const data = await getCourses(
+        isAuthenticated ? user?.id : null
+      );
+
+      const mapped = (data || []).map((c) => ({
+        id: c.id,
+        title: c.title,
+        image: c.thumbnailUrl
+          ? c.thumbnailUrl.startsWith("http")
+            ? c.thumbnailUrl
+            : `https://cdaxx-backend.onrender.com/${c.thumbnailUrl.replace(/^\/?/, "")}`
+          : "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800",
+        price: c.price,
+        originalPrice: c.originalPrice,
+        rating: c.rating ?? 4.6,
+        reviews: c.reviews ?? "2,500",
+        purchased: c.purchased ?? false,
+        badge: c.purchased ? "Enrolled" : "Bestseller",
+        author: c.instructor ?? "CDax Professionals",
+        modules: c.modules ?? [],
+        description: c.description ?? "",
+      }));
+
+      setCourses(mapped);
+      setLoading(false);
+    };
+
+    loadCourses();
+  }, [isAuthenticated, user?.id]);
+
+  // Enroll / Open course
+  const handleEnroll = async (course) => {
+    if (!isAuthenticated) return openLogin();
+
+    // Already purchased → directly open
+    if (course.purchased) {
+      return navigate(`/course/${course.id}`);
+    }
+
+    const res = await purchaseCourse(user.id, course.id);
+
+    if (res.success) {
+      navigate(`/course/${course.id}`);
+    } else {
+      alert(res.message);
+    }
+  };
+
+  if (loading) {
+    return <div className="text-center py-20">Loading courses...</div>;
+  }
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 py-12">
+      <h2 className="text-3xl font-bold mb-3">
+        Skills to transform your career and life
+      </h2>
+      <p className="text-gray-600 mb-10">
+        From critical skills to technical topics, explore top courses.
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        {courses.map((course, index) => (
+          <CourseCard
+            key={course.id}
+            course={{
+              ...course,
+              image: course.image,
+              onError: (e) =>
+                (e.target.src =
+                  "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800"),
+            }}
+            index={index}
+            onEnroll={() => handleEnroll(course)}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}

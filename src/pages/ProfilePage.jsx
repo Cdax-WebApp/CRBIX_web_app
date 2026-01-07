@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import StreakGrid from "../components/StreakGrid";
-import EditProfileModal from "../components/EditProfileModal";
-import EnrolledCoursesModal from "../components/EnrolledCoursesModal";
-import { useProfile } from "../components/ProfileContext";
+import StreakGrid from "../components/Profile/StreakGrid";
+import EditProfileModal from "../components/Profile/EditProfileModal";
+import EnrolledCoursesModal from "../components/Profile/EnrolledCoursesModal";
+import { useProfile } from "../components/Profile/ProfileContext";
 
 export default function ProfilePage() {
   const navigate = useNavigate();

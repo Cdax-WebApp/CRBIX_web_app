@@ -28,8 +28,8 @@ main.sphere-main {
   place-items: center;
   overflow: hidden;
   touch-action: none;
-  user-select: none;
   -webkit-user-select: none;
+  user-select: none;
   background: transparent;
 }
 
@@ -58,14 +58,25 @@ main.sphere-main {
 }
 
 .overlay {
-  background-image: radial-gradient(rgba(21, 35, 240, 0) 65%, var(--overlay-blur-color, #060010) 100%);
+  background-image: radial-gradient(
+    rgba(21, 35, 240, 0) 65%,
+    var(--overlay-blur-color, #060010) 100%
+  );
 }
 
 .overlay--blur {
-  -webkit-mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
-  mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
+  -webkit-mask-image: radial-gradient(
+    rgba(235, 235, 235, 0) 70%,
+    var(--overlay-blur-color, #060010) 90%
+  );
+  mask-image: radial-gradient(
+    rgba(235, 235, 235, 0) 70%,
+    var(--overlay-blur-color, #060010) 90%
+  );
+  -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
 }
+
 
 .item {
   width: calc(var(--item-width) * var(--item-size-x));
@@ -79,8 +90,18 @@ main.sphere-main {
   transform-origin: 50% 50%;
   backface-visibility: hidden;
   transition: transform 300ms;
-  transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg)))
-    rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg)))
+  transform: rotateY(
+      calc(
+        var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) +
+          var(--rot-y-delta, 0deg)
+      )
+    )
+    rotateX(
+      calc(
+        var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) +
+          var(--rot-x-delta, 0deg)
+      )
+    )
     translateZ(var(--radius));
 }
 
@@ -147,10 +168,11 @@ main.sphere-main {
   pointer-events: none;
   opacity: 0;
   transition: opacity 500ms ease;
+ -webkit-backdrop-filter: blur(3px); /* Safari support */
   backdrop-filter: blur(3px);
 }
 
-.sphere-root[data-enlarging='true'] .viewer .scrim {
+.sphere-root[data-enlarging="true"] .viewer .scrim {
   opacity: 1;
   pointer-events: all;
 }
@@ -160,9 +182,7 @@ main.sphere-main {
   z-index: 30;
   border-radius: var(--enlarge-radius, 32px);
   overflow: hidden;
-  transition:
-    transform 500ms ease,
-    opacity 500ms ease;
+  transition: transform 500ms ease, opacity 500ms ease;
   transform-origin: top left;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
@@ -185,7 +205,11 @@ main.sphere-main {
   height: 70px;
   z-index: 5;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent, var(--overlay-blur-color, #060010));
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--overlay-blur-color, #060010)
+  );
 }
 
 .edge-fade--top {

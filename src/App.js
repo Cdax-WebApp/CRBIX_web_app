@@ -1,35 +1,35 @@
 // src/App.js
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 import HomeSections from "./pages/Home";
 import ScrollToTop from "./components/ScrollToTop";
-import Navbar from "./components/Navbar";
-import { CartProvider } from "./components/CartContext";
-import { AuthProvider } from "./components/AuthContext";
+import Navbar from "./components/Navbar/Navbar";
+import { CartProvider } from "./components/Navbar/CartContext";
+import { AuthProvider, useAuth } from "./components/Login/AuthContext";
 import Cart from "./pages/Cart";
 import PrivacyPolicy from "./pages/privacyPolicy";
 import CourseDetails from "./pages/CourseDetails";
-import AuthModal from "./components/AuthModal";
-import { useAuth } from "./components/AuthContext";
+
 import { checkServerStatus } from "./Api/auth.api";
 import Payment from "./pages/Payment";
-import { FavoritesProvider } from "./components/FavoritesContext";
-import FavouritesPage from "./pages/FavouritesPage";
-import CoursePlans from "./components/CoursePlans";
-import CourseGridSection from "./components/CourseSection";
-import TermsAndConditions from "./components/TermsAndConditions";
-import Accessibility from "./components/Accessibility";
-import TechOnCDaX from "./components/TechOnCDaX";
-import HelpSupport from "./components/HelpSupport";
-import AboutUs from "./components/aboutUs";
-import ContactUs from "./components/ContactUs";
-import Blogs from "./components/Blogs";
-import Investors from "./components/Investors";
-import Careers from "./components/Careers";
-import { ProfileProvider } from "./components/ProfileContext";
-import ProfilePage from "./pages/ProfilePage";
+import { FavoritesProvider } from "./components/Navbar/FavoritesContext";
 
+import { ProfileProvider } from "./components/Profile/ProfileContext";
+import ProfilePage from "./pages/ProfilePage";
+import Investors from "./components/Footer/Investors";
+import Blogs from "./components/Footer/Blogs";
+import ContactUs from "./components/Footer/ContactUs";
+import Careers from "./components/Footer/Careers";
+import AboutUs from "./components/Footer/aboutUs";
+import HelpSupport from "./components/Footer/HelpSupport";
+import TechOnCDaX from "./components/Footer/TechOnCDaX";
+import Accessibility from "./components/Footer/Accessibility";
+import TermsAndConditions from "./components/Footer/TermsAndConditions";
+import CourseGridSection from "./components/Courses/CourseSection";
+import CoursePlans from "./components/Courses/CoursePlans";
+import FavouritesPage from "./pages/FavouritesPage"
+import AuthModal from "./components/Login/AuthModal";
 function AppContent() {
   const { authOpen, authMode, openLogin, openSignup, closeAuth } = useAuth();
 

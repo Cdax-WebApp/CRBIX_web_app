@@ -1,21 +1,20 @@
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 
-// Images
-import start from "../assets/screens/start.PNG";
-import login from "../assets/screens/login.PNG";
-import dashbord from "../assets/screens/dashbord.PNG";
-import course from "../assets/screens/courses.PNG";
-import course1 from "../assets/screens/courseDetails.PNG";
-import course2 from "../assets/screens/videos.PNG";
+import start from "../../assets/screens/start.PNG";
+import login from "../../assets/screens/login.PNG";
+import dashbord from "../../assets/screens/dashbord.PNG";
+import course from "../../assets/screens/courses.PNG";
+import course1 from "../../assets/screens/courseDetails.PNG";
+import course2 from "../../assets/screens/videos.PNG";
 
-// Videos
-import Welcome from "../assets/screenVideo/Welcome.mp4";
-import Login from "../assets/screenVideo/Login.mp4";
-import Dashboard from "../assets/screenVideo/Dashboard.mp4";
-import All_courses from "../assets/screenVideo/AllCourses.mp4";
-import Course_models from "../assets/screenVideo/CourseModels.mp4";
-import Last_video from "../assets/screenVideo/LastVideo.mp4";
+import Welcome from "../../assets/screenVideo/Welcome.mp4";
+import Login from "../../assets/screenVideo/Login.mp4";
+import Dashboard from "../../assets/screenVideo/Dashboard.mp4";
+import All_courses from "../../assets/screenVideo/AllCourses.mp4";
+import Course_models from "../../assets/screenVideo/CourseModels.mp4";
+import Last_video from "../../assets/screenVideo/LastVideo.mp4";
+
 
 export default function LearningExperience() {
   const videoRefs = useRef([]);
