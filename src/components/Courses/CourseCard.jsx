@@ -16,9 +16,11 @@ export default function CourseCard({ course }) {
   const [isHoverOpen, setIsHoverOpen] = useState(false);
   const [hoverLeft, setHoverLeft] = useState(false);
 
-  // ================= FAVORITES LOGIC (FROM FRIEND) =================
+  /* ---------------- FAVORITES ---------------- */
   const { favorites, toggleFavorite } = useFavorites();
-  const isFavorite = favorites.some((fav) => fav.courseId === course.id);
+  const isFavorite = favorites.some(
+    (fav) => fav.courseId === course.id
+  );
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
@@ -26,35 +28,52 @@ export default function CourseCard({ course }) {
     toggleFavorite(course.id);
   };
 
-  // ================= ADD TO CART =================
-  const handleAddToCart = (e) => {
+  /* ---------------- PURCHASE STATE ---------------- */
+  const isPurchased =
+    Boolean(course.purchased) || Boolean(course.isPurchased);
+
+  /* ---------------- IMAGE SAFE ---------------- */
+  const image =
+    course.image ||
+    course.thumbnailUrl ||
+    "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800";
+
+  /* ---------------- ADD TO CART ---------------- */
+  const handlePrimaryAction = (e) => {
     e.stopPropagation();
 
     if (!isAuthenticated) return openLogin();
 
+    if (isPurchased) {
+      navigate(`/learn/${course.id}`);
+      return;
+    }
+
     addToCart({
       id: course.id,
       title: course.title,
-      price: course.price,
-      image: course.image,
+      price: course.price ?? 0,
+      image,
     });
 
     navigate("/cart");
   };
 
-  // ================= HOVER POSITION =================
+  /* ---------------- HOVER POSITION ---------------- */
   useEffect(() => {
     const handleResize = () => {
       if (!cardRef.current) return;
       const rect = cardRef.current.getBoundingClientRect();
-      setHoverLeft(rect.right + 360 + 16 > window.innerWidth);
+      setHoverLeft(rect.right + 360 > window.innerWidth);
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () =>
+      window.removeEventListener("resize", handleResize);
   }, []);
 
+  /* ---------------- RENDER ---------------- */
   return (
     <div
       ref={cardRef}
@@ -71,18 +90,12 @@ export default function CourseCard({ course }) {
       >
         <div className="relative overflow-hidden">
           <img
-            src={course.image}
+            src={image}
             alt={course.title}
             className="h-[160px] w-full object-cover transition-transform duration-500 hover:scale-110"
           />
 
-          {course.badge && (
-            <span className="absolute top-3 left-3 px-3 py-1 rounded text-xs font-semibold bg-yellow-100 text-yellow-900">
-              {course.badge}
-            </span>
-          )}
-
-          {/* UPDATED FAVORITE BUTTON (FROM FRIEND) */}
+          {/* FAVORITE */}
           <button
             onClick={handleFavoriteClick}
             className={`absolute top-3 right-3 p-1 rounded-full transition-colors ${
@@ -90,14 +103,16 @@ export default function CourseCard({ course }) {
                 ? "text-red-500"
                 : "text-gray-300 hover:text-red-500"
             }`}
-            title={
-              isFavorite
-                ? "Remove from favorites"
-                : "Add to favorites"
-            }
           >
             <HiHeart size={22} />
           </button>
+
+          {/* PURCHASED BADGE */}
+          {isPurchased && (
+            <span className="absolute top-3 left-3 px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded">
+              Purchased
+            </span>
+          )}
         </div>
 
         <div className="p-4 space-y-2">
@@ -105,26 +120,34 @@ export default function CourseCard({ course }) {
             {course.title}
           </h3>
 
-          <p className="text-xs text-gray-500">{course.author}</p>
+          <p className="text-xs text-gray-500">
+            {course.instructor || course.author || "CDax"}
+          </p>
 
           <div className="flex items-center gap-1 text-xs">
             <span className="font-semibold text-yellow-600">
-              {course.rating}
+              {course.rating ?? 4.5}
             </span>
             <Star size={14} fill="#fbbf24" stroke="none" />
-            <span className="text-gray-400">({course.reviews})</span>
+            <span className="text-gray-400">
+              ({course.reviews ?? "1k+"})
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="font-bold text-sm">₹{course.price}</span>
-            <span className="text-xs line-through text-gray-400">
-              ₹{course.originalPrice}
+            <span className="font-bold text-sm">
+              ₹{course.price ?? 0}
             </span>
+            {course.originalPrice && (
+              <span className="text-xs line-through text-gray-400">
+                ₹{course.originalPrice}
+              </span>
+            )}
           </div>
         </div>
       </motion.div>
 
-      {/* ================= HOVER ================= */}
+      {/* ================= HOVER CARD ================= */}
       <AnimatePresence>
         {isHoverOpen && (
           <motion.div
@@ -137,47 +160,29 @@ export default function CourseCard({ course }) {
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={course.image}
+              src={image}
               alt={course.title}
               className="w-full h-40 object-cover rounded-md mb-3"
-              onError={(e) =>
-                (e.target.src =
-                  "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800")
-              }
             />
 
-            <h4 className="font-bold text-sm mb-1 line-clamp-2">
+            <h4 className="font-bold text-sm mb-2 line-clamp-2">
               {course.title}
             </h4>
 
-            {/* ADDITIONAL COURSE INFO (FROM FRIEND) */}
-            <div className="flex items-center gap-2 text-xs mb-2">
-              {course.badge && (
-                <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold">
-                  {course.badge}
-                </span>
-              )}
-              <span className="text-gray-500">
-                {course.updated || "Updated recently"}
-              </span>
-            </div>
-
-            <p className="text-xs text-gray-600 mb-2">
-              {course.hours || "40+ hours"} •{" "}
-              {course.level || "All Levels"} • Subtitles
+            <p className="text-xs text-gray-600 mb-3">
+              {course.level || "All Levels"} • Lifetime access
             </p>
 
-            <p className="text-sm text-gray-700 mb-3">
+            <p className="text-sm text-gray-700 mb-4 line-clamp-3">
               {course.description ||
-                "Master this course with real-world projects and practical learning."}
+                "Learn with industry experts and real-world projects."}
             </p>
 
-            {/* ADD TO CART BUTTON IN HOVER */}
             <button
-              onClick={handleAddToCart}
+              onClick={handlePrimaryAction}
               className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700"
             >
-              Add to Cart
+              {isPurchased ? "Start Learning" : "Add to Cart"}
             </button>
           </motion.div>
         )}

@@ -1,17 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  Star,
-  ChevronLeft,
-  ChevronRight,
-  Users,
-  Clock,
-  Award,
-  Check,
-} from "lucide-react";
+import { Star, Users, Clock, Award, Check } from "lucide-react";
 import { useCart } from "../components/Navbar/CartContext";
 import { useAuth } from "../components/Login/AuthContext";
-import { getCourseById } from "../Api/course.api";
+import { getCourseById, getCourses } from "../Api/course.api";
 import CourseContent from "../components/Courses/CourseContent";
 
 // Sample reviews
@@ -42,50 +34,54 @@ const REVIEWS = [
 // HERO CAROUSEL - New simpler version
 function HeroCarousel({ slides }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    const id = setInterval(
-      () => setCurrentIndex((i) => (i + 1) % slides.length),
-      4000
-    );
+    if (isPaused) return;
+
+    const id = setInterval(() => {
+      setCurrentIndex((i) => (i + 1) % slides.length);
+    }, 4000);
+
     return () => clearInterval(id);
-  }, [slides.length]);
+  }, [slides.length, isPaused]);
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
 
   return (
-    <div className="relative w-full h-[250px] sm:h-[300px] md:h-[360px] lg:h-[420px] overflow-hidden rounded-t-2xl">
+    <div
+      className="relative w-full h-[250px] sm:h-[300px] md:h-[360px] lg:h-[420px] overflow-hidden rounded-t-2xl"
+      onMouseEnter={() => setIsPaused(true)} // 🛑 pause
+      onMouseLeave={() => setIsPaused(false)} // ▶ resume
+    >
+      {/* Image */}
       <img
         src={slides[currentIndex]}
         alt={`Slide ${currentIndex}`}
-        className="w-full h-full object-cover transition duration-700"
+        className="w-full h-full object-cover transition-all duration-700"
       />
-      <button
-        onClick={() =>
-          setCurrentIndex((i) => (i === 0 ? slides.length - 1 : i - 1))
-        }
-        className="absolute top-1/2 left-3 -translate-y-1/2 bg-black/30 p-2 rounded-full hover:bg-black/50 text-white"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={() => setCurrentIndex((i) => (i + 1) % slides.length)}
-        className="absolute top-1/2 right-3 -translate-y-1/2 bg-black/30 p-2 rounded-full hover:bg-black/50 text-white"
-      >
-        <ChevronRight size={24} />
-      </button>
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+
+      {/* Clickable Dots */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
         {slides.map((_, i) => (
-          <div
+          <button
             key={i}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              i === currentIndex ? "bg-[#eaf9ff] scale-125" : "bg-white/50"
-            }`}
+            onClick={() => goToSlide(i)}
+            className={`w-2 h-2 rounded-full transition-all duration-300
+              ${
+                i === currentIndex
+                  ? "bg-white scale-125"
+                  : "bg-white/50 hover:bg-white"
+              }`}
+            aria-label={`Go to slide ${i + 1}`}
           />
         ))}
       </div>
     </div>
   );
 }
-
 // COURSE DETAILS PAGE
 export default function CourseDetails() {
   const { id } = useParams();
@@ -103,44 +99,59 @@ export default function CourseDetails() {
   useEffect(() => {
     window.scrollTo(0, 0);
     loadCourse();
-  }, [id, isAuthenticated, user?.id]);
+  }, [id, user?.id]);
 
-  const loadCourse = async () => {
-    setLoading(true);
-    try {
-      const data = await getCourseById(id, isAuthenticated ? user?.id : null);
+ const loadCourse = async () => {
+  setLoading(true);
+  try {
+    const [courseDetails, coursesList] = await Promise.all([
+      getCourseById(id, isAuthenticated ? user?.id : null),
+      getCourses(),
+    ]);
 
-      if (!data) {
-        setCourse(null);
-        setLoading(false);
-        return;
-      }
-
-      // MAP BACKEND → UI
-      setCourse({
-        ...data,
-        image: data.thumbnailUrl
-          ? data.thumbnailUrl.startsWith("http")
-            ? data.thumbnailUrl
-            : `https://cdaxx-backend.onrender.com/${data.thumbnailUrl.replace(
-                /^\/?/,
-                ""
-              )}`
-          : "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800",
-        author: data.instructor || "CDax Professionals",
-        rating: 4.6,
-        reviews: "2,500",
-        price: data.price || 299,
-        originalPrice: data.originalPrice || 1999,
-      });
-    } catch (err) {
-      console.error("Failed to load course:", err);
+    if (!courseDetails) {
       setCourse(null);
-    } finally {
-      setLoading(false);
+      return;
     }
-  };
 
+    // 🔥 price wale course ko list se dhoondo
+    const courseFromList = coursesList?.find(
+      (c) => String(c.id) === String(id)
+    );
+
+    const purchased =
+      Boolean(courseDetails.purchased) ||
+      Boolean(courseDetails.isPurchased);
+
+    setCourse({
+      ...courseDetails,
+
+      purchased,
+
+      // ✅ PRICE FROM getCourses()
+      price: courseFromList?.price,
+      originalPrice: courseFromList?.originalPrice,
+
+      image: courseDetails.thumbnailUrl
+        ? courseDetails.thumbnailUrl.startsWith("http")
+          ? courseDetails.thumbnailUrl
+          : `https://cdaxx-backend.onrender.com/${courseDetails.thumbnailUrl.replace(
+              /^\/?/,
+              ""
+            )}`
+        : "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800",
+
+      author: courseDetails.instructor || "CDax Professionals",
+      rating: courseDetails.rating ?? 4.5,
+      reviews: courseDetails.reviewCount ?? "1,000+",
+    });
+  } catch (err) {
+    console.error("Course load error:", err);
+    setCourse(null);
+  } finally {
+    setLoading(false);
+  }
+};
   const handleEnroll = () => {
     if (!isAuthenticated) {
       openLogin();
@@ -174,12 +185,19 @@ export default function CourseDetails() {
     }
   };
 
-  const handleAddToCart = () => {
+  const handleMainAction = () => {
     if (!isAuthenticated) {
       openLogin();
       return;
     }
 
+    //  Course already purchased
+    if (course.purchased) {
+      navigate(`/learn/${course.id}`);
+      return;
+    }
+
+    //  Not purchased → add to cart / go to cart
     if (!alreadyInCart) {
       addToCart({
         id: course.id,
@@ -187,12 +205,17 @@ export default function CourseDetails() {
         price: course.price,
         image: course.image,
       });
-      setPopupMessage("Course added to cart!");
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 2000);
-    }
 
-    navigate("/cart");
+      setPopupMessage("Course added to cart");
+      setShowPopup(true);
+
+      setTimeout(() => {
+        setShowPopup(false);
+        navigate("/cart");
+      }, 800);
+    } else {
+      navigate("/cart");
+    }
   };
 
   if (loading) {
@@ -228,7 +251,6 @@ export default function CourseDetails() {
   }
 
   const heroSlides = [
-    course.image,
     "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop",
     "https://www.rushu.rush.edu/sites/default/files/legacy/images/news-articles/online-class-note-taking-news.jpg",
     "https://img.freepik.com/free-photo/books-laptop-assortment_23-2149765831.jpg?semt=ais_se_enriched&w=740&q=80",
@@ -399,41 +421,18 @@ export default function CourseDetails() {
               </div>
 
               <div className="space-y-4 mb-6">
-                {course.isPurchased ? (
+                <>
                   <button
-                    onClick={handleEnroll}
-                    className="mt-4 w-full py-3 bg-blue-700 text-white font-semibold rounded-lg"
+                    onClick={handleMainAction}
+                    className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
                   >
-                    {course.purchased ? "Continue Learning" : "Enroll Now"}
+                    {course.purchased
+                      ? "Start Learning"
+                      : alreadyInCart
+                      ? "Go to Cart"
+                      : "Enroll Now"}
                   </button>
-                ) : (
-                  <>
-                    <div className="space-y-4 mb-6">
-                      {course.purchased ? (
-                        <button
-                          onClick={() => navigate(`/learn/${course.id}`)}
-                          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
-                        >
-                          Continue Learning
-                        </button>
-                      ) : (
-                        <button
-                          onClick={handleEnroll}
-                          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
-                        >
-                          {alreadyInCart ? "Go to Cart" : "Start Learning"}
-                        </button>
-                      )}
-                    </div>
-
-                    <button
-                      onClick={handleAddToCart}
-                      className="w-full py-3 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50"
-                    >
-                      {alreadyInCart ? "Go to Cart" : "Add to Cart"}
-                    </button>
-                  </>
-                )}
+                </>
               </div>
 
               <div className="border-t pt-6">

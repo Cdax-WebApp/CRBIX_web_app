@@ -2,7 +2,6 @@ import api from "./api";
 
 /* ==================== COURSES ==================== */
 
-// Get all courses (public / logged in)
 export const getCourses = async (userId) => {
   try {
     const res = await api.get("/api/courses", {
@@ -15,7 +14,7 @@ export const getCourses = async (userId) => {
   }
 };
 
-// Get dashboard courses
+// Dashboard courses
 export const getDashboardCourses = async (userId) => {
   try {
     const res = await api.get("/api/dashboard/courses", {
@@ -28,7 +27,7 @@ export const getDashboardCourses = async (userId) => {
   }
 };
 
-// Get single course with modules + progress
+// MOST IMPORTANT API
 export const getCourseById = async (courseId, userId) => {
   try {
     const res = await api.get(`/api/courses/${courseId}`, {
@@ -48,45 +47,35 @@ export const purchaseCourse = async (userId, courseId) => {
     const res = await api.post("/api/purchase", null, {
       params: { userId, courseId },
     });
-
-    return {
-      success: true,
-      message: res.data?.message ?? "Purchase successful",
-    };
+    return { success: true, message: res.data?.message };
   } catch (err) {
     console.error("Purchase failed:", err);
     return { success: false, message: "Purchase failed" };
   }
 };
 
-/* ==================== MODULES ==================== */
-
-// Get modules by course
-export const getModulesByCourse = async (courseId, userId) => {
-  try {
-    const res = await api.get(`/api/modules/course/${courseId}`, {
-      params: { userId },
-    });
-    return res.data ?? {};
-  } catch (err) {
-    console.error("Module fetch failed:", err);
-    return {};
-  }
-};
-
 /* ==================== VIDEO PROGRESS ==================== */
 
-// Complete video & auto unlock next
-export const completeVideo = async (userId, courseId, moduleId, videoId) => {
+// ✅ FIXED: backend-compatible video completion
+export const completeVideo = async (
+  userId,
+  courseId,
+  moduleId,
+  videoId
+) => {
   try {
-    const res = await api.post("/api/videos/complete", {
-      userId,
-      courseId,
-      moduleId,
-      videoId,
-    });
+    const res = await api.post(
+      "/api/modules/" + moduleId + "/unlock-next",
+      null,
+      {
+        params: {
+          userId,
+          courseId,
+        },
+      }
+    );
 
-    return { success: true };
+    return { success: res.data?.success ?? true };
   } catch (err) {
     console.error("Video complete failed:", err);
     return { success: false };
@@ -95,28 +84,46 @@ export const completeVideo = async (userId, courseId, moduleId, videoId) => {
 
 /* ==================== ASSESSMENT ==================== */
 
-// Can attempt assessment
 export const canAttemptAssessment = async (userId, assessmentId) => {
-  const res = await api.get("/api/course/assessment/can-attempt", {
-    params: { userId, assessmentId },
-  });
-  return res.data?.canAttempt ?? false;
+  try {
+    const res = await api.get(
+      "/api/course/assessment/can-attempt",
+      { params: { userId, assessmentId } }
+    );
+    return res.data?.canAttempt ?? false;
+  } catch (err) {
+    console.error("Assessment check failed:", err);
+    return false;
+  }
 };
 
-// Get assessment questions
 export const getAssessmentQuestions = async (userId, assessmentId) => {
-  const res = await api.get("/api/course/assessment/questions", {
-    params: { userId, assessmentId },
-  });
-  return res.data;
+  try {
+    const res = await api.get(
+      "/api/course/assessment/questions",
+      { params: { userId, assessmentId } }
+    );
+    return res.data;
+  } catch (err) {
+    console.error("Assessment questions fetch failed:", err);
+    return null;
+  }
 };
 
-// Submit assessment
-export const submitAssessment = async (userId, assessmentId, answers) => {
-  const res = await api.post(
-    "/api/course/assessment/submit",
-    answers,
-    { params: { userId, assessmentId } }
-  );
-  return res.data;
+export const submitAssessment = async (
+  userId,
+  assessmentId,
+  answers
+) => {
+  try {
+    const res = await api.post(
+      "/api/course/assessment/submit",
+      answers,
+      { params: { userId, assessmentId } }
+    );
+    return res.data;
+  } catch (err) {
+    console.error("Assessment submit failed:", err);
+    return null;
+  }
 };

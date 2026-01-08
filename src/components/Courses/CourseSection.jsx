@@ -1,7 +1,7 @@
 import CourseCard from "./CourseCard";
 import { useAuth } from "../Login/AuthContext";
 import { useEffect, useState } from "react";
-import { getCourses, purchaseCourse } from "../../Api/course.api";
+import { getCourses} from "../../Api/course.api";
 import { useNavigate } from "react-router-dom";
 
 export default function CourseGridSection() {
@@ -46,22 +46,21 @@ export default function CourseGridSection() {
   }, [isAuthenticated, user?.id]);
 
   // Enroll / Open course
-  const handleEnroll = async (course) => {
-    if (!isAuthenticated) return openLogin();
+const handleEnroll = (course) => {
+  if (!isAuthenticated) {
+    openLogin();
+    return;
+  }
 
-    // Already purchased → directly open
-    if (course.purchased) {
-      return navigate(`/course/${course.id}`);
-    }
+  // Already purchased → open course
+  if (course.purchased) {
+    navigate(`/course/${course.id}`);
+    return;
+  }
 
-    const res = await purchaseCourse(user.id, course.id);
-
-    if (res.success) {
-      navigate(`/course/${course.id}`);
-    } else {
-      alert(res.message);
-    }
-  };
+  // Not purchased → go to course details / cart
+  navigate(`/course/${course.id}`);
+};
 
   if (loading) {
     return <div className="text-center py-20">Loading courses...</div>;

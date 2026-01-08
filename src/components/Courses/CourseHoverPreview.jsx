@@ -75,14 +75,14 @@ export default function CourseHoverPreview({ course }) {
               addToCart(course);
               navigate("/cart");
             }}
-            className="flex-1 bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700"
+            className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700"
           >
             Add to cart
           </button>
 
           <button
             onClick={() => navigate(`/course/${course.id}`)}
-            className="flex-1 border border-gray-300 py-2 rounded-lg text-sm font-semibold hover:bg-gray-100"
+            className="flex-1 border border-blue-300 py-2 rounded-lg text-sm font-semibold hover:bg-blue-100"
           >
             Details
           </button>
