@@ -436,4 +436,43 @@ export const checkoutCart = async (checkoutData) => {
   }
 };
 
+/* ==================== STREAK ==================== */
 
+
+export const getStreakOverview = async () => {
+  try {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) return null;
+
+    const res = await api.get("/profile/streak", {
+      params: { userId },
+    });
+
+    return res.data;
+  } catch (err) {
+    console.error("Streak overview failed:", err);
+    return null;
+  }
+  
+};
+
+
+export const getStreakDayDetails = async (courseId, date) => {
+  try {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) return null;
+
+    const res = await api.get(`/streak/day/${courseId}`, {
+      params: {
+        userId,
+        date, 
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    console.error("Streak day details failed:", err);
+    return null;
+  }
+  
+};

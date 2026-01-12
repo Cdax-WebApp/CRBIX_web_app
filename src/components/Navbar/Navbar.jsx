@@ -11,33 +11,67 @@ import { useCart } from "./CartContext";
 
 /* EXPLORE DATA */
 const exploreData = {
-  "Learn AI": [
-    "AI Fundamentals",
-    "AI For Professionals",
-    "AI For Developers",
-    "AI For Creatives",
+  "Web Development ": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React",
+    " Node.js",
   ],
-  "Launch a new career": [
-    "Full Stack Developer",
-    "Data Scientist",
-    "UI/UX Designer",
-    "Cloud Engineer",
+  "Programming Languages": [
+    "Java Programming",
+    "Python Programming",
+    "C# Programming",
+    ".NET Programming",
+    "C and C++ Programming",
+    "Data Structures and Algorithm",
   ],
-  "Prepare for certification": [
-    "AWS Certification",
-    "Google Cloud",
-    "Azure Fundamentals",
+  "Mobile Development": [
+    "Flutter Development",
+    "Dart Development",
+    "React Native",
+    "IOS Development",
+    "Android Development",
   ],
-  "Practice with Role Play": [
-    "Interview Practice",
-    "Client Simulation",
-    "Mock Projects",
+  "Software Testing": [
+    "Manual testing",
+    "Selenium",
+    "QA fundamentals",
+    "Python Development",
   ],
-  Development: ["Web Development", "Mobile Development", "Game Development"],
-  Business: ["Entrepreneurship", "Management", "Finance"],
-  "IT & Software": ["Networking", "Cyber Security", "DevOps"],
-  Design: ["UI Design", "UX Research", "Graphic Design"],
-  Marketing: ["Digital Marketing", "SEO", "Content Marketing"],
+  "Data Analytics": [
+    "MS Excel",
+    "SQL",
+    "Python analytics",
+    "Power BI",
+    "Tableau",
+  ],
+  "Data Science": [
+    "Statistics", 
+    "ML basics", 
+    "Python libraries (Pandas, NumPy, Scikit-Learn)"
+  ],
+  "UI/UX Design": [
+    "Figma", 
+    "Prototyping", 
+    "User Research",
+    "Design Thinking",
+  ],
+  "AI & Machine Learning": [
+    "Machine learning algorithms", 
+    "TensorFlow", 
+    "Neural Networks",
+  ],
+  "Database Management": [
+    "MySQL", 
+    "MongoDB", 
+    "PostGrace",
+    ],
+  "Computer Networking": [
+    "Firewall", 
+    "AWS/Azure Cloud", 
+    "CCNA/CCNP/CCA prep ",
+  ],
 };
 
 // Logout Confirmation Modal Component

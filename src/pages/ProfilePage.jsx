@@ -8,10 +8,16 @@ import { HiChevronRight } from "react-icons/hi";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { profile, enrolledCourses, loading } = useProfile();
+  const { profile, loading, enrolledCourses, loadCourseStreak } = useProfile();
 
   const [editOpen, setEditOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
+
+useEffect(() => {
+  if (enrolledCourses?.length) {
+    loadCourseStreak(enrolledCourses[0].id); 
+  }
+}, [enrolledCourses]);
 
   const initials =
     profile?.name
