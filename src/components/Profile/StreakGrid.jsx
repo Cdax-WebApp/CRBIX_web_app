@@ -17,12 +17,12 @@ export default function StreakGrid() {
 
   if (loadingStreak)
     return (
-      <div className="bg-white rounded-lg p-6 shadow-sm border animate-pulse">
-        <div className="h-6 bg-gray-200 rounded w-1/4 mb-4"></div>
-        <div className="h-4 bg-gray-200 rounded w-1/2 mb-6"></div>
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border dark:border-gray-700 animate-pulse">
+        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-4"></div>
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-6"></div>
         <div className="grid grid-cols-7 gap-2">
           {[...Array(35)].map((_, i) => (
-            <div key={i} className="h-12 bg-gray-100 rounded-lg"></div>
+            <div key={i} className="h-12 bg-gray-100 dark:bg-gray-700 rounded-lg"></div>
           ))}
         </div>
       </div>
@@ -30,9 +30,9 @@ export default function StreakGrid() {
 
   if (!streakData)
     return (
-      <div className="bg-white rounded-lg p-6 shadow-sm border text-center">
-        <p className="text-gray-500">No streak data available</p>
-        <p className="text-sm text-gray-400 mt-2">Watch videos to start your streak</p>
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border dark:border-gray-700 text-center">
+        <p className="text-gray-500 dark:text-gray-400">No streak data available</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">Watch videos to start your streak</p>
       </div>
     );
 
@@ -115,20 +115,20 @@ export default function StreakGrid() {
   };
 
   return (
-    <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm border border-gray-200">
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
       
       {/* ---------------- HEADER (Course Selection & Streak Info) ---------------- */}
       <div className="mb-6">
         {/* Course Selection Dropdown - Full Width */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Select Course
           </label>
           <div className="relative">
             <select
               value={selectedCourseId || ""}
               onChange={(e) => setSelectedCourseId(Number(e.target.value))}
-              className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-10 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className="w-full appearance-none bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 pr-10 text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             >
               {enrolledCourses.length === 0 ? (
                 <option value="">No courses enrolled</option>
@@ -141,7 +141,7 @@ export default function StreakGrid() {
               )}
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
-              <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </div>
@@ -149,18 +149,18 @@ export default function StreakGrid() {
         </div>
 
         {/* Course Info & Streak */}
-        <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-100">
+        <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800/30">
           <div>
-            <h3 className="font-semibold text-gray-900 text-lg">{courseTitle || "Selected Course"}</h3>
-            <p className="text-sm text-gray-600">
-              <span className="font-medium text-blue-600">{currentStreakDays || 0} day streak</span>
+            <h3 className="font-semibold text-gray-900 dark:text-white text-lg">{courseTitle || "Selected Course"}</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              <span className="font-medium text-blue-600 dark:text-blue-400">{currentStreakDays || 0} day streak</span>
               <span className="mx-2">•</span>
               <span>Learning progress</span>
             </p>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-              <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-800/30 flex items-center justify-center">
+              <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
               </svg>
             </div>
@@ -169,32 +169,32 @@ export default function StreakGrid() {
       </div>
 
       {/* ---------------- MONTH CALENDAR SECTION ---------------- */}
-      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
         {/* Month Navigation */}
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => changeMonth(-1)}
-            className="p-2 rounded-lg hover:bg-gray-200 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             aria-label="Previous month"
           >
-            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           
           <div className="text-center">
-            <h3 className="font-semibold text-gray-900 text-lg">{monthLabel}</h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="font-semibold text-gray-900 dark:text-white text-lg">{monthLabel}</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               Click on a day to view details
             </p>
           </div>
           
           <button
             onClick={() => changeMonth(1)}
-            className="p-2 rounded-lg hover:bg-gray-200 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             aria-label="Next month"
           >
-            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -205,7 +205,7 @@ export default function StreakGrid() {
           {dayNames.map((day, index) => (
             <div
               key={index}
-              className="h-8 flex items-center justify-center text-xs font-medium text-gray-500"
+              className="h-8 flex items-center justify-center text-xs font-medium text-gray-500 dark:text-gray-400"
             >
               {day}
             </div>
@@ -237,7 +237,7 @@ export default function StreakGrid() {
                   h-10 md:h-12 rounded-lg flex items-center justify-center text-sm font-medium transition-all duration-200
                   relative
                   ${dayData ? "cursor-pointer hover:scale-105 hover:shadow-sm" : "cursor-default"}
-                  ${isToday ? "ring-2 ring-blue-500 ring-offset-1" : ""}
+                  ${isToday ? "ring-2 ring-blue-500 ring-offset-1 dark:ring-offset-gray-800" : ""}
                 `}
                 style={{
                   backgroundColor: getColor(dayData),
@@ -259,10 +259,10 @@ export default function StreakGrid() {
         </div>
 
         {/* Progress Legend */}
-        <div className="mt-4 pt-4 border-t border-gray-200">
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-gray-700">Progress Legend</span>
-            <span className="text-xs text-gray-500">{last30Days.filter(d => d.isActiveDay).length} active days</span>
+            <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Progress Legend</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">{last30Days.filter(d => d.isActiveDay).length} active days</span>
           </div>
           <div className="flex flex-wrap gap-2">
             {[
@@ -275,12 +275,12 @@ export default function StreakGrid() {
             ].map((item, index) => (
               <div key={index} className="flex items-center">
                 <div 
-                  className="w-4 h-4 rounded mr-1.5 border border-gray-200"
+                  className="w-4 h-4 rounded mr-1.5 border border-gray-200 dark:border-gray-600"
                   style={{ backgroundColor: item.color }}
                 ></div>
-                <span className="text-xs text-gray-600 mr-2">{item.label}</span>
+                <span className="text-xs text-gray-600 dark:text-gray-400 mr-2">{item.label}</span>
                 {item.desc && (
-                  <span className="text-xs text-gray-400 hidden md:inline">• {item.desc}</span>
+                  <span className="text-xs text-gray-400 dark:text-gray-500 hidden md:inline">• {item.desc}</span>
                 )}
               </div>
             ))}
@@ -290,25 +290,25 @@ export default function StreakGrid() {
 
       {/* Stats Summary */}
       <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div className="bg-blue-50 rounded-lg p-3 border border-blue-100">
-          <p className="text-xs text-blue-600 font-medium">Current Streak</p>
-          <p className="text-xl font-bold text-gray-900">{currentStreakDays || 0} days</p>
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 border border-blue-100 dark:border-blue-800/30">
+          <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">Current Streak</p>
+          <p className="text-xl font-bold text-gray-900 dark:text-white">{currentStreakDays || 0} days</p>
         </div>
-        <div className="bg-green-50 rounded-lg p-3 border border-green-100">
-          <p className="text-xs text-green-600 font-medium">Active Days</p>
-          <p className="text-xl font-bold text-gray-900">
+        <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 border border-green-100 dark:border-green-800/30">
+          <p className="text-xs text-green-600 dark:text-green-400 font-medium">Active Days</p>
+          <p className="text-xl font-bold text-gray-900 dark:text-white">
             {last30Days.filter(d => d.isActiveDay).length} days
           </p>
         </div>
-        <div className="bg-purple-50 rounded-lg p-3 border border-purple-100">
-          <p className="text-xs text-purple-600 font-medium">Watch Time</p>
-          <p className="text-xl font-bold text-gray-900">
+        <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 border border-purple-100 dark:border-purple-800/30">
+          <p className="text-xs text-purple-600 dark:text-purple-400 font-medium">Watch Time</p>
+          <p className="text-xl font-bold text-gray-900 dark:text-white">
             {formatDuration(last30Days.reduce((total, day) => total + (day.watchedSeconds || 0), 0))}
           </p>
         </div>
-        <div className="bg-amber-50 rounded-lg p-3 border border-amber-100">
-          <p className="text-xs text-amber-600 font-medium">Avg. Progress</p>
-          <p className="text-xl font-bold text-gray-900">
+        <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-3 border border-amber-100 dark:border-amber-800/30">
+          <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">Avg. Progress</p>
+          <p className="text-xl font-bold text-gray-900 dark:text-white">
             {getProgressText(
               last30Days.filter(d => d.isActiveDay).length > 0 ?
               last30Days.filter(d => d.isActiveDay).reduce((sum, day) => sum + (day.progressPercentage || 0), 0) / 

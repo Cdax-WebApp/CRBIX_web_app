@@ -64,7 +64,7 @@ export default function LearningExperience() {
   };
 
   return (
-    <section className="mt-1">
+    <section className="mt-1 dark:bg-gray-900">
       {/* HEADING */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -73,10 +73,10 @@ export default function LearningExperience() {
         viewport={{ once: false }}
         className="mt-20 max-w-3xl mx-auto text-center px-6"
       >
-        <h2 className="text-3xl md:text-5xl font-bold text-blue-900 mb-6">
+        <h2 className="text-3xl md:text-5xl font-bold text-blue-900 dark:text-blue-400 mb-6">
           Best Learning Experience
         </h2>
-        <p className="text-gray-600 text-base md:text-lg">
+        <p className="text-gray-600 dark:text-gray-400 text-base md:text-lg">
           Learn with structured courses, real-world projects, progress tracking,
           and daily streaks — designed to keep you consistent and job-ready.
         </p>
@@ -87,7 +87,7 @@ export default function LearningExperience() {
         {media.map((item, index) => (
           <motion.div
             key={index}
-            className="relative w-36 md:w-44 rounded-lg overflow-hidden shadow-lg cursor-pointer bg-black"
+            className="relative w-36 md:w-44 rounded-lg overflow-hidden shadow-lg dark:shadow-gray-900/50 cursor-pointer bg-black"
             initial={{
               opacity: 0,
               y: item.direction === "up" ? 100 : -100,

@@ -28,7 +28,7 @@ const listVariants = {
 
 export default function CoursePlans() {
   return (
-    <section className="py-16 bg-[#eefaff]">
+    <section className="py-16 bg-[#eefaff] dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 text-center">
         {/* Heading */}
         <motion.h2
@@ -36,7 +36,7 @@ export default function CoursePlans() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-3xl md:text-5xl font-bold mb-12 text-blue-900"
+          className="text-3xl md:text-5xl font-bold mb-12 text-blue-900 dark:text-blue-400"
         >
           Choose a plan for your organization
         </motion.h2>
@@ -50,23 +50,23 @@ export default function CoursePlans() {
             whileInView="visible"
             viewport={{ once: true }}
             whileHover={{ y: -8, boxShadow: "0 25px 50px rgba(0,0,0,0.08)" }}
-            className="bg-white border rounded-xl p-6 text-left transition-all"
+            className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl p-6 text-left transition-all"
           >
             <div className="border-t-4 border-orange-500 items-center justify-center text-center pt-4">
-              <h3 className="text-xl font-bold mb-1 ">Monthly Plan</h3>
-              <p className="text-sm text-gray-600 mb-4">
+              <h3 className="text-xl font-bold mb-1 dark:text-white">Monthly Plan</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 👥 Best for trial users
               </p>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="border border-orange-600 text-orange-600 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-orange-50 transition"
+                className="border border-orange-600 dark:border-orange-500 text-orange-600 dark:text-orange-400 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-orange-50 dark:hover:bg-orange-900/30 transition"
               >
                 Start subscription
               </motion.button>
 
-              <p className="text-lg font-bold mb-1">₹299 for month per user</p>
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-lg font-bold mb-1 dark:text-white">₹299 for month per user</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 Premium access. No contracts.
               </p>
 
@@ -85,9 +85,9 @@ export default function CoursePlans() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="flex gap-2"
+                    className="flex gap-2 dark:text-gray-300"
                   >
-                    <CheckCircle className="text-green-600 w-5 h-5" />
+                    <CheckCircle className="text-green-600 dark:text-green-400 w-5 h-5" />
                     {item}
                   </motion.li>
                 ))}
@@ -103,25 +103,25 @@ export default function CoursePlans() {
             whileInView="visible"
             viewport={{ once: true }}
             whileHover={{ y: -8, boxShadow: "0 25px 50px rgba(0,0,0,0.08)" }}
-            className="bg-white border rounded-xl p-6 text-left transition-all"
+            className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl p-6 text-left transition-all"
           >
             <div className="border-t-4 border-indigo-600 pt-4 items-center justify-center text-center">
-              <h3 className="text-xl font-bold mb-1">Quarterly Plan</h3>
-              <p className="text-sm text-gray-600 mb-4">
+              <h3 className="text-xl font-bold mb-1 dark:text-white">Quarterly Plan</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 🏢 Best for serious learners
               </p>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="border border-indigo-600 text-indigo-600 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-indigo-50 transition"
+                className="border border-indigo-600 dark:border-indigo-500 text-indigo-600 dark:text-indigo-400 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition"
               >
                 Start subscription
               </motion.button>
 
-              <p className="text-lg font-bold mb-1">
+              <p className="text-lg font-bold mb-1 dark:text-white">
                 ₹799 for quarter per user
               </p>
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 Premium access. No contracts.
               </p>
 
@@ -140,9 +140,9 @@ export default function CoursePlans() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="flex gap-2"
+                    className="flex gap-2 dark:text-gray-300"
                   >
-                    <CheckCircle className="text-green-600 w-5 h-5" />
+                    <CheckCircle className="text-green-600 dark:text-green-400 w-5 h-5" />
                     {item}
                   </motion.li>
                 ))}
@@ -158,23 +158,23 @@ export default function CoursePlans() {
             whileInView="visible"
             viewport={{ once: true }}
             whileHover={{ y: -8, boxShadow: "0 25px 50px rgba(0,0,0,0.08)" }}
-            className="bg-white border rounded-xl p-6 text-left transition-all"
+            className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl p-6 text-left transition-all"
           >
             <div className="border-t-4 border-pink-600 pt-4 items-center justify-center text-center">
-              <h3 className="text-xl font-bold mb-1">Yearly Plan</h3>
-              <p className="text-sm text-gray-600 mb-4">
+              <h3 className="text-xl font-bold mb-1 dark:text-white">Yearly Plan</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 🏢 Best value for every user
               </p>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="border border-pink-600 text-pink-600 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-pink-50 transition"
+                className="border border-pink-600 dark:border-pink-500 text-pink-600 dark:text-pink-400 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-pink-50 dark:hover:bg-pink-900/30 transition"
               >
                 Start subscription
               </motion.button>
 
-              <p className="text-lg font-bold mb-1">₹1,799 for year per user</p>
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-lg font-bold mb-1 dark:text-white">₹1,799 for year per user</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 Premium access. No contracts.
               </p>
 
@@ -193,9 +193,9 @@ export default function CoursePlans() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="flex gap-2"
+                    className="flex gap-2 dark:text-gray-300"
                   >
-                    <CheckCircle className="text-green-600 w-5 h-5" />
+                    <CheckCircle className="text-green-600 dark:text-green-400 w-5 h-5" />
                     {item}
                   </motion.li>
                 ))}
@@ -211,12 +211,12 @@ export default function CoursePlans() {
           whileInView={{ opacity: 1, y: 10 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-3xl md:text-5xl font-bold mb-8 text-blue-900"
+          className="text-3xl md:text-5xl font-bold mb-8 text-blue-900 dark:text-blue-400"
         >
           Combo Course Plans
         </motion.h2>
 
-        <p className="text-gray-600 mb-10 max-w-2xl mx-auto">
+        <p className="text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
           Learn multiple skills together with flexible combo plans designed for
           individual learners.
         </p>
@@ -225,23 +225,23 @@ export default function CoursePlans() {
           {/* MONTHLY COMBO */}
           <motion.div
             whileHover={{ y: -8, boxShadow: "0 25px 50px rgba(0,0,0,0.08)" }}
-            className="bg-white border rounded-xl p-6 transition-all"
+            className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl p-6 transition-all"
           >
             <div className="border-t-4 border-orange-500 pt-4 text-center">
-              <h3 className="text-xl font-bold mb-1">Monthly Combo</h3>
-              <p className="text-sm text-gray-600 mb-4">
+              <h3 className="text-xl font-bold mb-1 dark:text-white">Monthly Combo</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 🎯 Explore multiple skills
               </p>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="border border-orange-600 text-orange-600 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-orange-50 transition"
+                className="border border-orange-600 dark:border-orange-500 text-orange-600 dark:text-orange-400 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-orange-50 dark:hover:bg-orange-900/30 transition"
               >
                 Start Combo
               </motion.button>
 
-              <p className="text-lg font-bold mb-1">₹499 for month per user</p>
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-lg font-bold mb-1 dark:text-white">₹499 for month per user</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 Premium access. No contracts.
               </p>
 
@@ -253,8 +253,8 @@ export default function CoursePlans() {
                   "Community support",
                   "Goal-focused recommendations",
                 ].map((item, i) => (
-                  <li key={i} className="flex gap-2">
-                    <CheckCircle className="text-green-600 w-5 h-5" />
+                  <li key={i} className="flex gap-2 dark:text-gray-300">
+                    <CheckCircle className="text-green-600 dark:text-green-400 w-5 h-5" />
                     {item}
                   </li>
                 ))}
@@ -265,23 +265,23 @@ export default function CoursePlans() {
           {/* QUARTERLY COMBO */}
           <motion.div
             whileHover={{ y: -8, boxShadow: "0 25px 50px rgba(0,0,0,0.08)" }}
-            className="bg-white border rounded-xl p-6 transition-all"
+            className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl p-6 transition-all"
           >
             <div className="border-t-4 border-indigo-600 pt-4 text-center">
-              <h3 className="text-xl font-bold mb-1">Quarterly Combo</h3>
-              <p className="text-sm text-gray-600 mb-4">
+              <h3 className="text-xl font-bold mb-1 dark:text-white">Quarterly Combo</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 ⭐ Best for consistent learners
               </p>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="border border-indigo-600 text-indigo-600 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-indigo-50 transition"
+                className="border border-indigo-600 dark:border-indigo-500 text-indigo-600 dark:text-indigo-400 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition"
               >
                 Start Combo
               </motion.button>
 
-              <p className="text-lg font-bold mb-1">₹1,299 for quarter per user</p>
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-lg font-bold mb-1 dark:text-white">₹1,299 for quarter per user</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 Better value than monthly
               </p>
 
@@ -293,8 +293,8 @@ export default function CoursePlans() {
                   "Project-based learning",
                   "Flexible learning schedule",
                 ].map((item, i) => (
-                  <li key={i} className="flex gap-2">
-                    <CheckCircle className="text-green-600 w-5 h-5" />
+                  <li key={i} className="flex gap-2 dark:text-gray-300">
+                    <CheckCircle className="text-green-600 dark:text-green-400 w-5 h-5" />
                     {item}
                   </li>
                 ))}
@@ -305,23 +305,23 @@ export default function CoursePlans() {
           {/* YEARLY COMBO */}
           <motion.div
             whileHover={{ y: -8, boxShadow: "0 25px 50px rgba(0,0,0,0.08)" }}
-            className="bg-white border rounded-xl p-6 transition-all"
+            className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl p-6 transition-all"
           >
             <div className="border-t-4 border-pink-600 pt-4 text-center">
-              <h3 className="text-xl font-bold mb-1">Yearly Combo</h3>
-              <p className="text-sm text-gray-600 mb-4">
+              <h3 className="text-xl font-bold mb-1 dark:text-white">Yearly Combo</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 🚀 Best value for individuals
               </p>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="border border-pink-600 text-pink-600 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-pink-50 transition"
+                className="border border-pink-600 dark:border-pink-500 text-pink-600 dark:text-pink-400 px-4 py-2 rounded-md font-semibold mb-6 hover:bg-pink-50 dark:hover:bg-pink-900/30 transition"
               >
                 Start Combo
               </motion.button>
 
-              <p className="text-lg font-bold mb-1">₹4,499 for year per user</p>
-              <p className="text-sm text-gray-500 mb-4">Maximum savings</p>
+              <p className="text-lg font-bold mb-1 dark:text-white">₹4,499 for year per user</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Maximum savings</p>
 
               <ul className="space-y-3 text-sm text-left">
                 {[
@@ -331,8 +331,8 @@ export default function CoursePlans() {
                   "Early access to new content",
                   "Best for career-focused learners",
                 ].map((item, i) => (
-                  <li key={i} className="flex gap-2">
-                    <CheckCircle className="text-green-600 w-5 h-5" />
+                  <li key={i} className="flex gap-2 dark:text-gray-300">
+                    <CheckCircle className="text-green-600 dark:text-green-400 w-5 h-5" />
                     {item}
                   </li>
                 ))}

@@ -92,7 +92,7 @@ export default function BuildProject() {
   };
 
   return (
-    <section className="py-16 px-4">
+    <section className="py-16 px-4 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-10 items-center">
           {/* LEFT CONTENT - Fixed version */}
@@ -123,7 +123,7 @@ export default function BuildProject() {
                   >
                     {slides[current].icon}
                   </motion.div>
-                  <motion.h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+                  <motion.h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
                     {slides[current].title}
                   </motion.h1>
                 </div>
@@ -133,7 +133,7 @@ export default function BuildProject() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.4 }}
-                  className="text-gray-600 mb-6 text-lg"
+                  className="text-gray-600 dark:text-gray-400 mb-6 text-lg"
                 >
                   {slides[current].desc}
                 </motion.p>
@@ -151,12 +151,12 @@ export default function BuildProject() {
                         behavior: "smooth",
                       });
                     }}
-                    className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-900 transition"
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
                   >
                     Explore Courses
                   </button>
                   <Link to="/contact-us">
-                    <button className="border border-blue-600 px-6 py-3 rounded-lg hover:bg-blue-600 hover:text-white transition transform hover:scale-105 active:scale-95">
+                    <button className="border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 px-6 py-3 rounded-lg hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 transition transform hover:scale-105 active:scale-95">
                       Talk to Expert
                     </button>
                   </Link>
@@ -167,7 +167,7 @@ export default function BuildProject() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.4 }}
-                  className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700"
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700 dark:text-gray-300"
                 >
                   {[
                     "Industry-designed curriculum",
@@ -203,7 +203,7 @@ export default function BuildProject() {
 
           {/* RIGHT IMAGE */}
           <div className="relative group">
-            <div className="relative overflow-hidden rounded-4xl shadow-xl hover:shadow-2xl transition-shadow duration-500 min-h-[300px] md:min-h-[400px]">
+            <div className="relative overflow-hidden rounded-4xl shadow-xl dark:shadow-gray-900/50 hover:shadow-2xl dark:hover:shadow-gray-800/50 transition-shadow duration-500 min-h-[300px] md:min-h-[400px]">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={current}
@@ -260,19 +260,19 @@ export default function BuildProject() {
                 onClick={prevSlide}
                 whileHover={{ scale: 1.1, rotate: -5 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-3 backdrop-blur-sm bg-white/80 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                className="p-3 backdrop-blur-sm bg-white/80 dark:bg-gray-800/80 rounded-full shadow-lg dark:shadow-gray-900/50 hover:shadow-xl transition-all duration-300"
                 aria-label="Previous slide"
               >
-                <ChevronLeft size={24} className="text-gray-800" />
+                <ChevronLeft size={24} className="text-gray-800 dark:text-gray-300" />
               </motion.button>
               <motion.button
                 onClick={nextSlide}
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-3 backdrop-blur-sm bg-white/80 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                className="p-3 backdrop-blur-sm bg-white/80 dark:bg-gray-800/80 rounded-full shadow-lg dark:shadow-gray-900/50 hover:shadow-xl transition-all duration-300"
                 aria-label="Next slide"
               >
-                <ChevronRight size={24} className="text-gray-800" />
+                <ChevronRight size={24} className="text-gray-800 dark:text-gray-300" />
               </motion.button>
             </div>
           </div>

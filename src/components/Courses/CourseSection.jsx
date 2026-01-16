@@ -63,15 +63,15 @@ const handleEnroll = (course) => {
 };
 
   if (loading) {
-    return <div className="text-center py-20">Loading courses...</div>;
+    return <div className="text-center py-20 text-gray-800 dark:text-gray-200">Loading courses...</div>;
   }
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold mb-3">
+      <h2 className="text-3xl font-bold mb-3 text-gray-800 dark:text-white">
         Skills to transform your career and life
       </h2>
-      <p className="text-gray-600 mb-10">
+      <p className="text-gray-600 dark:text-gray-400 mb-10">
         From critical skills to technical topics, explore top courses.
       </p>
 

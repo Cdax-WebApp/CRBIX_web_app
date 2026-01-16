@@ -25,7 +25,7 @@ import AssessmentModal from "./AssessmentModal";
 
 /* -------------------- HELPERS -------------------- */
 function convertToEmbed(url, youtubeId) {
-  if (youtubeId) return `https://www.youtube.com/embed/${youtubeId}`;
+  if (youtubeId) return `https://www.youtube.comembed/${youtubeId}`;
   if (!url) return "";
 
   if (url.includes("youtube.com")) {
@@ -134,13 +134,13 @@ export default function CourseContent({
   /* -------------------- AUTH CHECK -------------------- */
   if (!isAuthenticated) {
     return (
-      <div className="mt-10 p-6 bg-yellow-50 border rounded-lg text-center">
-        <p className="font-semibold text-gray-800 mb-2">
+      <div className="mt-10 p-6 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-lg text-center">
+        <p className="font-semibold text-gray-800 dark:text-yellow-200 mb-2">
           Please login to view course content
         </p>
         <button
           onClick={openLogin}
-          className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-lg transition-colors"
         >
           Login to Continue
         </button>
@@ -293,7 +293,7 @@ export default function CourseContent({
 
   if (!course?.modules?.length) {
     return (
-      <div className="mt-6 p-4 text-center text-gray-500 bg-gray-50 rounded-lg">
+      <div className="mt-6 p-4 text-center text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
         <p>No course content available yet.</p>
         <p className="text-sm mt-1">Check back later for updates.</p>
       </div>
@@ -309,8 +309,8 @@ export default function CourseContent({
 
   return (
     <div className="mt-10">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">Course Content</h2>
-      <p className="text-gray-600 mb-6">
+      <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Course Content</h2>
+      <p className="text-gray-600 dark:text-gray-400 mb-6">
         {course.modules.length} modules • {course.modules.reduce((total, m) => total + (m.videos?.length || 0), 0)} videos
       </p>
 
@@ -321,7 +321,7 @@ export default function CourseContent({
         const assessmentStatusData = assessment ? assessmentStatus[assessment.id] : null;
 
         return (
-          <div key={module.id} className="border rounded-lg mb-4 overflow-hidden shadow-sm">
+          <div key={module.id} className="border border-gray-200 dark:border-gray-700 rounded-lg mb-4 overflow-hidden shadow-sm dark:shadow-gray-900/50">
             {/* MODULE HEADER */}
             <div
               onClick={() => {
@@ -332,35 +332,37 @@ export default function CourseContent({
                 setOpenModuleIndex(openModuleIndex === mi ? null : mi);
               }}
               className={`flex justify-between items-center p-4 cursor-pointer transition-colors ${
-                module.isLocked ? "bg-gray-100" : "bg-white hover:bg-gray-50"
+                module.isLocked 
+                  ? "bg-gray-100 dark:bg-gray-800" 
+                  : "bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
               }`}
             >
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-1">
-                  <span className="text-sm font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                  <span className="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded">
                     Module {mi + 1}
                   </span>
                   {module.isLocked && (
-                    <span className="text-xs text-red-600 bg-red-50 px-2 py-1 rounded">Locked</span>
+                    <span className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2 py-1 rounded">Locked</span>
                   )}
                   {progress === 100 && (
-                    <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">Completed</span>
+                    <span className="text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded">Completed</span>
                   )}
                 </div>
-                <p className="font-semibold text-gray-800">{module.title}</p>
+                <p className="font-semibold text-gray-800 dark:text-white">{module.title}</p>
                 <div className="flex items-center gap-4 mt-2">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     {module.videos?.length || 0} videos
                   </p>
                   {progress > 0 && (
                     <div className="flex items-center gap-2">
-                      <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-green-500 rounded-full transition-all duration-300"
+                          className="h-full bg-green-500 dark:bg-green-600 rounded-full transition-all duration-300"
                           style={{ width: `${progress}%` }}
                         />
                       </div>
-                      <span className="text-xs text-gray-600">{progress}%</span>
+                      <span className="text-xs text-gray-600 dark:text-gray-400">{progress}%</span>
                     </div>
                   )}
                 </div>
@@ -368,37 +370,39 @@ export default function CourseContent({
 
               <div className="flex items-center gap-2">
                 {module.isLocked ? (
-                  <Lock size={18} className="text-gray-400" />
+                  <Lock size={18} className="text-gray-400 dark:text-gray-500" />
                 ) : openModuleIndex === mi ? (
-                  <ChevronUp size={20} className="text-gray-600" />
+                  <ChevronUp size={20} className="text-gray-600 dark:text-gray-400" />
                 ) : (
-                  <ChevronDown size={20} className="text-gray-600" />
+                  <ChevronDown size={20} className="text-gray-600 dark:text-gray-400" />
                 )}
               </div>
             </div>
 
             {/* MODULE CONTENT */}
             {openModuleIndex === mi && !module.isLocked && (
-              <div className="bg-white border-t">
+              <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
                 {/* VIDEOS LIST */}
                 <div className="p-4">
-                  <h4 className="font-medium text-gray-700 mb-3">Videos in this module:</h4>
+                  <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-3">Videos in this module:</h4>
                   {module.videos?.map((video, vi) => (
                     <div
                       key={video.id}
                       onClick={() => handleVideoClick(video, module.id, mi, vi)}
                       className={`flex items-center gap-3 py-3 px-2 border-b last:border-b-0 transition-colors rounded ${
                         video.isLocked
-                          ? "opacity-60 cursor-not-allowed bg-gray-50"
-                          : "cursor-pointer hover:bg-blue-50"
+                          ? "opacity-60 cursor-not-allowed bg-gray-50 dark:bg-gray-900/50"
+                          : "cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20"
                       } ${
-                        openVideo?.id === video.id ? "bg-blue-100 border-l-4 border-blue-500" : ""
+                        openVideo?.id === video.id 
+                          ? "bg-blue-100 dark:bg-blue-900/30 border-l-4 border-blue-500 dark:border-blue-400" 
+                          : "border-gray-200 dark:border-gray-700"
                       }`}
                     >
                       <div className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full ${
-                        video.isCompleted ? "bg-green-100 text-green-600" : 
-                        video.isLocked ? "bg-gray-200 text-gray-500" : 
-                        "bg-blue-100 text-blue-600"
+                        video.isCompleted ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400" : 
+                        video.isLocked ? "bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400" : 
+                        "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
                       }`}>
                         {video.isCompleted ? (
                           <Check size={16} />
@@ -410,20 +414,24 @@ export default function CourseContent({
                       </div>
                       
                       <div className="flex-1">
-                        <p className={`text-sm font-medium ${video.isCompleted ? "text-gray-600" : "text-gray-800"}`}>
+                        <p className={`text-sm font-medium ${
+                          video.isCompleted 
+                            ? "text-gray-600 dark:text-gray-500" 
+                            : "text-gray-800 dark:text-gray-200"
+                        }`}>
                           {video.title}
                           {openVideo?.id === video.id && (
-                            <span className="ml-2 text-xs text-blue-600 animate-pulse">▶ Playing</span>
+                            <span className="ml-2 text-xs text-blue-600 dark:text-blue-400 animate-pulse">▶ Playing</span>
                           )}
                         </p>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                           Duration: {Math.floor(video.duration / 60)}:{String(video.duration % 60).padStart(2, '0')}
                         </p>
                       </div>
                       
                       <div className="flex-shrink-0">
                         {video.isPreview && (
-                          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Preview</span>
+                          <span className="text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 px-2 py-1 rounded">Preview</span>
                         )}
                       </div>
                     </div>
@@ -432,38 +440,38 @@ export default function CourseContent({
 
                 {/* ASSESSMENT SECTION */}
                 {hasAssessment && (
-                  <div className="mt-4 border-t pt-4">
+                  <div className="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
                     <div className="px-4">
                       <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-medium text-gray-700 flex items-center gap-2">
-                          <FileText size={18} className="text-purple-600" />
+                        <h4 className="font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                          <FileText size={18} className="text-purple-600 dark:text-purple-400" />
                           Module Assessment
                         </h4>
                         {assessmentStatusData && (
                           <span className={`text-xs px-2 py-1 rounded ${
                             assessmentStatusData.passed 
-                              ? "bg-green-100 text-green-800" 
-                              : "bg-yellow-100 text-yellow-800"
+                              ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400" 
+                              : "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400"
                           }`}>
                             {assessmentStatusData.passed ? "Passed" : "Not Passed"}
                           </span>
                         )}
                       </div>
                       
-                      <div className="bg-purple-50 border border-purple-100 rounded-lg p-4">
+                      <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-100 dark:border-purple-800 rounded-lg p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <p className="font-medium text-gray-800">{assessment.title || "Module Assessment"}</p>
-                            <p className="text-sm text-gray-600 mt-1">
+                            <p className="font-medium text-gray-800 dark:text-white">{assessment.title || "Module Assessment"}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                               Test your knowledge after completing all videos in this module.
                             </p>
                             <div className="flex items-center gap-4 mt-2">
                               {assessmentStatusData && (
                                 <>
-                                  <span className="text-xs text-gray-500">
+                                  <span className="text-xs text-gray-500 dark:text-gray-400">
                                     Score: {assessmentStatusData.obtainedMarks || 0}/{assessmentStatusData.totalMarks || 100}
                                   </span>
-                                  <span className="text-xs text-gray-500">
+                                  <span className="text-xs text-gray-500 dark:text-gray-400">
                                     Attempts: {assessmentStatusData.attempts || 0}
                                   </span>
                                 </>
@@ -476,8 +484,8 @@ export default function CourseContent({
                             disabled={module.videos?.some(v => !v.isCompleted && !v.isLocked)}
                             className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
                               module.videos?.some(v => !v.isCompleted && !v.isLocked)
-                                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                                : "bg-purple-600 text-white hover:bg-purple-700"
+                                ? "bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                                : "bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600 text-white"
                             }`}
                           >
                             {assessmentStatusData?.passed ? "Retake" : "Take Assessment"}
@@ -486,10 +494,10 @@ export default function CourseContent({
                         
                         {/* Assessment requirements */}
                         {module.videos?.some(v => !v.isCompleted && !v.isLocked) && (
-                          <div className="mt-3 text-sm text-gray-600 bg-white p-2 rounded border">
+                          <div className="mt-3 text-sm text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 p-2 rounded border border-gray-200 dark:border-gray-700">
                             ⚠️ Complete all videos in this module to unlock the assessment.
                             {module.videos?.filter(v => !v.isCompleted && !v.isLocked).length > 0 && (
-                              <span className="text-red-600 font-medium ml-1">
+                              <span className="text-red-600 dark:text-red-400 font-medium ml-1">
                                 {module.videos.filter(v => !v.isCompleted && !v.isLocked).length} videos remaining
                               </span>
                             )}
@@ -503,12 +511,12 @@ export default function CourseContent({
                 {/* MODULE COMPLETION STATUS */}
                 {progress === 100 && !hasAssessment && (
                   <div className="mt-4 px-4">
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
                       <div className="flex items-center gap-3">
-                        <Check size={20} className="text-green-600" />
+                        <Check size={20} className="text-green-600 dark:text-green-400" />
                         <div>
-                          <p className="font-medium text-green-800">Module Completed!</p>
-                          <p className="text-sm text-green-600 mt-1">
+                          <p className="font-medium text-green-800 dark:text-green-400">Module Completed!</p>
+                          <p className="text-sm text-green-600 dark:text-green-500 mt-1">
                             Great job! You've completed all videos in this module.
                           </p>
                         </div>
@@ -525,7 +533,7 @@ export default function CourseContent({
       {/* VIDEO PLAYER MODAL */}
       {openVideo && (
         <div className="fixed inset-0 bg-black z-50 flex flex-col">
-          <div className="h-14 flex items-center justify-between px-4 bg-gray-900">
+          <div className="h-14 flex items-center justify-between px-4 bg-gray-900 dark:bg-black">
             <div className="flex items-center">
               <button
                 onClick={() => {
@@ -533,7 +541,7 @@ export default function CourseContent({
                   setCurrentModuleId(null);
                   setCurrentVideoId(null);
                 }}
-                className="flex items-center gap-2 text-white hover:text-gray-300"
+                className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors"
               >
                 <ChevronLeft size={20} />
                 <span className="text-sm">Back to Course</span>
@@ -549,7 +557,7 @@ export default function CourseContent({
           
           {showNextOverlay && (
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-              <div className="text-white text-center p-8 bg-gray-900 rounded-lg max-w-md">
+              <div className="text-white text-center p-8 bg-gray-900 dark:bg-gray-800 rounded-lg max-w-md border border-gray-700">
                 <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Check size={32} />
                 </div>
@@ -559,7 +567,7 @@ export default function CourseContent({
                 </p>
                 <button
                   onClick={() => setShowNextOverlay(false)}
-                  className="text-sm text-blue-400 hover:text-blue-300"
+                  className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
                 >
                   Skip countdown
                 </button>
@@ -578,7 +586,7 @@ export default function CourseContent({
           </div>
 
           {/* VIDEO NAVIGATION CONTROLS */}
-          <div className="bg-gray-900 text-white p-4">
+          <div className="bg-gray-900 dark:bg-black text-white p-4 border-t border-gray-800">
             <div className="flex justify-between items-center max-w-4xl mx-auto">
               <button
                 disabled={currentVideoIndex === 0}
@@ -615,7 +623,7 @@ export default function CourseContent({
                 className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
                   !isVideoCompleted 
                     ? "bg-gray-800 text-gray-500 cursor-not-allowed" 
-                    : "bg-blue-600 hover:bg-blue-700"
+                    : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                 }`}
               >
                 Next Video
@@ -643,9 +651,9 @@ export default function CourseContent({
       {/* LOADING OVERLAY */}
       {loading && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-8 flex flex-col items-center">
-            <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 rounded-full mb-4"></div>
-            <p className="text-gray-700">Updating course data...</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 flex flex-col items-center border border-gray-200 dark:border-gray-700">
+            <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400 rounded-full mb-4"></div>
+            <p className="text-gray-700 dark:text-gray-300">Updating course data...</p>
           </div>
         </div>
       )}

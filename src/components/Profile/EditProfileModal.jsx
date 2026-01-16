@@ -61,7 +61,7 @@ export default function EditProfileModal({ profile, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-md rounded-xl p-6 relative">
+      <div className="bg-white dark:bg-gray-800 w-full max-w-md rounded-xl p-6 relative">
         {/* ---------- AVATAR ---------- */}
         <div className="flex justify-center -mt-16 mb-4">
           <label htmlFor="avatar-upload" className="relative cursor-pointer">
@@ -91,37 +91,42 @@ export default function EditProfileModal({ profile, onClose }) {
           </label>
         </div>
 
-        <h2 className="text-xl font-semibold mb-4 text-center">Edit Profile</h2>
+        <h2 className="text-xl font-semibold mb-4 text-center dark:text-white">
+          Edit Profile
+        </h2>
 
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Name"
-          className="w-full border p-2 rounded mb-3"
+          className="w-full border dark:border-gray-700 p-2 rounded mb-3 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
         />
 
         <input
           value={profile.email}
           disabled
-          className="w-full border p-2 rounded mb-3 bg-gray-100"
+          className="w-full border dark:border-gray-700 p-2 rounded mb-3 bg-gray-100 dark:bg-gray-700 dark:text-gray-400"
         />
 
         <input
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Phone"
-          className="w-full border p-2 rounded mb-4"
+          className="w-full border dark:border-gray-700 p-2 rounded mb-4 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
         />
 
         <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="text-gray-600">
+          <button 
+            onClick={onClose} 
+            className="text-gray-600 dark:text-gray-400"
+          >
             Cancel
           </button>
 
           <button
             onClick={handleSave}
             disabled={saving}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
           >
             {saving ? "Saving..." : "Save"}
           </button>

@@ -11,16 +11,16 @@ export default function EnrolledCoursesModal({ courses = [], onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-xl w-96 max-h-[80vh] overflow-y-auto shadow-xl">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl w-96 max-h-[80vh] overflow-y-auto shadow-xl dark:shadow-gray-900/50">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-lg">Enrolled Courses</h2>
+          <h2 className="font-semibold text-lg dark:text-white">Enrolled Courses</h2>
         </div>
 
         {/* Courses */}
         {courses.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
             No enrolled courses yet
           </p>
         ) : (
@@ -34,7 +34,7 @@ export default function EnrolledCoursesModal({ courses = [], onClose }) {
               <div
                 key={c.id}
                 onClick={() => handleCourseClick(c.id)}
-                className="flex gap-3 py-3 px-2 border-b cursor-pointer hover:bg-gray-50 transition"
+                className="flex gap-3 py-3 px-2 border-b dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 transition"
               >
                 {/* Thumbnail */}
                 <img
@@ -45,25 +45,25 @@ export default function EnrolledCoursesModal({ courses = [], onClose }) {
 
                 {/* Content */}
                 <div className="flex-1">
-                  <p className="text-sm font-medium line-clamp-2">
+                  <p className="text-sm font-medium line-clamp-2 dark:text-white">
                     {c.title}
                   </p>
 
                   {/* Progress bar */}
                   <div className="mt-2">
-                    <div className="w-full h-2 bg-gray-200 rounded-full">
+                    <div className="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
                       <div
                         className="h-2 bg-blue-600 rounded-full transition-all"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                       {progress}% completed
                     </p>
                   </div>
                 </div>
 
-                <HiChevronRight className="text-gray-400 mt-1" />
+                <HiChevronRight className="text-gray-400 dark:text-gray-500 mt-1" />
               </div>
             );
           })
@@ -72,7 +72,7 @@ export default function EnrolledCoursesModal({ courses = [], onClose }) {
         {/* Footer */}
         <button
           onClick={onClose}
-          className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-lg"
+          className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           Close
         </button>

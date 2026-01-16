@@ -137,10 +137,10 @@ export default function AssessmentModal({
   if (loading) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl max-w-2xl w-full p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full p-8">
           <div className="flex flex-col items-center">
-            <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 rounded-full mb-4"></div>
-            <p className="text-gray-700">Loading assessment...</p>
+            <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400 rounded-full mb-4"></div>
+            <p className="text-gray-700 dark:text-gray-300">Loading assessment...</p>
           </div>
         </div>
       </div>
@@ -150,17 +150,17 @@ export default function AssessmentModal({
   if (error) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl max-w-lg w-full">
+        <div className="bg-white dark:bg-gray-800 rounded-xl max-w-lg w-full">
           <div className="p-6">
-            <div className="flex items-center gap-3 text-red-600 mb-4">
+            <div className="flex items-center gap-3 text-red-600 dark:text-red-400 mb-4">
               <AlertCircle size={24} />
-              <h3 className="text-lg font-semibold">Assessment Not Available</h3>
+              <h3 className="text-lg font-semibold dark:text-white">Assessment Not Available</h3>
             </div>
-            <p className="text-gray-600 mb-6">{error}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
             <div className="flex justify-end">
               <button
                 onClick={onClose}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition"
               >
                 Close
               </button>
@@ -174,28 +174,28 @@ export default function AssessmentModal({
   if (result) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl max-w-lg w-full">
+        <div className="bg-white dark:bg-gray-800 rounded-xl max-w-lg w-full">
           <div className="p-8">
-            <div className={`flex items-center justify-center mb-6 ${result.passed ? 'text-green-600' : 'text-red-600'}`}>
+            <div className={`flex items-center justify-center mb-6 ${result.passed ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
               {result.passed ? (
-                <CheckCircle size={48} className="text-green-500" />
+                <CheckCircle size={48} className="text-green-500 dark:text-green-400" />
               ) : (
-                <AlertCircle size={48} className="text-red-500" />
+                <AlertCircle size={48} className="text-red-500 dark:text-red-400" />
               )}
             </div>
             
-            <h3 className="text-2xl font-bold text-center mb-4">
+            <h3 className="text-2xl font-bold text-center mb-4 dark:text-white">
               {result.passed ? '🎉 Congratulations!' : 'Keep Practicing!'}
             </h3>
             
             <div className="text-center mb-6">
-              <p className="text-lg mb-2">
-                Score: <span className="font-bold">{result.obtainedMarks}/{result.totalMarks}</span>
+              <p className="text-lg mb-2 dark:text-gray-300">
+                Score: <span className="font-bold dark:text-white">{result.obtainedMarks}/{result.totalMarks}</span>
               </p>
-              <p className="text-3xl font-bold mb-2">
+              <p className="text-3xl font-bold mb-2 dark:text-white">
                 {result.percentage?.toFixed(1)}%
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 {result.passed 
                   ? 'You passed the assessment!' 
                   : 'You need 70% to pass. Review the material and try again.'}
@@ -204,21 +204,29 @@ export default function AssessmentModal({
 
             {result.questionResults && (
               <div className="mb-6">
-                <h4 className="font-semibold mb-3">Question-wise Results:</h4>
+                <h4 className="font-semibold mb-3 dark:text-white">Question-wise Results:</h4>
                 <div className="space-y-2 max-h-60 overflow-y-auto">
                   {result.questionResults.map((qResult, index) => (
                     <div 
                       key={index}
-                      className={`p-3 rounded border ${qResult.correct ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}
+                      className={`p-3 rounded border ${
+                        qResult.correct 
+                          ? 'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800' 
+                          : 'bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800'
+                      }`}
                     >
                       <div className="flex justify-between items-start">
-                        <span className="font-medium">Q{index + 1}</span>
-                        <span className={`text-sm px-2 py-1 rounded ${qResult.correct ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                        <span className="font-medium dark:text-gray-300">Q{index + 1}</span>
+                        <span className={`text-sm px-2 py-1 rounded ${
+                          qResult.correct 
+                            ? 'bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-300' 
+                            : 'bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-300'
+                        }`}>
                           {qResult.correct ? 'Correct' : 'Incorrect'}
                         </span>
                       </div>
                       {!qResult.correct && (
-                        <div className="mt-2 text-sm text-gray-600">
+                        <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                           <p>Your answer: {qResult.userAnswer || 'Not answered'}</p>
                           <p>Correct answer: {qResult.correctAnswer}</p>
                         </div>
@@ -244,7 +252,7 @@ export default function AssessmentModal({
                     setAnswers({});
                     loadAssessment();
                   }}
-                  className="flex-1 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition font-medium"
+                  className="flex-1 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition font-medium"
                 >
                   Try Again
                 </button>
@@ -258,39 +266,39 @@ export default function AssessmentModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] flex flex-col">
+      <div className="bg-white dark:bg-gray-800 rounded-xl max-w-4xl w-full max-h-[90vh] flex flex-col">
         {/* HEADER */}
-        <div className="p-6 border-b flex justify-between items-center">
+        <div className="p-6 border-b dark:border-gray-700 flex justify-between items-center">
           <div>
-            <h3 className="text-xl font-bold text-gray-800">{assessment.title}</h3>
-            <p className="text-sm text-gray-600 mt-1">
+            <h3 className="text-xl font-bold text-gray-800 dark:text-white">{assessment.title}</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Module Assessment • Questions: {questions.length}
             </p>
           </div>
           
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg">
-              <Clock size={18} className="text-blue-600" />
-              <span className="font-medium text-blue-700">{formatTime(timeLeft)}</span>
+            <div className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 px-3 py-2 rounded-lg">
+              <Clock size={18} className="text-blue-600 dark:text-blue-400" />
+              <span className="font-medium text-blue-700 dark:text-blue-300">{formatTime(timeLeft)}</span>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition"
             >
-              <X size={20} className="text-gray-600" />
+              <X size={20} className="text-gray-600 dark:text-gray-400" />
             </button>
           </div>
         </div>
 
         {/* PROGRESS BAR */}
         <div className="px-6 pt-4">
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
             <div 
               className="bg-blue-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
             />
           </div>
-          <div className="flex justify-between text-sm text-gray-600 mt-2">
+          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-2">
             <span>Question {currentQuestion + 1} of {questions.length}</span>
             <span>{Math.round(((currentQuestion + 1) / questions.length) * 100)}% Complete</span>
           </div>
@@ -307,8 +315,8 @@ export default function AssessmentModal({
                   ${index === currentQuestion 
                     ? 'bg-blue-600 text-white' 
                     : getQuestionStatus(index) === 'answered'
-                    ? 'bg-green-100 text-green-800 border border-green-300'
-                    : 'bg-gray-100 text-gray-600 border border-gray-300'
+                    ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border border-green-300 dark:border-green-700'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600'
                   }`}
               >
                 {index + 1}
@@ -322,15 +330,15 @@ export default function AssessmentModal({
           {questions[currentQuestion] && (
             <div className="mb-8">
               <div className="flex items-center justify-between mb-6">
-                <h4 className="text-lg font-semibold text-gray-800">
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white">
                   Question {currentQuestion + 1}
                 </h4>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                   Marks: {questions[currentQuestion].marks}
                 </span>
               </div>
               
-              <p className="text-gray-700 mb-6 text-lg">
+              <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg">
                 {questions[currentQuestion].questionText}
               </p>
 
@@ -346,8 +354,8 @@ export default function AssessmentModal({
                       htmlFor={optionId}
                       className={`block p-4 border rounded-lg cursor-pointer transition-all
                         ${isSelected 
-                          ? 'border-blue-500 bg-blue-50' 
-                          : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 dark:border-blue-400' 
+                          : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                         }`}
                     >
                       <div className="flex items-center gap-3">
@@ -358,9 +366,9 @@ export default function AssessmentModal({
                           value={option}
                           checked={isSelected}
                           onChange={(e) => handleAnswerChange(questions[currentQuestion].id, e.target.value)}
-                          className="h-4 w-4 text-blue-600"
+                          className="h-4 w-4 text-blue-600 dark:text-blue-400"
                         />
-                        <span className="text-gray-700">{option}</span>
+                        <span className="text-gray-700 dark:text-gray-300">{option}</span>
                       </div>
                     </label>
                   );
@@ -371,15 +379,15 @@ export default function AssessmentModal({
         </div>
 
         {/* NAVIGATION BUTTONS */}
-        <div className="p-6 border-t bg-gray-50">
+        <div className="p-6 border-t dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
           <div className="flex justify-between">
             <button
               onClick={() => setCurrentQuestion(prev => Math.max(0, prev - 1))}
               disabled={currentQuestion === 0}
               className={`px-5 py-2.5 rounded-lg font-medium transition-colors
                 ${currentQuestion === 0
-                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-500 cursor-not-allowed'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
                 }`}
             >
               Previous
@@ -399,7 +407,7 @@ export default function AssessmentModal({
                   disabled={submitting}
                   className={`px-6 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2
                     ${submitting
-                      ? 'bg-gray-400 text-white cursor-not-allowed'
+                      ? 'bg-gray-400 dark:bg-gray-600 text-white cursor-not-allowed'
                       : 'bg-green-600 text-white hover:bg-green-700'
                     }`}
                 >
@@ -417,7 +425,7 @@ export default function AssessmentModal({
           </div>
 
           {/* SUBMIT BUTTON FOR SMALL SCREENS */}
-          <div className="mt-4 pt-4 border-t border-gray-200 md:hidden">
+          <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 md:hidden">
             <button
               onClick={handleSubmit}
               disabled={submitting}

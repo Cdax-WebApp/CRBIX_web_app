@@ -12,7 +12,13 @@ import { useProfile } from "../Profile/ProfileContext";
 
 /* EXPLORE DATA */
 const exploreData = {
-  "Web Development ": ["HTML", "CSS", "JavaScript", "React", " Node.js"],
+  "Web Development": [
+    { name: "HTML", path: "/courses" },
+    { name: "CSS", path: "/courses/css-styling" },
+    { name: "JavaScript", path: "/courses/javascript-basics" },
+    { name: "React", path: "/courses/react-js" },
+    { name: "Node.js", path: "/courses/node-js" }
+  ],
   "Programming Languages": [
     "Java Programming",
     "Python Programming",

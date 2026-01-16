@@ -85,7 +85,7 @@ export default function CourseCard({ course }) {
       <motion.div
         whileHover={{ y: -6, scale: 1.03 }}
         transition={{ type: "spring", stiffness: 200, damping: 15 }}
-        className="w-[260px] bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl cursor-pointer"
+        className="w-[260px] bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-xl dark:shadow-gray-900/50 cursor-pointer"
         onClick={() => navigate(`/course/${course.id}`)}
       >
         <div className="relative overflow-hidden">
@@ -101,7 +101,7 @@ export default function CourseCard({ course }) {
             className={`absolute top-3 right-3 p-1 rounded-full transition-colors ${
               isFavorite
                 ? "text-red-500"
-                : "text-gray-300 hover:text-red-500"
+                : "text-gray-300 dark:text-gray-600 hover:text-red-500"
             }`}
           >
             <HiHeart size={22} />
@@ -109,37 +109,37 @@ export default function CourseCard({ course }) {
 
           {/* PURCHASED BADGE */}
           {isPurchased && (
-            <span className="absolute top-3 left-3 px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded">
+            <span className="absolute top-3 left-3 px-3 py-1 text-xs font-semibold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded">
               Purchased
             </span>
           )}
         </div>
 
         <div className="p-4 space-y-2">
-          <h3 className="font-semibold text-sm line-clamp-2 hover:text-blue-600">
+          <h3 className="font-semibold text-sm line-clamp-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">
             {course.title}
           </h3>
 
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             {course.instructor || course.author || "CDax"}
           </p>
 
           <div className="flex items-center gap-1 text-xs">
-            <span className="font-semibold text-yellow-600">
+            <span className="font-semibold text-yellow-600 dark:text-yellow-500">
               {course.rating ?? 4.5}
             </span>
             <Star size={14} fill="#fbbf24" stroke="none" />
-            <span className="text-gray-400">
+            <span className="text-gray-400 dark:text-gray-500">
               ({course.reviews ?? "1k+"})
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="font-bold text-sm">
+            <span className="font-bold text-sm text-gray-800 dark:text-white">
               ₹{course.price ?? 0}
             </span>
             {course.originalPrice && (
-              <span className="text-xs line-through text-gray-400">
+              <span className="text-xs line-through text-gray-400 dark:text-gray-500">
                 ₹{course.originalPrice}
               </span>
             )}
@@ -156,7 +156,7 @@ export default function CourseCard({ course }) {
             exit={{ opacity: 0, x: hoverLeft ? -20 : 20 }}
             className={`absolute top-0 ${
               hoverLeft ? "right-full -mr-4" : "left-full ml-4"
-            } z-50 w-[340px] bg-white rounded-xl shadow-2xl p-4`}
+            } z-50 w-[340px] bg-white dark:bg-gray-800 rounded-xl shadow-2xl dark:shadow-gray-900/70 p-4 border border-gray-200 dark:border-gray-700`}
             onClick={(e) => e.stopPropagation()}
           >
             <img
@@ -165,22 +165,22 @@ export default function CourseCard({ course }) {
               className="w-full h-40 object-cover rounded-md mb-3"
             />
 
-            <h4 className="font-bold text-sm mb-2 line-clamp-2">
+            <h4 className="font-bold text-sm mb-2 line-clamp-2 text-gray-800 dark:text-white">
               {course.title}
             </h4>
 
-            <p className="text-xs text-gray-600 mb-3">
+            <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
               {course.level || "All Levels"} • Lifetime access
             </p>
 
-            <p className="text-sm text-gray-700 mb-4 line-clamp-3">
+            <p className="text-sm text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">
               {course.description ||
                 "Learn with industry experts and real-world projects."}
             </p>
 
             <button
               onClick={handlePrimaryAction}
-              className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700"
+              className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white py-2 rounded-lg font-semibold transition-colors"
             >
               {isPurchased ? "Start Learning" : "Add to Cart"}
             </button>

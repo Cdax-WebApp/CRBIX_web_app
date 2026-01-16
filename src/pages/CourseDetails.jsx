@@ -194,18 +194,18 @@ export default function CourseDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 rounded-full" />
+      <div className="min-h-screen flex items-center justify-center bg-[#eaf9ff] dark:bg-gray-900">
+        <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400 rounded-full" />
       </div>
     );
   }
 
   if (!course) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-[#eaf9ff] dark:bg-gray-900">
         <button
           onClick={() => navigate("/courses")}
-          className="px-6 py-2 bg-blue-600 text-white rounded"
+          className="px-6 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded transition-colors"
         >
           Browse Courses
         </button>
@@ -220,16 +220,16 @@ export default function CourseDetails() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#eaf9ff] text-gray-900 pt-10 pb-10 relative">
+    <div className="min-h-screen bg-[#eaf9ff] dark:bg-gray-900 text-gray-900 dark:text-gray-100 pt-10 pb-10 relative transition-colors duration-200">
       {/* Popup */}
       {showPopup && (
-        <div className="fixed top-5 right-5 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-fade-in">
+        <div className="fixed top-5 right-5 bg-blue-600 dark:bg-blue-500 text-white px-4 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-fade-in">
           <Check size={20} />
           <span className="font-semibold">{popupMessage}</span>
         </div>
       )}
 
-      <section className="max-w-[1200px] mx-auto pt-8 bg-white rounded-2xl shadow-lg overflow-hidden px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1200px] mx-auto pt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-gray-900/70 overflow-hidden px-4 sm:px-6 lg:px-8">
         {/* HERO - New simpler version */}
         <HeroCarousel slides={heroSlides} />
 
@@ -240,44 +240,44 @@ export default function CourseDetails() {
             <div className="mb-6">
               <div className="flex flex-wrap items-center gap-3 mb-3">
                 {course.category && (
-                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                  <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-medium">
                     {course.category}
                   </span>
                 )}
                 {course.level && (
-                  <span className="px-3 py-1 bg-green-100 text-blue-700 rounded-full text-sm font-medium">
+                  <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-medium">
                     {course.level}
                   </span>
                 )}
                 {course.tags?.slice(0, 2).map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                    className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-gray-900 dark:text-white">
                 {course.title}
               </h1>
-              <p className="text-gray-600 text-base sm:text-lg mb-4">
+              <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg mb-4">
                 by {course.author}
               </p>
 
-              <div className="flex items-center gap-2 text-yellow-500 mb-4">
+              <div className="flex items-center gap-2 text-yellow-500 dark:text-yellow-400 mb-4">
                 {Array.from({ length: Math.round(course.rating) }).map(
                   (_, i) => (
                     <Star key={i} size={18} fill="currentColor" />
                   )
                 )}
-                <span className="text-gray-600 text-sm ml-2">
+                <span className="text-gray-600 dark:text-gray-400 text-sm ml-2">
                   {course.rating} ({course.reviews} reviews)
                 </span>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-6">
                 <div className="flex items-center gap-1">
                   <Clock size={16} />
                   <span>{calculateTotalDuration()} total length</span>
@@ -290,10 +290,10 @@ export default function CourseDetails() {
             </div>
 
             <div className="mt-6">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
                 Course Overview
               </h3>
-              <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
                 {course.description ||
                   "Learn with expert mentors and hands-on projects. Get industry-level skills and job-ready experience with real world assignments."}
               </p>
@@ -301,14 +301,14 @@ export default function CourseDetails() {
 
             {/* Student Reviews - New grid layout */}
             <div className="mt-10">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-6">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900 dark:text-white">
                 Student Reviews
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {REVIEWS.map((rev, i) => (
                   <div
                     key={i}
-                    className="bg-gradient-to-br from-blue-50 to-purple-50 p-5 rounded-xl border border-blue-100 shadow"
+                    className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 p-5 rounded-xl border border-blue-100 dark:border-gray-700 shadow dark:shadow-gray-900/50"
                   >
                     <div className="flex items-center gap-3 mb-3">
                       <img
@@ -317,16 +317,16 @@ export default function CourseDetails() {
                         className="w-12 h-12 rounded-full"
                       />
                       <div>
-                        <p className="font-semibold">{rev.name}</p>
-                        <p className="text-gray-600 text-sm">{rev.role}</p>
+                        <p className="font-semibold text-gray-900 dark:text-white">{rev.name}</p>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">{rev.role}</p>
                       </div>
                     </div>
-                    <div className="flex text-yellow-500 mb-3">
+                    <div className="flex text-yellow-500 dark:text-yellow-400 mb-3">
                       {Array.from({ length: rev.rating }).map((_, idx) => (
                         <Star key={idx} size={16} fill="currentColor" />
                       ))}
                     </div>
-                    <p className="text-gray-700 text-sm">{rev.comment}</p>
+                    <p className="text-gray-700 dark:text-gray-300 text-sm">{rev.comment}</p>
                   </div>
                 ))}
               </div>
@@ -341,7 +341,7 @@ export default function CourseDetails() {
           </div>
 
           {/* RIGHT CARD - Updated with new styling */}
-          <div className="bg-white border rounded-xl shadow-lg h-fit sticky top-32 overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg dark:shadow-gray-900/70 h-fit sticky top-32 overflow-hidden">
             <div className="h-48 overflow-hidden">
               <img
                 src={course.image}
@@ -356,10 +356,10 @@ export default function CourseDetails() {
 
             <div className="p-6">
               <div className="flex items-center justify-between text-xl font-bold mb-4">
-                <span className="text-gray-900">₹{course.price}</span>
+                <span className="text-gray-900 dark:text-white">₹{course.price}</span>
                 {course.originalPrice &&
                   course.originalPrice > course.price && (
-                    <span className="line-through text-gray-400">
+                    <span className="line-through text-gray-400 dark:text-gray-500">
                       ₹{course.originalPrice}
                     </span>
                   )}
@@ -369,7 +369,7 @@ export default function CourseDetails() {
                 <>
                   <button
                     onClick={handleMainAction}
-                    className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+                    className="w-full py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors"
                   >
                     {course.purchased
                       ? "Start Learning"
@@ -380,33 +380,33 @@ export default function CourseDetails() {
                 </>
               </div>
 
-              <div className="border-t pt-6">
-                <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
-                  <Award size={20} />
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+                <h3 className="font-semibold text-lg mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
+                  <Award size={20} className="text-gray-700 dark:text-gray-300" />
                   This Course Includes
                 </h3>
-                <ul className="space-y-3 text-gray-600">
+                <ul className="space-y-3 text-gray-600 dark:text-gray-400">
                   <li className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Check size={14} className="text-blue-600" />
+                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                      <Check size={14} className="text-blue-600 dark:text-blue-400" />
                     </div>
                     <span>Lifetime access</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Check size={14} className="text-blue-600" />
+                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                      <Check size={14} className="text-blue-600 dark:text-blue-400" />
                     </div>
                     <span>Certificate of Completion</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Check size={14} className="text-blue-600" />
+                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                      <Check size={14} className="text-blue-600 dark:text-blue-400" />
                     </div>
                     <span>Downloadable Resources</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Check size={14} className="text-blue-600" />
+                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                      <Check size={14} className="text-blue-600 dark:text-blue-400" />
                     </div>
                     <span>Access on Mobile & Web</span>
                   </li>
@@ -414,29 +414,29 @@ export default function CourseDetails() {
               </div>
 
               {/* Course Info */}
-              <div className="mt-6 border-t pt-6">
+              <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Duration:</span>
-                    <span className="font-medium">
+                    <span className="text-gray-500 dark:text-gray-400">Duration:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">
                       {calculateTotalDuration()}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Modules:</span>
-                    <span className="font-medium">
+                    <span className="text-gray-500 dark:text-gray-400">Modules:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">
                       {course.modules?.length || 0}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Level:</span>
-                    <span className="font-medium">
+                    <span className="text-gray-500 dark:text-gray-400">Level:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">
                       {course.level || "All Levels"}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Last Updated:</span>
-                    <span className="font-medium">Recently</span>
+                    <span className="text-gray-500 dark:text-gray-400">Last Updated:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">Recently</span>
                   </div>
                 </div>
               </div>

@@ -113,22 +113,26 @@ const handleLoginSubmit = async (e) => {
   }
 };
 
-
   // Blue color scheme
   const darkBlue = "#1a237e";
   const fancyBlue = "#2196f3";
   const blueGradient = `linear-gradient(135deg, ${darkBlue} 0%, ${fancyBlue} 100%)`;
 
+  // Dark mode detection
+  const isDarkMode = document.documentElement.classList.contains('dark');
 
   const wrapperStyles = {
-    backgroundColor: "#fff",
+    backgroundColor: isDarkMode ? "#1f2937" : "#fff",
     borderRadius: "20px",
-    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
+    boxShadow: isDarkMode 
+      ? "0 20px 60px rgba(0, 0, 0, 0.5)" 
+      : "0 20px 60px rgba(0, 0, 0, 0.3)",
     position: "relative",
     overflow: "hidden",
     width: "850px",
     maxWidth: "100%",
     minHeight: "550px",
+    transition: "background-color 0.3s, box-shadow 0.3s",
   };
 
   const formBoxStyles = {
@@ -204,7 +208,7 @@ const handleLoginSubmit = async (e) => {
   };
 
   const form = {
-    backgroundColor: "#fff",
+    backgroundColor: isDarkMode ? "#1f2937" : "#fff",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -212,10 +216,11 @@ const handleLoginSubmit = async (e) => {
     padding: "0 50px",
     height: "100%",
     textAlign: "center",
+    transition: "background-color 0.3s",
   };
 
   const input = {
-    backgroundColor: "#f3f4f6",
+    backgroundColor: isDarkMode ? "#374151" : "#f3f4f6",
     border: errorMsg ? "2px solid #ef4444" : "2px solid transparent",
     borderRadius: "12px",
     padding: "10px 14px",
@@ -224,6 +229,7 @@ const handleLoginSubmit = async (e) => {
     fontSize: "14px",
     transition: "all 0.3s ease",
     fontFamily: "'Poppins', sans-serif",
+    color: isDarkMode ? "#f3f4f6" : "#1f2937",
   };
 
   const button = {
@@ -254,7 +260,7 @@ const handleLoginSubmit = async (e) => {
   };
 
   const social = {
-    border: `2px solid ${fancyBlue}`,
+    border: isDarkMode ? `2px solid #60a5fa` : `2px solid ${fancyBlue}`,
     borderRadius: "50%",
     display: "inline-flex",
     justifyContent: "center",
@@ -262,7 +268,7 @@ const handleLoginSubmit = async (e) => {
     height: "45px",
     width: "45px",
     transition: "all 0.3s ease",
-    color: fancyBlue,
+    color: isDarkMode ? "#60a5fa" : fancyBlue,
     fontSize: "18px",
     textDecoration: "none",
     margin: "0 5px",
@@ -274,8 +280,9 @@ const handleLoginSubmit = async (e) => {
     fontWeight: "700",
     margin: "0 0 0px 0",
     fontSize: "28px",
-    color: "#333",
+    color: isDarkMode ? "#f3f4f6" : "#333",
     fontFamily: "'Poppins', sans-serif",
+    transition: "color 0.3s",
   };
 
   const paragraphStyle = {
@@ -309,7 +316,7 @@ const handleLoginSubmit = async (e) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-[9998] backdrop-blur-sm"
+            className="fixed inset-0 bg-black/50 dark:bg-black/70 z-[9998] backdrop-blur-sm transition-colors duration-200"
           />
 
           {/* MODAL */}
@@ -329,17 +336,19 @@ const handleLoginSubmit = async (e) => {
               {/* CLOSE BUTTON */}
               <button
                 onClick={onClose}
-                className="absolute -top-10 -right-1 bg-white rounded-full p-2 shadow-xl hover:bg-gray-100 z-[10000] transition-all duration-300"
+                className="absolute -top-10 -right-1 bg-white dark:bg-gray-800 rounded-full p-2 shadow-xl hover:bg-gray-100 dark:hover:bg-gray-700 z-[10000] transition-all duration-300"
                 style={{
-                  boxShadow: "0 8px 25px rgba(0, 0, 0, 0.15)",
+                  boxShadow: isDarkMode 
+                    ? "0 8px 25px rgba(0, 0, 0, 0.3)" 
+                    : "0 8px 25px rgba(0, 0, 0, 0.15)",
                 }}
               >
-                <HiX size={20} className="text-gray-700" />
+                <HiX size={20} className="text-gray-700 dark:text-gray-300" />
               </button>
 
               {/* ERROR MESSAGE */}
               {errorMsg && (
-                <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg">
+                <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg shadow-lg transition-colors duration-200">
                   <p className="text-center font-medium">{errorMsg}</p>
                 </div>
               )}
@@ -469,10 +478,11 @@ const handleLoginSubmit = async (e) => {
                         <a
                           href="#"
                           style={{
-                            color: fancyBlue,
+                            color: isDarkMode ? "#60a5fa" : fancyBlue,
                             fontSize: "14px",
                             textDecoration: "none",
                             fontFamily: "'Poppins', sans-serif",
+                            transition: "color 0.3s",
                           }}
                         >
                           Forgot your password?

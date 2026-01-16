@@ -30,19 +30,22 @@ export default function MyCourses() {
 
   if (!isAuthenticated) {
     return (
-      <div className="p-10 text-center">
-        <button onClick={openLogin} className="btn-primary">
+      <div className="p-10 text-center bg-[#eaf9ff] dark:bg-gray-900 min-h-screen">
+        <button 
+          onClick={openLogin} 
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+        >
           Login to view your courses
         </button>
       </div>
     );
   }
 
-  if (loading) return <p className="p-10">Loading...</p>;
+  if (loading) return <p className="p-10 bg-[#eaf9ff] dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">Loading...</p>;
 
   if (!courses.length) {
     return (
-      <div className="p-10 text-center text-gray-500">
+      <div className="p-10 text-center text-gray-500 dark:text-gray-400 bg-[#eaf9ff] dark:bg-gray-900 min-h-screen">
         You haven’t purchased any courses yet.
       </div>
     );
@@ -51,8 +54,8 @@ export default function MyCourses() {
   /* ================= UI ================= */
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">My Courses</h1>
+    <div className="p-6 bg-[#eaf9ff] dark:bg-gray-900 min-h-screen transition-colors duration-200">
+      <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">My Courses</h1>
 
       <div className="space-y-4">
         {courses.map((course) => {
@@ -67,7 +70,7 @@ export default function MyCourses() {
               onClick={() =>
                 navigate(`/course/${course.id}`)
               }
-              className="w-full bg-white rounded-xl shadow p-4 flex items-center gap-4 cursor-pointer hover:bg-gray-50 transition"
+              className="w-full bg-white dark:bg-gray-800 rounded-xl shadow dark:shadow-gray-900/50 p-4 flex items-center gap-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700"
             >
               {/* Thumbnail */}
               <img
@@ -78,27 +81,27 @@ export default function MyCourses() {
 
               {/* Middle content */}
               <div className="flex-1">
-                <h3 className="font-semibold text-sm">
+                <h3 className="font-semibold text-sm text-gray-800 dark:text-white">
                   {course.title}
                 </h3>
 
                 {/* Progress bar */}
                 <div className="mt-3">
-                  <div className="w-full h-2 bg-gray-200 rounded-full">
+                  <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
                     <div
-                      className="h-2 bg-blue-600 rounded-full"
+                      className="h-2 bg-blue-600 dark:bg-blue-500 rounded-full"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
 
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     {progress}% completed
                   </p>
                 </div>
               </div>
 
               {/* Right side */}
-              <span className="text-sm text-blue-600 font-medium">
+              <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">
                 Continue →
               </span>
             </div>
