@@ -8,7 +8,7 @@ export default function FavouritesPage() {
 
   if (loading) {
     return (
-      <div className="text-center bg-[#eaf9ff] py-20 text-lg font-semibold">
+      <div className="text-center bg-[#eaf9ff] dark:bg-gray-900 py-20 text-lg font-semibold text-gray-800 dark:text-gray-200 min-h-screen transition-colors duration-200">
         Loading your favorites...
       </div>
     );
@@ -16,13 +16,13 @@ export default function FavouritesPage() {
 
   if (favorites.length === 0) {
     return (
-      <div className="text-center bg-[#eaf9ff] py-12">
-        <h2 className="text-3xl font-bold mb-4">
+      <div className="text-center bg-[#eaf9ff] dark:bg-gray-900 py-12 min-h-screen transition-colors duration-200">
+        <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">
           Your Favorites is empty 😔
         </h2>
         <button
           onClick={() => navigate("/#courses")}
-          className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-xl transition-colors"
         >
           Explore Courses
         </button>
@@ -31,8 +31,8 @@ export default function FavouritesPage() {
   }
 
   return (
-    <section className="w-full bg-[#eaf9ff] mx-auto px-10 py-10">
-      <h2 className="text-3xl font-bold mb-8">
+    <section className="w-full bg-[#eaf9ff] dark:bg-gray-900 mx-auto px-10 py-10 min-h-screen transition-colors duration-200">
+      <h2 className="text-3xl font-bold mb-8 text-gray-800 dark:text-white">
         Your Favorite Courses
       </h2>
 
@@ -40,7 +40,7 @@ export default function FavouritesPage() {
         {favorites.map((fav) => (
           <div
             key={fav.id}
-            className="relative bg-white rounded-xl border overflow-hidden shadow-sm hover:shadow-lg cursor-pointer"
+            className="relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-lg dark:hover:shadow-gray-900/70 cursor-pointer transition-all"
           >
             <img
               src={fav.courseThumbnail}
@@ -50,12 +50,12 @@ export default function FavouritesPage() {
             />
 
             <div className="p-4 space-y-2">
-              <h3 className="font-semibold text-sm line-clamp-2">
+              <h3 className="font-semibold text-sm line-clamp-2 text-gray-800 dark:text-white">
                 {fav.courseTitle}
               </h3>
 
               <div className="flex items-center gap-2">
-                <span className="font-bold text-sm">
+                <span className="font-bold text-sm text-gray-800 dark:text-white">
                   ₹{fav.coursePrice}
                 </span>
               </div>
@@ -67,7 +67,7 @@ export default function FavouritesPage() {
                 e.stopPropagation();
                 toggleFavorite(fav.courseId);
               }}
-              className="absolute top-3 right-3 text-red-500 p-1 rounded-full"
+              className="absolute top-3 right-3 text-red-500 p-1 rounded-full hover:text-red-600 dark:hover:text-red-400 transition-colors"
               title="Remove from favorites"
             >
               <HiHeart size={22} />

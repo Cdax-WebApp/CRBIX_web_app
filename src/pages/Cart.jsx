@@ -29,12 +29,12 @@ export default function Cart() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#eaf9ff] ">
-      <h1 className="text-2xl font-bold mb-6">My Cart</h1>
+    <div className="min-h-screen bg-[#eaf9ff] dark:bg-gray-900 p-6 transition-colors duration-200">
+      <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">My Cart</h1>
 
       {cart.length === 0 ? (
-        <div className="bg-white p-10 rounded-xl text-center shadow">
-          <p className="text-gray-500 text-lg">Your cart is empty 🛒</p>
+        <div className="bg-white dark:bg-gray-800 p-10 rounded-xl text-center shadow dark:shadow-gray-900/50">
+          <p className="text-gray-500 dark:text-gray-400 text-lg">Your cart is empty 🛒</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -45,7 +45,7 @@ export default function Cart() {
                 key={course.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl p-4 flex gap-4 shadow"
+                className="bg-white dark:bg-gray-800 rounded-xl p-4 flex gap-4 shadow dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700"
               >
                 <img
                   src={course.image}
@@ -54,29 +54,29 @@ export default function Cart() {
                 />
 
                 <div className="flex-1">
-                  <h2 className="font-semibold line-clamp-2">{course.title}</h2>
-                  <p className="text-sm text-gray-500">{course.author}</p>
+                  <h2 className="font-semibold line-clamp-2 text-gray-800 dark:text-white">{course.title}</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{course.author}</p>
 
                   <div className="flex items-center gap-1 text-sm mt-1">
-                    <span className="text-yellow-600 font-semibold">
+                    <span className="text-yellow-600 dark:text-yellow-500 font-semibold">
                       {course.rating}
                     </span>
                     <Star size={14} fill="#fbbf24" stroke="none" />
-                    <span className="text-gray-400">({course.reviews})</span>
+                    <span className="text-gray-400 dark:text-gray-500">({course.reviews})</span>
                   </div>
 
                   {course.badge && (
-                    <span className="inline-block mt-2 px-2 py-1 text-xs rounded bg-yellow-100 text-yellow-800">
+                    <span className="inline-block mt-2 px-2 py-1 text-xs rounded bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400">
                       {course.badge}
                     </span>
                   )}
                 </div>
 
                 <div className="flex flex-col justify-between items-end">
-                  <p className="font-bold">₹{course.price}</p>
+                  <p className="font-bold text-gray-800 dark:text-white">₹{course.price}</p>
                   <button
                     onClick={() => removeFromCart(course.id)}
-                    className="text-red-500 hover:text-red-600"
+                    className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
                   >
                     <Trash2 size={18} />
                   </button>
@@ -86,22 +86,22 @@ export default function Cart() {
           </div>
 
           {/* RIGHT */}
-          <div className="bg-white rounded-xl p-6 shadow h-fit">
-            <h2 className="font-semibold text-lg mb-4">Order Summary</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow dark:shadow-gray-900/50 h-fit border border-gray-200 dark:border-gray-700">
+            <h2 className="font-semibold text-lg mb-4 text-gray-800 dark:text-white">Order Summary</h2>
 
-            <div className="flex justify-between mb-2">
+            <div className="flex justify-between mb-2 text-gray-700 dark:text-gray-300">
               <span>Total Courses</span>
               <span>{cart.length}</span>
             </div>
 
-            <div className="flex justify-between font-bold text-lg mb-4">
+            <div className="flex justify-between font-bold text-lg mb-4 text-gray-800 dark:text-white">
               <span>Total Price</span>
               <span>₹{totalPrice}</span>
             </div>
 
             <button
               onClick={() => setCheckoutOpen(true)}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700"
+              className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-colors"
             >
               Proceed to Checkout
             </button>
@@ -123,18 +123,18 @@ export default function Cart() {
           {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div
-              className="bg-white w-[90%] max-w-lg rounded-xl p-6 shadow-xl"
+              className="bg-white dark:bg-gray-800 w-[90%] max-w-lg rounded-xl p-6 shadow-xl dark:shadow-gray-900/70 border border-gray-200 dark:border-gray-700"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">Select Courses to Buy</h2>
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white">Select Courses to Buy</h2>
 
                 <button
                   onClick={() => {
                     setCheckoutOpen(false);
                     setSelectedCourses([]);
                   }}
-                  className="text-red-500 hover:text-red-700 transition"
+                  className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition"
                 >
                   <X size={22} />
                 </button>
@@ -147,7 +147,9 @@ export default function Cart() {
                     <div
                       key={course.id}
                       className={`flex items-center justify-between p-3 border rounded-lg cursor-pointer ${
-                        checked ? "border-blue-500 bg-blue-50" : ""
+                        checked 
+                          ? "border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20" 
+                          : "border-gray-300 dark:border-gray-600"
                       }`}
                       onClick={() => {
                         setSelectedCourses((prev) =>
@@ -158,22 +160,22 @@ export default function Cart() {
                       }}
                     >
                       <div>
-                        <p className="font-semibold text-sm">{course.title}</p>
-                        <p className="text-xs text-gray-500">₹{course.price}</p>
+                        <p className="font-semibold text-sm text-gray-800 dark:text-white">{course.title}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">₹{course.price}</p>
                       </div>
 
                       {checked && (
-                        <span className="text-blue-600 font-bold">✔</span>
+                        <span className="text-blue-600 dark:text-blue-400 font-bold">✔</span>
                       )}
                     </div>
                   );
                 })}
               </div>
-              <div className="mt-4 mb-2 flex justify-between items-center bg-gray-100 px-4 py-3 rounded-lg">
-                <span className="text-sm font-medium text-gray-600">
+              <div className="mt-4 mb-2 flex justify-between items-center bg-gray-100 dark:bg-gray-700 px-4 py-3 rounded-lg">
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                   Selected Courses Amount
                 </span>
-                <span className="text-lg font-bold text-gray-900">
+                <span className="text-lg font-bold text-gray-900 dark:text-white">
                   ₹{selectedTotal}
                 </span>
               </div>
@@ -191,10 +193,10 @@ export default function Cart() {
                     },
                   });
                 }}
-                className={`mt-5 w-full py-3 rounded-lg font-semibold text-white ${
+                className={`mt-5 w-full py-3 rounded-lg font-semibold text-white transition-colors ${
                   selectedCourses.length === 0
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
+                    ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                 }`}
               >
                 Proceed to Payment

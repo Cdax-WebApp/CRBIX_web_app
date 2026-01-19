@@ -6,7 +6,7 @@ const blogs = [
     id: 1,
     title: "Why Java Is Still a Top Career Choice in 2025",
     excerpt:
-      "Java continues to dominate enterprise applications, backend systems, and Android development. Learn why it’s still relevant.",
+      "Java continues to dominate enterprise applications, backend systems, and Android development. Learn why it's still relevant.",
     author: "CDaX Team",
     date: "Jan 10, 2025",
     category: "Programming",
@@ -28,7 +28,7 @@ const blogs = [
     id: 3,
     title: "How AI & Machine Learning Are Changing the IT Industry",
     excerpt:
-      "AI and ML are transforming software development, analytics, and automation. Here’s what students should know.",
+      "AI and ML are transforming software development, analytics, and automation. Here's what students should know.",
     author: "CDaX Research",
     date: "Mar 18, 2025",
     category: "AI & ML",
@@ -39,11 +39,11 @@ const blogs = [
 
 export default function Blogs() {
   return (
-    <section className="max-w-7xl  mx-auto px-4 py-12" >
+    <section className="w-full mx-auto px-4 pt-5 pb-5  dark:bg-gray-900">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">CDaX Blog</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <h1 className="text-4xl font-bold mb-4 dark:text-white">CDaX Blog</h1>
+        <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           Insights, tutorials, and career guidance to help you grow in tech and
           build a successful future.
         </p>
@@ -54,7 +54,7 @@ export default function Blogs() {
         {blogs.map((blog) => (
           <div
             key={blog.id}
-            className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 hover:shadow-xl dark:hover:shadow-gray-800/50 transition duration-300 overflow-hidden"
           >
             {/* Image */}
             <img
@@ -65,26 +65,26 @@ export default function Blogs() {
 
             {/* Content */}
             <div className="p-6">
-              <span className="text-sm text-purple-600 font-semibold">
+              <span className="text-sm text-purple-600 dark:text-purple-400 font-semibold">
                 {blog.category}
               </span>
 
-              <h2 className="text-xl font-bold mt-2 mb-3 line-clamp-2">
+              <h2 className="text-xl font-bold mt-2 mb-3 line-clamp-2 dark:text-white">
                 {blog.title}
               </h2>
 
-              <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
                 {blog.excerpt}
               </p>
 
-              <div className="flex items-center justify-between text-sm text-gray-500">
+              <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500">
                 <span>{blog.author}</span>
                 <span>{blog.date}</span>
               </div>
 
               <Link
                 to="#"
-                className="inline-block mt-5 text-purple-700 font-semibold hover:underline"
+                className="inline-block mt-5 text-purple-700 dark:text-purple-400 font-semibold hover:underline"
               >
                 Read More →
               </Link>
@@ -95,10 +95,10 @@ export default function Blogs() {
 
       {/* Footer CTA */}
       <div className="text-center mt-16">
-        <h3 className="text-2xl font-bold mb-3">
+        <h3 className="text-2xl font-bold mb-3 dark:text-white">
           Want to learn faster with expert guidance?
         </h3>
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
           Explore our industry-focused courses designed for real-world skills.
         </p>
         <Link

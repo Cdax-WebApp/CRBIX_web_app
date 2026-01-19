@@ -1,5 +1,5 @@
 // const API_BASE = "https://cdaxx-backend.onrender.com/api/auth";
-const API_BASE = "http://192.168.1.9:8080/api/auth";
+const API_BASE = "http://192.168.1.7:8080/api/auth";
 /**
  * Register a new user (UPDATED for JWT)
  */

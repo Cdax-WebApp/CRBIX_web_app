@@ -1,8 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
-import { Star, Users, Clock, Award, Check, Bug } from "lucide-react";
+import { Star, Users, Clock, Award, Check, Bug, Sun, Moon } from "lucide-react";
 import { useCart } from "../components/Navbar/CartContext";
 import { useAuth } from "../components/Login/AuthContext";
+import { useTheme } from "../components/Profile/ThemeContext";
 import { getCourseById } from "../Api/course.api";
 import CourseContent from "../components/Courses/CourseContent";
 
@@ -32,7 +33,7 @@ const REVIEWS = [
 ];
 
 /* ------------------ Hero Carousel ------------------ */
-function HeroCarousel({ slides }) {
+function HeroCarousel({ slides, theme }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -57,13 +58,20 @@ function HeroCarousel({ slides }) {
         alt="course hero"
         className="w-full h-full object-cover transition-all duration-700"
       />
+      
+      {/* Overlay gradient based on theme */}
+      <div className={`absolute inset-0 bg-gradient-to-t ${
+        theme === 'dark' 
+          ? 'from-gray-900/70 via-gray-900/20 to-transparent' 
+          : 'from-black/40 via-transparent to-transparent'
+      }`}></div>
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrentIndex(i)}
-            className={`w-2 h-2 rounded-full ${
+            className={`w-2 h-2 rounded-full transition-all ${
               i === currentIndex
                 ? "bg-white scale-125"
                 : "bg-white/50 hover:bg-white"
@@ -75,7 +83,7 @@ function HeroCarousel({ slides }) {
   );
 }
 
-// DIRECT FETCH FUNCTION (we know this works)
+// DIRECT FETCH FUNCTION
 const directFetchCourse = async (courseId, userId) => {
   try {
     const token = localStorage.getItem("auth_token");
@@ -110,6 +118,7 @@ export default function CourseDetails() {
   const navigate = useNavigate();
   const { user, isAuthenticated, openLogin } = useAuth();
   const { addToCart, cart } = useCart();
+  const { theme, toggleTheme } = useTheme();
 
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -215,7 +224,9 @@ export default function CourseDetails() {
           ? actualCourse.thumbnailUrl
           : actualCourse.thumbnailUrl
             ? `http://localhost:8080/${actualCourse.thumbnailUrl}`
-            : "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+            : theme === 'dark' 
+              ? "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              : "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
         author: actualCourse.instructor || "Instructor",
         rating: actualCourse.rating || 4.5,
         reviews: actualCourse.reviewCount || "100+",
@@ -297,7 +308,9 @@ export default function CourseDetails() {
         ],
         price: 999,
         originalPrice: 1999,
-        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+        image: theme === 'dark' 
+          ? "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          : "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
         author: "Dr. Rajesh Verma",
         rating: 4.5,
         reviews: "1,000+",
@@ -313,7 +326,7 @@ export default function CourseDetails() {
       console.log("🏁 FINISHED: Setting loading to false");
       setLoading(false);
     }
-  }, [id, user?.id]);
+  }, [id, user?.id, theme]);
 
   useEffect(() => {
     console.log("📅 CourseDetails mounted/updated");
@@ -368,12 +381,23 @@ export default function CourseDetails() {
     return h > 0 ? `${h}h ${m}m` : `${m}m`;
   };
 
+  // Hero slides based on theme
+  const heroSlides = theme === 'dark' ? [
+    "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1456513080510-3444ffa6b6c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+  ] : [
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+    "https://www.rushu.rush.edu/sites/default/files/legacy/images/news-articles/online-class-note-taking-news.jpg",
+    "https://img.freepik.com/free-photo/books-laptop-assortment_23-2149765831.jpg",
+  ];
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="text-center">
-          <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 rounded-full mx-auto mb-4"></div>
-          <p className="text-gray-700">Loading course details...</p>
+          <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400 rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-700 dark:text-gray-400">Loading course details...</p>
         </div>
       </div>
     );
@@ -381,12 +405,12 @@ export default function CourseDetails() {
 
   if (!course) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="text-center">
-          <p className="text-lg text-gray-700 mb-4">Course not found</p>
+          <p className="text-lg text-gray-700 dark:text-gray-400 mb-4">Course not found</p>
           <button
             onClick={() => navigate("/courses")}
-            className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-6 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
           >
             Browse Courses
           </button>
@@ -395,14 +419,19 @@ export default function CourseDetails() {
     );
   }
 
-  const heroSlides = [
-    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
-    "https://www.rushu.rush.edu/sites/default/files/legacy/images/news-articles/online-class-note-taking-news.jpg",
-    "https://img.freepik.com/free-photo/books-laptop-assortment_23-2149765831.jpg",
-  ];
-
   return (
-    <div className="min-h-screen bg-[#eaf9ff] text-gray-900 pt-10 pb-10 relative">
+    <div className={`min-h-screen ${
+      theme === 'dark' ? 'bg-gray-900' : 'bg-[#eaf9ff]'
+    } text-gray-900 dark:text-white pt-10 pb-10 relative transition-colors duration-300`}>
+      {/* Theme Toggle */}
+      <button
+        onClick={toggleTheme}
+        className="fixed top-24 right-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 p-3 rounded-full shadow-lg z-50 transition-colors duration-200 flex items-center justify-center"
+        aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      >
+        {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+      </button>
+
       {/* Debug Button */}
       <button 
         onClick={() => {
@@ -414,7 +443,7 @@ export default function CourseDetails() {
           console.log("User ID:", user?.id || localStorage.getItem("user_id"));
           alert("Check browser console for debug info!");
         }}
-        className="fixed bottom-4 right-4 bg-red-500 text-white p-3 rounded-full shadow-lg z-50 hover:bg-red-600 transition-colors flex items-center justify-center"
+        className="fixed bottom-4 right-4 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white p-3 rounded-full shadow-lg z-50 transition-colors flex items-center justify-center"
         title="Debug Course Data"
       >
         <Bug size={20} />
@@ -422,15 +451,17 @@ export default function CourseDetails() {
 
       {/* Popup */}
       {showPopup && (
-        <div className="fixed top-5 right-5 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-fade-in">
+        <div className="fixed top-5 right-5 bg-blue-600 dark:bg-blue-700 text-white px-4 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-fade-in">
           <Check size={20} />
           <span className="font-semibold">{popupMessage}</span>
         </div>
       )}
 
-      <section className="max-w-[1200px] mx-auto pt-8 bg-white rounded-2xl shadow-lg overflow-hidden px-4 sm:px-6 lg:px-8">
+      <section className={`max-w-[1200px] mx-auto pt-8 ${
+        theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+      } rounded-2xl shadow-lg dark:shadow-gray-900/50 overflow-hidden px-4 sm:px-6 lg:px-8 transition-colors duration-300`}>
         {/* HERO */}
-        <HeroCarousel slides={heroSlides} />
+        <HeroCarousel slides={heroSlides} theme={theme} />
 
         {/* Course Content */}
         <div className="p-5 sm:p-8 lg:p-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -439,29 +470,29 @@ export default function CourseDetails() {
             <div className="mb-6">
               <div className="flex flex-wrap items-center gap-3 mb-3">
                 {course.category && (
-                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                  <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">
                     {course.category}
                   </span>
                 )}
                 {course.level && (
-                  <span className="px-3 py-1 bg-green-100 text-blue-700 rounded-full text-sm font-medium">
+                  <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-medium">
                     {course.level}
                   </span>
                 )}
                 {course.tags?.slice(0, 2).map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                    className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-gray-900 dark:text-white">
                 {course.title}
               </h1>
-              <p className="text-gray-600 text-base sm:text-lg mb-4">
+              <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg mb-4">
                 by {course.author}
               </p>
 
@@ -471,28 +502,28 @@ export default function CourseDetails() {
                     <Star key={i} size={18} fill="currentColor" />
                   )
                 )}
-                <span className="text-gray-600 text-sm ml-2">
+                <span className="text-gray-600 dark:text-gray-400 text-sm ml-2">
                   {course.rating} ({course.reviews} reviews)
                 </span>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-6">
                 <div className="flex items-center gap-1">
-                  <Clock size={16} />
+                  <Clock size={16} className="text-gray-500 dark:text-gray-500" />
                   <span>{calculateTotalDuration()} total length</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Users size={16} />
+                  <Users size={16} className="text-gray-500 dark:text-gray-500" />
                   <span>{course.reviews} students enrolled</span>
                 </div>
               </div>
             </div>
 
             <div className="mt-6">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
                 Course Overview
               </h3>
-              <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
                 {course.description ||
                   "Learn with expert mentors and hands-on projects. Get industry-level skills and job-ready experience with real world assignments."}
               </p>
@@ -500,24 +531,28 @@ export default function CourseDetails() {
 
             {/* Student Reviews */}
             <div className="mt-10">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-6">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900 dark:text-white">
                 Student Reviews
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {REVIEWS.map((rev, i) => (
                   <div
                     key={i}
-                    className="bg-gradient-to-br from-blue-50 to-purple-50 p-5 rounded-xl border border-blue-100 shadow"
+                    className={`p-5 rounded-xl border ${
+                      theme === 'dark' 
+                        ? 'bg-gray-800 border-gray-700 shadow-gray-900/50' 
+                        : 'bg-gradient-to-br from-blue-50 to-purple-50 border-blue-100 shadow'
+                    }`}
                   >
                     <div className="flex items-center gap-3 mb-3">
                       <img
                         src={rev.img}
                         alt={rev.name}
-                        className="w-12 h-12 rounded-full"
+                        className="w-12 h-12 rounded-full border-2 border-white dark:border-gray-600"
                       />
                       <div>
-                        <p className="font-semibold">{rev.name}</p>
-                        <p className="text-gray-600 text-sm">{rev.role}</p>
+                        <p className="font-semibold text-gray-900 dark:text-white">{rev.name}</p>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">{rev.role}</p>
                       </div>
                     </div>
                     <div className="flex text-yellow-500 mb-3">
@@ -525,7 +560,7 @@ export default function CourseDetails() {
                         <Star key={idx} size={16} fill="currentColor" />
                       ))}
                     </div>
-                    <p className="text-gray-700 text-sm">{rev.comment}</p>
+                    <p className="text-gray-700 dark:text-gray-300 text-sm">{rev.comment}</p>
                   </div>
                 ))}
               </div>
@@ -533,31 +568,37 @@ export default function CourseDetails() {
 
             {/* Course Content Component */}
             <div className="mt-10">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-6">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900 dark:text-white">
                 Course Content
               </h3>
               
               {/* DEBUG SECTION - ALWAYS SHOW */}
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <div className={`mb-6 p-4 rounded-lg border ${
+                theme === 'dark' 
+                  ? 'bg-green-900/20 border-green-800/30' 
+                  : 'bg-green-50 border-green-200'
+              }`}>
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="font-medium text-green-800">Course Loaded Successfully!</span>
+                  <span className={`font-medium ${
+                    theme === 'dark' ? 'text-green-300' : 'text-green-800'
+                  }`}>Course Loaded Successfully!</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-sm">
-                  <div className="text-green-700">Course ID:</div>
-                  <div className="font-medium">{course?.id}</div>
+                  <div className={theme === 'dark' ? 'text-green-400' : 'text-green-700'}>Course ID:</div>
+                  <div className="font-medium text-gray-900 dark:text-white">{course?.id}</div>
                   
-                  <div className="text-green-700">Title:</div>
-                  <div className="font-medium">{course?.title}</div>
+                  <div className={theme === 'dark' ? 'text-green-400' : 'text-green-700'}>Title:</div>
+                  <div className="font-medium text-gray-900 dark:text-white">{course?.title}</div>
                   
-                  <div className="text-green-700">Modules:</div>
-                  <div className="font-medium">{course?.modules?.length || 0}</div>
+                  <div className={theme === 'dark' ? 'text-green-400' : 'text-green-700'}>Modules:</div>
+                  <div className="font-medium text-gray-900 dark:text-white">{course?.modules?.length || 0}</div>
                   
-                  <div className="text-green-700">Purchased:</div>
-                  <div className="font-medium">{course?.purchased ? "✅ Yes" : "❌ No"}</div>
+                  <div className={theme === 'dark' ? 'text-green-400' : 'text-green-700'}>Purchased:</div>
+                  <div className="font-medium text-gray-900 dark:text-white">{course?.purchased ? "✅ Yes" : "❌ No"}</div>
                   
-                  <div className="text-green-700">Total Videos:</div>
-                  <div className="font-medium">
+                  <div className={theme === 'dark' ? 'text-green-400' : 'text-green-700'}>Total Videos:</div>
+                  <div className="font-medium text-gray-900 dark:text-white">
                     {course?.modules?.reduce((sum, m) => sum + (m.videos?.length || 0), 0) || 0}
                   </div>
                 </div>
@@ -566,7 +607,9 @@ export default function CourseDetails() {
                     console.log("📊 Detailed course info:", course);
                     console.log("First module:", course?.modules?.[0]);
                   }}
-                  className="mt-2 text-xs text-blue-600 hover:text-blue-800"
+                  className={`mt-2 text-xs ${
+                    theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'
+                  }`}
                 >
                   Click for detailed debug info in console
                 </button>
@@ -580,16 +623,17 @@ export default function CourseDetails() {
                   setStartLearning={setStartLearning}
                 />
               ) : (
-                <div className="text-center py-10 bg-gray-50 rounded-lg border">
+                <div className={`text-center py-10 rounded-lg border ${
+                  theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'
+                }`}>
                   <div className="text-4xl mb-4">📚</div>
-                  <p className="text-gray-700 font-medium mb-2">No course modules found</p>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-gray-700 dark:text-gray-300 font-medium mb-2">No course modules found</p>
+                  <p className="text-gray-500 dark:text-gray-500 text-sm">
                     Modules: {course?.modules?.length || 0} <br/>
                     This might be a course with only assessments
                   </p>
                   <button 
                     onClick={() => {
-                      // Create a test course with modules
                       const testCourse = {
                         ...course,
                         modules: [
@@ -611,7 +655,11 @@ export default function CourseDetails() {
                       };
                       setCourse(testCourse);
                     }}
-                    className="mt-4 px-4 py-2 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200"
+                    className={`mt-4 px-4 py-2 rounded text-sm transition-colors ${
+                      theme === 'dark' 
+                        ? 'bg-blue-900/30 text-blue-300 hover:bg-blue-900/50' 
+                        : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                    }`}
                   >
                     Load Test Module
                   </button>
@@ -621,25 +669,36 @@ export default function CourseDetails() {
           </div>
 
           {/* RIGHT CARD */}
-          <div className="bg-white border rounded-xl shadow-lg h-fit sticky top-32 overflow-hidden">
-            <div className="h-48 overflow-hidden">
+          <div className={`border rounded-xl shadow-lg h-fit sticky top-32 overflow-hidden ${
+            theme === 'dark' 
+              ? 'bg-gray-800 border-gray-700 shadow-gray-900/50' 
+              : 'bg-white border-gray-200'
+          }`}>
+            <div className="h-48 overflow-hidden relative">
               <img
                 src={course.image}
                 alt={course.title}
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 onError={(e) =>
-                  (e.target.src =
-                    "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800")
+                  (e.target.src = theme === 'dark'
+                    ? "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=800"
+                    : "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800")
                 }
               />
+              {/* Gradient overlay */}
+              <div className={`absolute inset-0 bg-gradient-to-t ${
+                theme === 'dark' 
+                  ? 'from-gray-900/80 to-transparent' 
+                  : 'from-black/30 to-transparent'
+              }`}></div>
             </div>
 
             <div className="p-6">
               <div className="flex items-center justify-between text-xl font-bold mb-4">
-                <span className="text-gray-900">₹{course.price}</span>
+                <span className="text-gray-900 dark:text-white">₹{course.price}</span>
                 {course.originalPrice &&
                   course.originalPrice > course.price && (
-                    <span className="line-through text-gray-400">
+                    <span className="line-through text-gray-400 dark:text-gray-500">
                       ₹{course.originalPrice}
                     </span>
                   )}
@@ -648,7 +707,7 @@ export default function CourseDetails() {
               <div className="space-y-4 mb-6">
                 <button
                   onClick={handleMainAction}
-                  className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg"
                 >
                   {course.purchased
                     ? "Start Learning"
@@ -658,33 +717,33 @@ export default function CourseDetails() {
                 </button>
               </div>
 
-              <div className="border-t pt-6">
-                <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
-                  <Award size={20} />
+              <div className="border-t dark:border-gray-700 pt-6">
+                <h3 className="font-semibold text-lg mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
+                  <Award size={20} className="text-blue-500 dark:text-blue-400" />
                   This Course Includes
                 </h3>
-                <ul className="space-y-3 text-gray-600">
+                <ul className="space-y-3 text-gray-600 dark:text-gray-400">
                   <li className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Check size={14} className="text-blue-600" />
+                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center">
+                      <Check size={14} className="text-blue-600 dark:text-blue-400" />
                     </div>
                     <span>Assessments & Quizzes</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Check size={14} className="text-blue-600" />
+                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center">
+                      <Check size={14} className="text-blue-600 dark:text-blue-400" />
                     </div>
                     <span>Certificate of Completion</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Check size={14} className="text-blue-600" />
+                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center">
+                      <Check size={14} className="text-blue-600 dark:text-blue-400" />
                     </div>
                     <span>Downloadable Resources</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Check size={14} className="text-blue-600" />
+                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center">
+                      <Check size={14} className="text-blue-600 dark:text-blue-400" />
                     </div>
                     <span>Access on Mobile & Web</span>
                   </li>
@@ -692,29 +751,29 @@ export default function CourseDetails() {
               </div>
 
               {/* Course Info */}
-              <div className="mt-6 border-t pt-6">
+              <div className="mt-6 border-t dark:border-gray-700 pt-6">
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Duration:</span>
-                    <span className="font-medium">
+                    <span className="text-gray-500 dark:text-gray-500">Duration:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">
                       {calculateTotalDuration()}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Modules:</span>
-                    <span className="font-medium">
+                    <span className="text-gray-500 dark:text-gray-500">Modules:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">
                       {course.modules?.length || 0}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Level:</span>
-                    <span className="font-medium">
+                    <span className="text-gray-500 dark:text-gray-500">Level:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">
                       {course.level || "All Levels"}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Last Updated:</span>
-                    <span className="font-medium">Recently</span>
+                    <span className="text-gray-500 dark:text-gray-500">Last Updated:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">Recently</span>
                   </div>
                 </div>
               </div>

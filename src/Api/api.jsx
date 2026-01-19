@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://192.168.1.9:8080/api',
+  baseURL: 'http://192.168.1.7:8080/api',
+  // baseURL = "https://cdaxx-backend.onrender.com/api",
   timeout: 10000,
 });
 

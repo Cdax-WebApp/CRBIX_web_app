@@ -51,49 +51,48 @@ export const getCourses = async (userId = null) => {
   }
 };
 
-// In src/Api/course.api.js - UPDATE this function:
+// In src/Api/course.api.jsx - Update getCourseById function
 export const getCourseById = async (courseId, userId) => {
   try {
     console.log(`📡 Fetching course ${courseId} for user ${userId}`);
     
-    // Build the URL manually for debugging
-    const url = `/courses/${courseId}`;
-    const params = userId ? { userId } : {};
+    const token = localStorage.getItem('auth_token');
+    const response = await api.get(`/courses/${courseId}`, {
+      params: userId ? { userId } : {},
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
     
-    console.log("🔗 Request details:", { url, params });
-    
-    const response = await api.get(url, { params });
-    
-    console.log("✅ Course API Response:", {
+    console.log('✅ Course API Response:', {
       status: response.status,
       data: response.data,
       hasData: !!response.data,
-      hasNestedData: !!response.data?.data
+      hasNestedData: !!response.data?.data,
+      hasModules: !!response.data?.data?.modules,
+      modulesCount: response.data?.data?.modules?.length || 0
     });
     
-    return response.data;
-  } catch (error) {
-    console.error("❌ Error fetching course:", {
-      message: error.message,
-      status: error.response?.status,
-      data: error.response?.data,
-      config: error.config,
-      url: error.config?.url
-    });
+    // Return the data in the format CourseContent expects
+    const courseData = response.data?.data || response.data;
     
-    // If it's a 404 or 401, try without userId for public access
-    if (error.response?.status === 401 || error.response?.status === 404) {
-      console.log("🔄 Trying public access without userId...");
-      try {
-        const publicResponse = await api.get(`/courses/${courseId}`);
-        console.log("✅ Public access response:", publicResponse.data);
-        return publicResponse.data;
-      } catch (publicError) {
-        console.error("❌ Public access also failed:", publicError.message);
-      }
+    // Ensure modules array exists
+    if (courseData && !courseData.modules) {
+      courseData.modules = [];
     }
     
-    throw error;
+    return courseData;
+    
+  } catch (error) {
+    console.error("❌ Error fetching course:", error);
+    
+    // Return basic course structure
+    return {
+      id: courseId,
+      title: "Course",
+      modules: []
+    };
   }
 };
 
@@ -194,12 +193,51 @@ export const purchaseCourse = async (courseId) => {
   }
 };
 
+// In src/Api/course.api.jsx - Update getPurchasedCourses function
 export const getPurchasedCourses = async (userId) => {
   try {
-    const res = await api.get(`/courses/subscribed/${userId}`);
-    return res.data?.data ?? [];
+    console.log(`📡 API: Fetching subscribed courses for user ${userId}`);
+    console.log(`🔗 Making request to: /courses/subscribed/${userId}`);
+    
+    const token = localStorage.getItem('auth_token');
+    console.log(`🔑 Token exists: ${!!token}`);
+    
+    // Create the complete URL for debugging
+    const baseUrl = api.defaults.baseURL || 'http://localhost:8080';
+    const fullUrl = `${baseUrl}/api/courses/subscribed/${userId}`;
+    console.log(`🌐 Full URL: ${fullUrl}`);
+    
+    const response = await api.get(`/courses/subscribed/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    console.log('✅ API Response - Status:', response.status);
+    console.log('✅ API Response - Headers:', response.headers);
+    console.log('✅ API Response - Data:', response.data);
+    console.log('✅ API Response - Data.data:', response.data?.data);
+    
+    // Direct return - no processing
+    return response.data || [];
+    
   } catch (err) {
-    console.error("Get purchased courses failed:", err);
+    console.error("❌ Get purchased courses failed:", err);
+    
+    if (err.response) {
+      console.error('❌ Error response:', {
+        status: err.response.status,
+        data: err.response.data,
+        url: err.response.config?.url
+      });
+    } else if (err.request) {
+      console.error('❌ No response received:', err.request);
+    } else {
+      console.error('❌ Request setup error:', err.message);
+    }
+    
+    // Return empty array for now
     return [];
   }
 };
