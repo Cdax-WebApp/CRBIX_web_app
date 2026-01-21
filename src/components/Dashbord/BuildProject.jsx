@@ -123,7 +123,7 @@ export default function BuildProject() {
                   >
                     {slides[current].icon}
                   </motion.div>
-                  <motion.h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+                  <motion.h1 className="text-3xl md:text-4xl font-bold text-white">
                     {slides[current].title}
                   </motion.h1>
                 </div>
@@ -133,7 +133,7 @@ export default function BuildProject() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.4 }}
-                  className="text-gray-600 mb-6 text-lg"
+                  className="text-gray-400 mb-6 text-lg"
                 >
                   {slides[current].desc}
                 </motion.p>
@@ -156,7 +156,7 @@ export default function BuildProject() {
                     Explore Courses
                   </button>
                   <Link to="/contact-us">
-                    <button className="border border-blue-600 px-6 py-3 rounded-lg hover:bg-blue-600 hover:text-white transition transform hover:scale-105 active:scale-95">
+                    <button className="border text-blue-400 border-blue-600 px-6 py-3 rounded-lg hover:bg-blue-600 hover:text-white transition transform hover:scale-105 active:scale-95">
                       Talk to Expert
                     </button>
                   </Link>
@@ -167,7 +167,7 @@ export default function BuildProject() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.4 }}
-                  className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700"
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-400"
                 >
                   {[
                     "Industry-designed curriculum",

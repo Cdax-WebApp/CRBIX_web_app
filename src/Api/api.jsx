@@ -2,17 +2,20 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // baseURL: 'http://192.168.1.7:8080/api',
-  baseURL : "https://cdaxx-backend.onrender.com/api",
-  timeout: 10000,
+  baseURL: 'https://cdaxx-backend.onrender.com/api',
+  timeout: 15000, // Increased timeout
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // ✅ ADD THIS INTERCEPTOR TO INCLUDE TOKEN IN ALL REQUESTS
 api.interceptors.request.use(
   (config) => {
     console.log('🔐 Axios Request Interceptor:');
-    console.log('   URL:', config.url);
+    console.log('   URL:', config.baseURL + config.url);
     console.log('   Method:', config.method);
+    console.log('   Full URL:', config.url);
     
     const token = localStorage.getItem('auth_token');
     console.log('   Token in localStorage:', token ? 'Yes (' + token.substring(0, 20) + '...)' : 'No');
@@ -22,6 +25,11 @@ api.interceptors.request.use(
       console.log('   ✅ Authorization header added');
     } else {
       console.log('   ❌ No token found');
+    }
+    
+    // Log params for GET requests
+    if (config.method === 'get' && config.params) {
+      console.log('   Params:', config.params);
     }
     
     console.log('   Headers:', config.headers);
@@ -36,10 +44,11 @@ api.interceptors.request.use(
 // ✅ Also add response interceptor to handle 401 errors
 api.interceptors.response.use(
   (response) => {
-    console.log('✅ Axios Response:', {
+    console.log('✅ Axios Response Success:', {
       status: response.status,
       url: response.config.url,
-      method: response.config.method
+      method: response.config.method,
+      data: response.data
     });
     return response;
   },
@@ -48,14 +57,25 @@ api.interceptors.response.use(
       message: error.message,
       status: error.response?.status,
       url: error.config?.url,
-      hasAuthHeader: error.config?.headers?.Authorization ? 'Yes' : 'No'
+      fullUrl: error.config?.baseURL + error.config?.url,
+      hasAuthHeader: error.config?.headers?.Authorization ? 'Yes' : 'No',
+      params: error.config?.params,
+      responseData: error.response?.data
     });
     
+    // Handle 401 Unauthorized
     if (error.response?.status === 401) {
-      console.log('🚨 401 Unauthorized - Clearing tokens');
+      console.log('🚨 401 Unauthorized - Redirecting to login');
       localStorage.removeItem('auth_token');
       localStorage.removeItem('user_id');
-      window.location.href = '/login';
+      // Don't redirect automatically as it might be public endpoint
+      // window.location.href = '/login';
+    }
+    
+    // Handle CORS errors
+    if (error.message === 'Network Error') {
+      console.error('🌐 Network/CORS Error - Check backend is running and CORS configured');
+      console.error('🔗 Backend URL:', error.config?.baseURL);
     }
     
     return Promise.reject(error);

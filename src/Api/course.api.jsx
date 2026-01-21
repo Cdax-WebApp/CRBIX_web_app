@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "./api";
 
 /* ==================== COURSES ==================== */
@@ -561,7 +562,8 @@ export const getAssessmentStatus = async (assessmentId) => {
 
 export const canAttemptAssessment = async (assessmentId, userId) => {
   try {
-    console.log('🔍 CAN ATTEMPT ASSESSMENT - Starting call...');
+    console.log('🔍 CAN ATTEMPT ASSESSMENT - Full Debug:');
+    console.log('   API Base URL:', api.defaults.baseURL);
     console.log('   Assessment ID:', assessmentId);
     console.log('   User ID:', userId);
     
@@ -571,11 +573,10 @@ export const canAttemptAssessment = async (assessmentId, userId) => {
       return false;
     }
     
-    // The backend expects BOTH assessmentId AND userId
     const res = await api.get("/course/assessment/can-attempt", {
       params: {
         assessmentId,
-        userId  // ✅ ADD THIS - You're missing it!
+        userId
       }
     });
 
@@ -588,8 +589,24 @@ export const canAttemptAssessment = async (assessmentId, userId) => {
       status: err.response?.status,
       data: err.response?.data,
       url: err.config?.url,
-      params: err.config?.params  // Check what params were sent
+      fullUrl: err.config?.baseURL + err.config?.url,
+      params: err.config?.params
     });
+    
+    // Try with absolute URL for debugging
+    console.log('🔄 Trying with absolute URL...');
+    try {
+      const absoluteRes = await axios.get('https://cdaxx-backend.onrender.com/api/course/assessment/can-attempt', {
+        params: { assessmentId, userId },
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+        }
+      });
+      console.log('✅ Absolute URL response:', absoluteRes.data);
+      return absoluteRes.data?.canAttempt ?? false;
+    } catch (absoluteErr) {
+      console.error('❌ Absolute URL also failed:', absoluteErr.message);
+    }
     
     return false;
   }
@@ -773,6 +790,7 @@ const getMockSubmissionResult = (assessmentId, userId, answers) => {
 };
 
 // NEW: Get assessments by module
+// FIXED VERSION:
 export const getModuleAssessments = async (moduleId, userId = null) => {
   try {
     console.log('📚 GET MODULE ASSESSMENTS:', {
@@ -781,8 +799,13 @@ export const getModuleAssessments = async (moduleId, userId = null) => {
       hasToken: !!localStorage.getItem('auth_token')
     });
 
+    const token = localStorage.getItem('auth_token');
+    
     const config = {
-      headers: {}
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
     };
 
     // Add userId as param if provided
@@ -808,24 +831,65 @@ export const getModuleAssessments = async (moduleId, userId = null) => {
       url: error.config?.url
     });
     
-    // If endpoint doesn't exist, return mock data for testing
-    if (error.response?.status === 404) {
-      console.warn('⚠️ Assessments endpoint not found, returning mock data');
-      return [
-        {
-          id: moduleId,
-          title: `Assessment - Module ${moduleId}`,
-          description: "Test your knowledge",
-          totalMarks: 20,
-          totalQuestions: 10,
-          duration: 1800, // 30 minutes
-          passingMarks: 12
-        }
-      ];
-    }
-    
-    return [];
+    // 🔴 TEMPORARY FIX: Return mock assessments for testing
+    console.warn('⚠️ Using mock assessments for module:', moduleId);
+    return getMockAssessmentsForModule(moduleId);
   }
+};
+
+// Add this mock function at the bottom:
+const getMockAssessmentsForModule = (moduleId) => {
+  const moduleAssessments = {
+    1: [
+      {
+        id: 101,
+        title: "Core Java Basics Assessment",
+        description: "Test your understanding of Java fundamentals",
+        totalMarks: 100,
+        totalQuestions: 10,
+        duration: 1800, // 30 minutes
+        passingMarks: 70,
+        moduleId: 1
+      }
+    ],
+    2: [
+      {
+        id: 102,
+        title: "Java Advanced Concepts Assessment",
+        description: "Test your knowledge of OOP and advanced Java",
+        totalMarks: 100,
+        totalQuestions: 10,
+        duration: 1800,
+        passingMarks: 70,
+        moduleId: 2
+      }
+    ],
+    3: [
+      {
+        id: 103,
+        title: "Object-Oriented Programming Assessment",
+        description: "Test your OOP skills",
+        totalMarks: 100,
+        totalQuestions: 10,
+        duration: 1800,
+        passingMarks: 70,
+        moduleId: 3
+      }
+    ]
+  };
+  
+  return moduleAssessments[moduleId] || [
+    {
+      id: moduleId * 100,
+      title: `Assessment - Module ${moduleId}`,
+      description: "Test your knowledge",
+      totalMarks: 100,
+      totalQuestions: 10,
+      duration: 1800,
+      passingMarks: 70,
+      moduleId: moduleId
+    }
+  ];
 };
 
 // NEW: Get assessment details

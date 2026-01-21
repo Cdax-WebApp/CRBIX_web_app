@@ -73,10 +73,10 @@ const handleEnroll = (course) => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold mb-3">
+      <h2 className="text-3xl text-white font-bold mb-3">
         Skills to transform your career and life
       </h2>
-      <p className="text-gray-600 mb-10">
+      <p className="text-gray-400 mb-10">
         From critical skills to technical topics, explore top courses.
       </p>
 

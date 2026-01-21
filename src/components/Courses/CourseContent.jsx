@@ -467,7 +467,7 @@ export default function CourseContent({
         
         try {
           // Call API to unlock video
-          const res = await fetch(`http://localhost:8080/api/videos/${firstVideo.id}/unlock?userId=${userId}&courseId=${course.id}&moduleId=${moduleId}`, {
+          const res = await fetch(`https://cdaxx-backend.onrender.com/api/videos/${firstVideo.id}/unlock?userId=${userId}&courseId=${course.id}&moduleId=${moduleId}`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,

@@ -87,7 +87,7 @@ function HeroCarousel({ slides, theme }) {
 const directFetchCourse = async (courseId, userId) => {
   try {
     const token = localStorage.getItem("auth_token");
-    const url = `http://localhost:8080/api/courses/${courseId}${userId ? `?userId=${userId}` : ''}`;
+    const url = `https://cdaxx-backend.onrender.com/api/courses/${courseId}${userId ? `?userId=${userId}` : ''}`;
     
     console.log("🔗 Direct fetch URL:", url);
     
@@ -149,7 +149,7 @@ export default function CourseDetails() {
       
       // ALWAYS use direct fetch (100% working)
       const token = localStorage.getItem("auth_token");
-      const url = `http://localhost:8080/api/courses/${id}${userId ? `?userId=${userId}` : ''}`;
+      const url = `https://cdaxx-backend.onrender.com/api/courses/${id}${userId ? `?userId=${userId}` : ''}`;
       
       console.log("🔗 Fetching from:", url);
       
