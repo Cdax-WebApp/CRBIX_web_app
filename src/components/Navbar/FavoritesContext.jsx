@@ -9,11 +9,11 @@ import { useAuth } from "../Login/AuthContext";
 const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
-  const { user, isAuthenticated } = useAuth(); // assumes user.id exists
+  const { user, isAuthenticated } = useAuth(); // user.id exists
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // ================= LOAD FAVORITES FROM BACKEND =================
+  // ================= LOAD FAVORITES =================
   useEffect(() => {
     if (!isAuthenticated || !user?.id) {
       setFavorites([]);
@@ -24,7 +24,7 @@ export const FavoritesProvider = ({ children }) => {
       try {
         setLoading(true);
         const data = await getUserFavorites(user.id);
-        setFavorites(data); 
+        setFavorites(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Failed to load favorites", err);
       } finally {
@@ -50,8 +50,14 @@ export const FavoritesProvider = ({ children }) => {
           prev.filter((fav) => fav.courseId !== courseId)
         );
       } else {
-        const added = await addToFavorites(user.id, courseId);
-        setFavorites((prev) => [...prev, added]);
+        const response = await addToFavorites(user.id, courseId);
+
+        // backend wrapper handling
+        if (response?.alreadyFavorited) return;
+
+        if (response?.favorite) {
+          setFavorites((prev) => [...prev, response.favorite]);
+        }
       }
     } catch (err) {
       console.error("Favorite toggle failed", err);

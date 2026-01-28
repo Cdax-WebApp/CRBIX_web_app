@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import logo from "../../assets/cdaxxlogo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { HiMenu, HiX } from "react-icons/hi";
-import { HiOutlineShoppingCart, HiHeart } from "react-icons/hi";
-import { HiChevronRight } from "react-icons/hi";
+import { HiMenu, HiX, HiChevronRight, HiChevronDown, HiOutlineShoppingCart, HiHeart } from "react-icons/hi";
 import { FiSearch, FiX, FiStar } from "react-icons/fi";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { searchCourses, getSearchSuggestions, getPopularTags, getCourses } from "../../Api/course.api";
@@ -305,6 +303,108 @@ const SearchResultCard = ({ course, onClick }) => {
   );
 };
 
+// Mobile Explore Menu Component
+const MobileExploreMenu = ({ 
+  isOpen, 
+  coursesLoading, 
+  getCoursesByCategory, 
+  navigate, 
+  setMenuOpen,
+  onClose 
+}) => {
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  const handleCategoryClick = (category) => {
+    if (activeCategory === category) {
+      setActiveCategory(null);
+    } else {
+      setActiveCategory(category);
+    }
+  };
+
+  const handleViewAll = (category) => {
+    navigate(`/courses?category=${encodeURIComponent(category)}`);
+    onClose();
+    setMenuOpen(false);
+  };
+
+  const handleCourseClick = (course) => {
+    navigate(`/course/${course.id || course._id}`);
+    onClose();
+    setMenuOpen(false);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 mt-2 overflow-hidden">
+      {/* Categories List */}
+      <div className="max-h-80 overflow-y-auto">
+        {Object.keys(exploreCategories).map((category) => (
+          <div key={category} className="border-b border-gray-200 dark:border-gray-700 last:border-0">
+            {/* Category Button */}
+            <button
+              onClick={() => handleCategoryClick(category)}
+              className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700"
+            >
+              <span className="font-medium text-gray-800 dark:text-white">
+                {category}
+              </span>
+              <HiChevronRight 
+                className={`transition-transform ${activeCategory === category ? 'rotate-90' : ''}`}
+              />
+            </button>
+
+            {/* Courses for this category - Collapsible */}
+            {activeCategory === category && (
+              <div className="px-4 pb-3 bg-gray-50 dark:bg-gray-900/50">
+                {coursesLoading ? (
+                  <div className="py-4 text-center">
+                    <div className="inline-block w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Loading courses...</p>
+                  </div>
+                ) : getCoursesByCategory(category).length === 0 ? (
+                  <p className="text-sm text-gray-500 dark:text-gray-400 py-3 text-center">
+                    No courses available
+                  </p>
+                ) : (
+                  <>
+                    <ul className="space-y-2 py-2">
+                      {getCoursesByCategory(category).map((course) => (
+                        <li
+                          key={course.id || course._id}
+                          onClick={() => handleCourseClick(course)}
+                          className="cursor-pointer p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                        >
+                          <p className="text-sm text-gray-700 dark:text-gray-300 truncate">
+                            {course.title}
+                          </p>
+                          {course.category && (
+                            <span className="text-xs text-blue-600 dark:text-blue-400 mt-1 inline-block">
+                              {course.category}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <button
+                      onClick={() => handleViewAll(category)}
+                      className="w-full mt-2 py-2 text-sm text-blue-600 dark:text-blue-400 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
+                    >
+                      View all {category} courses →
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function Navbar() {
   const { isAuthenticated, user, logout, openLogin, openSignup } = useAuth();
   const { favorites } = useFavorites();
@@ -330,6 +430,9 @@ export default function Navbar() {
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [popularTags, setPopularTags] = useState([]);
   const [searchTimeout, setSearchTimeout] = useState(null);
+
+  // Mobile explore menu state
+  const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
 
   /* ---------------- SCROLL EFFECT ---------------- */
   useEffect(() => {
@@ -603,6 +706,13 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showUserMenu]);
+
+  // Cleanup effect for mobile explore menu
+  useEffect(() => {
+    return () => {
+      setMobileExploreOpen(false);
+    };
+  }, []);
 
   return (
     <>
@@ -1264,13 +1374,29 @@ export default function Navbar() {
                     )}
                   </Link>
 
-                  <Link
-                    to="/explore-courses"
-                    className="flex items-center gap-2 py-3 border-b border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200"
-                    onClick={() => setMenuOpen(false)}
+                  {/* MOBILE EXPLORE BUTTON (REPLACED THE LINK) */}
+                  <button
+                    onClick={() => setMobileExploreOpen(!mobileExploreOpen)}
+                    className="flex items-center justify-between w-full py-3 border-b border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200"
                   >
-                    Explore
-                  </Link>
+                    <span className="flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      Explore Courses
+                    </span>
+                    {mobileExploreOpen ? <HiChevronDown /> : <HiChevronRight />}
+                  </button>
+
+                  {/* Mobile Explore Menu */}
+                  <MobileExploreMenu
+                    isOpen={mobileExploreOpen}
+                    coursesLoading={coursesLoading}
+                    getCoursesByCategory={getCoursesByCategory}
+                    navigate={navigate}
+                    setMenuOpen={setMenuOpen}
+                    onClose={() => setMobileExploreOpen(false)}
+                  />
 
                   <Link
                     to="/plans-pricing"
@@ -1324,13 +1450,29 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <Link
-                    to="/explore-courses"
-                    className="flex items-center gap-2 py-3 border-b border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200"
-                    onClick={() => setMenuOpen(false)}
+                  {/* MOBILE EXPLORE BUTTON (REPLACED THE LINK) */}
+                  <button
+                    onClick={() => setMobileExploreOpen(!mobileExploreOpen)}
+                    className="flex items-center justify-between w-full py-3 border-b border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200"
                   >
-                    Explore
-                  </Link>
+                    <span className="flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      Explore Courses
+                    </span>
+                    {mobileExploreOpen ? <HiChevronDown /> : <HiChevronRight />}
+                  </button>
+
+                  {/* Mobile Explore Menu */}
+                  <MobileExploreMenu
+                    isOpen={mobileExploreOpen}
+                    coursesLoading={coursesLoading}
+                    getCoursesByCategory={getCoursesByCategory}
+                    navigate={navigate}
+                    setMenuOpen={setMenuOpen}
+                    onClose={() => setMobileExploreOpen(false)}
+                  />
 
                   <Link
                     to="/plans-pricing"

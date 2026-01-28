@@ -13,7 +13,6 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
   const [successMsg, setSuccessMsg] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
-  // Validation state for each field
   const [fieldErrors, setFieldErrors] = useState({
     firstName: "",
     lastName: "",
@@ -67,7 +66,6 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
     }
   }, [mode, isOpen]);
 
-  // Field validation functions
   const validateField = (name, value) => {
     let error = "";
 
@@ -76,7 +74,8 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
         if (!value.trim()) {
           error = "First name is required";
         } else if (!/^[A-Za-z\s'-]+$/.test(value)) {
-          error = "Only letters, spaces, hyphens (-) and apostrophes (') are allowed";
+          error =
+            "Only letters, spaces, hyphens (-) and apostrophes (') are allowed";
         } else if (value.trim().length < 2) {
           error = "First name must be at least 2 characters";
         } else if (value.trim().length > 50) {
@@ -88,7 +87,8 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
         if (!value.trim()) {
           error = "Last name is required";
         } else if (!/^[A-Za-z\s'-]+$/.test(value)) {
-          error = "Only letters, spaces, hyphens (-) and apostrophes (') are allowed";
+          error =
+            "Only letters, spaces, hyphens (-) and apostrophes (') are allowed";
         } else if (value.trim().length < 2) {
           error = "Last name must be at least 2 characters";
         } else if (value.trim().length > 50) {
@@ -107,10 +107,8 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
         break;
 
       case "phoneNo":
-        // Phone is optional, but if provided, validate it
         if (value.trim() && value !== "") {
-          // Remove any non-digit characters for validation
-          const cleanPhone = value.replace(/\D/g, '');
+          const cleanPhone = value.replace(/\D/g, "");
           if (!/^\d+$/.test(cleanPhone)) {
             error = "Phone number must contain only digits";
           } else if (cleanPhone.length !== 10) {
@@ -124,8 +122,8 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
           error = "Password is required";
         } else if (value.length < 6) {
           error = "Password must be at least 6 characters";
-        } else if (value.length > 50) {
-          error = "Password cannot exceed 50 characters";
+        } else if (value.length > 15) {
+          error = "Password cannot exceed 15 characters";
         }
         break;
 
@@ -146,71 +144,57 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
     return error;
   };
 
-  // Handle input change with real-time validation for some fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
-    // Clean input based on field type
+
     let cleanedValue = value;
-    
+
     switch (name) {
       case "firstName":
       case "lastName":
-        // Remove numbers and symbols (keeping only letters, spaces, hyphens, apostrophes)
-        cleanedValue = value.replace(/[^A-Za-z\s'-]/g, '');
+        cleanedValue = value.replace(/[^A-Za-z\s'-]/g, "");
         break;
-        
+
       case "phoneNo":
-        // Remove non-digit characters
-        cleanedValue = value.replace(/\D/g, '');
-        // Limit to 10 digits
+        cleanedValue = value.replace(/\D/g, "");
         if (cleanedValue.length > 10) {
           cleanedValue = cleanedValue.substring(0, 10);
         }
         break;
-        
+
       case "email":
-        // Remove spaces from email
-        cleanedValue = value.replace(/\s/g, '');
+        cleanedValue = value.replace(/\s/g, "");
         break;
-        
+
       default:
         cleanedValue = value;
     }
 
     setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
-    
-    // Clear field-specific error when user starts typing
     if (fieldErrors[name]) {
       setFieldErrors((prev) => ({ ...prev, [name]: "" }));
     }
-    
-    // Clear general error and success messages
+
     if (errorMsg) setErrorMsg("");
     if (successMsg) setSuccessMsg("");
-    
-    // Real-time validation for confirm password when password changes
+
     if (name === "password" && formData.cPass) {
       const cPassError = validateField("cPass", formData.cPass);
       setFieldErrors((prev) => ({ ...prev, cPass: cPassError }));
     }
   };
-
-  // Validate specific field on blur
   const handleBlur = (e) => {
     const { name, value } = e.target;
     const error = validateField(name, value);
     setFieldErrors((prev) => ({ ...prev, [name]: error }));
   };
 
-  // Validate all fields before submission
   const validateAllFields = () => {
     const errors = {};
     let isValid = true;
 
-    // Only validate required fields for the current mode
-    const fieldsToValidate = isPanelActive 
-      ? ["firstName", "lastName", "email", "password", "cPass"] 
+    const fieldsToValidate = isPanelActive
+      ? ["firstName", "lastName", "email", "password", "cPass"]
       : ["email", "password"];
 
     fieldsToValidate.forEach((field) => {
@@ -221,7 +205,6 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
       }
     });
 
-    // Validate phone if provided (optional field)
     if (formData.phoneNo && formData.phoneNo.trim() !== "") {
       const phoneError = validateField("phoneNo", formData.phoneNo);
       if (phoneError) {
@@ -234,12 +217,9 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
     return isValid;
   };
 
-  // Auto hide success message after 3 seconds
   useEffect(() => {
     if (successMsg) {
-      const timer = setTimeout(() => {
-        setSuccessMsg("");
-      }, 3000);
+      const timer = setTimeout(() => setSuccessMsg(""), 3000);
       return () => clearTimeout(timer);
     }
   }, [successMsg]);
@@ -247,8 +227,7 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
   // ================= REGISTER =================
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate all fields first
+
     if (!validateAllFields()) {
       setErrorMsg("Please fix the errors in the form");
       return;
@@ -276,48 +255,42 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
       userId: res.userId,
       hasToken: !!res.token,
       hasData: !!res.data,
-      message: res.message
+      message: res.message,
     });
 
     // Check if API automatically logged in the user (has token in localStorage)
     const tokenInStorage = localStorage.getItem("auth_token");
-    console.log("🔍 Token in localStorage after register:", tokenInStorage);
-    
-    // ALWAYS show success message first
+    console.log(" Token in localStorage after register:", tokenInStorage);
+
     setSuccessMsg("Account created successfully! Please login.");
-    
-    // ALWAYS clear password fields
+
     setFormData((prev) => ({
       ...prev,
       password: "",
       cPass: "",
     }));
-    
-    // Clear password field errors
+
     setFieldErrors((prev) => ({
       ...prev,
       password: "",
       cPass: "",
     }));
-    
-    // Switch to login panel after 2 seconds
+
     setTimeout(() => {
       console.log("🔄 Switching to login panel");
-      setIsPanelActive(false); // Switch to login
+      setIsPanelActive(false);
     }, 2000);
-    
-    // DON'T call loginSuccess - let user login manually
   };
 
   // ================= LOGIN =================
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate login fields
+
     const loginErrors = {};
     if (!formData.email.trim()) loginErrors.email = "Email is required";
-    if (!formData.password.trim()) loginErrors.password = "Password is required";
-    
+    if (!formData.password.trim())
+      loginErrors.password = "Password is required";
+
     if (Object.keys(loginErrors).length > 0) {
       setFieldErrors((prev) => ({ ...prev, ...loginErrors }));
       setErrorMsg("Please fill in all required fields");
@@ -330,9 +303,9 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
 
     console.log("🚀 Attempting login...", {
       email: formData.email,
-      password: formData.password
+      password: formData.password,
     });
-    
+
     const loginPayload = {
       email: formData.email,
       password: formData.password,
@@ -354,9 +327,9 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
       hasUserId: !!res.userId,
       userId: res.userId,
       hasToken: !!res.token,
-      token: res.token ? `${res.token.substring(0, 20)}...` : 'no token',
+      token: res.token ? `${res.token.substring(0, 20)}...` : "no token",
       hasData: !!res.data,
-      fullResponse: res
+      fullResponse: res,
     });
 
     console.log("🔍 Checking localStorage AFTER login API call:");
@@ -369,15 +342,14 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
     if (res.user) {
       userDataToPass = res.user;
     } else if (res.userId) {
-      userDataToPass = { 
-        id: res.userId, 
-        email: formData.email 
+      userDataToPass = {
+        id: res.userId,
+        email: formData.email,
       };
     } else if (res.data) {
       userDataToPass = res.data;
     }
 
-    // If still no user data, check localStorage
     if (!userDataToPass) {
       const userInfo = localStorage.getItem("user_info");
       if (userInfo) {
@@ -390,26 +362,24 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
       }
     }
 
-    // If we have user data, proceed with loginSuccess
     if (userDataToPass) {
       console.log("🎉 Login successful!");
-      
-      // Show success message first
       setSuccessMsg("Login successful! Welcome back!");
-      
-      // Then login and close modal after 2 seconds
+
       setTimeout(() => {
         console.log("🔄 Calling loginSuccess...");
         const loginResult = loginSuccess(userDataToPass);
         console.log("✅ loginSuccess result:", loginResult);
-        
+
         // Close modal
         onClose();
       }, 2000);
     } else {
       console.error("❌ No user data found in response or localStorage");
-      setErrorMsg("Login successful but no user data received. Please refresh the page.");
-      
+      setErrorMsg(
+        "Login successful but no user data received. Please refresh the page.",
+      );
+
       setTimeout(() => {
         window.location.reload();
       }, 3000);
@@ -439,7 +409,6 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
   const fancyBlue = "#2196f3";
   const blueGradient = `linear-gradient(135deg, ${darkBlue} 0%, ${fancyBlue} 100%)`;
 
-  // Helper function to get input style with error state
   const getInputStyle = (fieldName) => {
     const hasError = fieldErrors[fieldName];
     return {
@@ -685,20 +654,39 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 dark:bg-black/70 z-[9998] backdrop-blur-sm transition-colors duration-200"
+            className="fixed inset-0 bg-black/50 dark:bg-black/70 z-[9998] backdrop-blur-sm"
           />
+
+          {/* ✅ SUCCESS MESSAGE — FIXED TOAST (Outside modal, truly centered) */}
+          <AnimatePresence>
+            {successMsg && (
+              <motion.div
+                key="success-toast"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="fixed top-6 left-0 right-0 z-[10002] mx-auto w-[90%] max-w-sm px-4 py-3 rounded-lg shadow-xl"
+                style={{
+                  backgroundColor: darkMode ? 'rgba(6, 78, 59, 0.95)' : 'rgba(220, 252, 231, 0.95)',
+                  border: darkMode ? '1px solid rgb(5, 150, 105)' : '1px solid rgb(134, 239, 172)',
+                  color: darkMode ? '#d1fae5' : '#065f46',
+                  backdropFilter: 'blur(10px)'
+                }}
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <HiCheckCircle className="text-green-500 flex-shrink-0 text-lg" />
+                  <p className="text-center font-medium text-sm md:text-base">{successMsg}</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* MODAL */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{
-              duration: 0.25,
-              type: "spring",
-              damping: 20,
-              stiffness: 300,
-            }}
+            transition={{ duration: 0.25 }}
             className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
           >
             <div className="relative w-full max-w-[850px] mx-auto">
@@ -721,34 +709,17 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  className={`absolute -top-16 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4 py-3 rounded-lg shadow-lg transition-colors duration-200 ${
-                    darkMode
-                      ? "bg-red-900/30 border border-red-800 text-red-300"
-                      : "bg-red-50 border border-red-200 text-red-700"
-                  }`}
+                  className="fixed top-6 left-0 right-0 z-[10001] mx-auto w-[90%] max-w-sm px-4 py-3 rounded-lg shadow-xl"
+                  style={{
+                    backgroundColor: darkMode ? 'rgba(127, 29, 29, 0.95)' : 'rgba(254, 226, 226, 0.95)',
+                    border: darkMode ? '1px solid rgb(153, 27, 27)' : '1px solid rgb(252, 165, 165)',
+                    color: darkMode ? '#fecaca' : '#7f1d1d',
+                    backdropFilter: 'blur(10px)'
+                  }}
                 >
                   <div className="flex items-center justify-center gap-2">
                     <HiX className="text-red-500 flex-shrink-0" />
                     <p className="text-center font-medium">{errorMsg}</p>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* SUCCESS MESSAGE POPUP */}
-              {successMsg && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className={`absolute -top-16 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4 py-3 rounded-lg shadow-lg transition-colors duration-200 ${
-                    darkMode
-                      ? "bg-green-900/30 border border-green-800 text-green-300"
-                      : "bg-green-50 border border-green-200 text-green-700"
-                  }`}
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    <HiCheckCircle className="text-green-500 flex-shrink-0" />
-                    <p className="text-center font-medium">{successMsg}</p>
                   </div>
                 </motion.div>
               )}

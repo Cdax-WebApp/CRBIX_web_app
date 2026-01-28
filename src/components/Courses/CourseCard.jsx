@@ -19,9 +19,7 @@ export default function CourseCard({ course, onEnroll }) {
 
   /* ---------------- FAVORITES ---------------- */
   const { favorites, toggleFavorite } = useFavorites();
-  const isFavorite = favorites.some(
-    (fav) => fav.courseId === course.id
-  );
+  const isFavorite = favorites.some((fav) => fav.courseId === course.id);
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
@@ -30,8 +28,7 @@ export default function CourseCard({ course, onEnroll }) {
   };
 
   /* ---------------- PURCHASE STATE ---------------- */
-  const isPurchased =
-    Boolean(course.purchased) || Boolean(course.isPurchased);
+  const isPurchased = Boolean(course.purchased) || Boolean(course.isPurchased);
 
   /* ---------------- IMAGE SAFE ---------------- */
   const image =
@@ -86,7 +83,7 @@ export default function CourseCard({ course, onEnroll }) {
 
     checkMobile();
     handleResize();
-    
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -135,13 +132,19 @@ export default function CourseCard({ course, onEnroll }) {
           {/* FAVORITE */}
           <button
             onClick={handleFavoriteClick}
-            className={`absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-1 rounded-full transition-colors ${
-              isFavorite
-                ? "text-red-500 bg-white/80 dark:bg-gray-900/80"
-                : "text-gray-300 dark:text-gray-600 hover:text-red-500 bg-white/80 dark:bg-gray-900/80"
-            }`}
+            className={`absolute top-2 right-2 sm:top-3 sm:right-3
+                  p-2 rounded-full
+                  transition-all duration-300
+                  bg-gray-100/90 dark:bg-gray-900/80
+                  hover:bg-red-100 dark:hover:bg-red-900/40
+                  ${
+                    isFavorite
+                      ? "text-red-500"
+                      : "text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-500"
+                  }
+                `}
           >
-            <HiHeart size={18} className="sm:w-5 sm:h-5" />
+            <HiHeart size={18} className="sm:w-5 sm:h-5 fill-current" />
           </button>
 
           {/* PURCHASED BADGE */}
@@ -154,7 +157,12 @@ export default function CourseCard({ course, onEnroll }) {
           {/* DISCOUNT BADGE */}
           {course.originalPrice && !isPurchased && (
             <span className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 px-2 py-1 text-xs font-semibold bg-red-500 text-white rounded">
-              Save {Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)}%
+              Save{" "}
+              {Math.round(
+                ((course.originalPrice - course.price) / course.originalPrice) *
+                  100,
+              )}
+              %
             </span>
           )}
         </div>
@@ -172,7 +180,12 @@ export default function CourseCard({ course, onEnroll }) {
             <span className="font-semibold text-yellow-600 dark:text-yellow-500">
               {course.rating ?? 4.5}
             </span>
-            <Star size={12} className="sm:w-3.5 sm:h-3.5" fill="#fbbf24" stroke="none" />
+            <Star
+              size={12}
+              className="sm:w-3.5 sm:h-3.5"
+              fill="#fbbf24"
+              stroke="none"
+            />
             <span className="text-gray-400 dark:text-gray-500">
               ({course.reviews ?? "1k+"})
             </span>
@@ -244,7 +257,7 @@ export default function CourseCard({ course, onEnroll }) {
                 >
                   {isPurchased ? "Start Learning" : "Add to Cart"}
                 </button>
-                
+
                 {!isPurchased && (
                   <button
                     onClick={() => navigate(`/course/${course.id}`)}
@@ -287,7 +300,7 @@ export default function CourseCard({ course, onEnroll }) {
               <h3 className="text-lg font-bold mb-2 text-gray-800 dark:text-white">
                 {course.title}
               </h3>
-              
+
               <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
                 <span className="flex items-center gap-1">
                   <Star size={16} fill="#fbbf24" />
@@ -306,9 +319,11 @@ export default function CourseCard({ course, onEnroll }) {
                   onClick={handlePrimaryAction}
                   className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold"
                 >
-                  {isPurchased ? "Start Learning" : "Add to Cart - ₹" + course.price}
+                  {isPurchased
+                    ? "Start Learning"
+                    : "Add to Cart - ₹" + course.price}
                 </button>
-                
+
                 <button
                   onClick={() => {
                     setIsHoverOpen(false);

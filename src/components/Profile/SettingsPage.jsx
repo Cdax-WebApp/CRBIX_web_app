@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { HiShieldCheck, HiEye, HiCreditCard } from "react-icons/hi";
+import { HiShieldCheck, HiEye, HiCreditCard, HiGlobeAlt } from "react-icons/hi";
 import { useTheme } from "./ThemeContext";
 
 export default function SettingsPage() {
@@ -47,6 +47,11 @@ export default function SettingsPage() {
         dataSharing: savedSettings.privacySettings?.dataSharing ?? true,
         profileVisibility:
           savedSettings.privacySettings?.profileVisibility || "public",
+      },
+      displaySettings: {
+        theme: savedSettings.displaySettings?.theme || "system",
+        fontSize: savedSettings.displaySettings?.fontSize || "medium",
+        language: savedSettings.displaySettings?.language || "en",
       },
       subscriptionInfo: {
         plan: user.subscriptionPlan || "Free",
@@ -247,6 +252,39 @@ export default function SettingsPage() {
                 </div>
               </div>
             )}
+
+            {/* Language Settings */}
+            <div className="mt-8 space-y-6">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                <HiGlobeAlt /> Language Settings
+              </h2>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Choose Language
+                </label>
+                <select
+                  className="w-full p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg"
+                  value={settings.displaySettings.language}
+                  onChange={(e) =>
+                    setSettings({
+                      ...settings,
+                      displaySettings: {
+                        ...settings.displaySettings,
+                        language: e.target.value,
+                      },
+                    })
+                  }
+                >
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
+                  <option value="fr">French</option>
+                  <option value="de">German</option>
+                  <option value="hi">Hindi</option>
+                  <option value="zh">Chinese</option>
+                </select>
+              </div>
+            </div>
 
             {/* Subscription Info */}
             {activeTab === "subscription" && (

@@ -61,13 +61,14 @@ export default function FavouritesPage() {
               </div>
             </div>
 
-            {/*  REMOVE FROM FAVORITES */}
+            {/* REMOVE FROM FAVORITES */}
             <button
+              disabled={loading}
               onClick={(e) => {
                 e.stopPropagation();
                 toggleFavorite(fav.courseId);
               }}
-              className="absolute top-3 right-3 text-red-500 p-1 rounded-full hover:text-red-600 dark:hover:text-red-400 transition-colors"
+              className="absolute top-3 right-3 text-red-500 p-1 rounded-full hover:text-red-600 dark:hover:text-red-400 transition-colors disabled:opacity-60"
               title="Remove from favorites"
             >
               <HiHeart size={22} />
