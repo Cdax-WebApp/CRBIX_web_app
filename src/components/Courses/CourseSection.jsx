@@ -71,7 +71,7 @@ export default function CourseGridSection() {
 
   if (loading) {
     return (
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 bg-white dark:bg-gray-900 min-h-screen">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 bg-[#eaf9ff] dark:bg-gray-900 min-h-screen">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="animate-pulse">
@@ -89,7 +89,7 @@ export default function CourseGridSection() {
 
   if (error) {
     return (
-      <section className="max-w-7xl mx-auto px-4 py-12 bg-white dark:bg-gray-900 min-h-screen">
+      <section className="max-w-7xl mx-auto px-4 py-12 bg-[#eaf9ff] dark:bg-gray-900 min-h-screen">
         <div className="text-center py-10">
           <p className="text-red-500 mb-4">{error}</p>
           <button 
@@ -104,7 +104,7 @@ export default function CourseGridSection() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 min-h-screen">
+    <div className="bg-[#eaf9ff] dark:bg-gray-900 min-h-screen">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
         <div className="mb-6 md:mb-10">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-900 dark:text-white font-bold mb-2 md:mb-3">
