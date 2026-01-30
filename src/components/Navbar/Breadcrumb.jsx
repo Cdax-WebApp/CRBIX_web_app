@@ -5,6 +5,11 @@ export default function Breadcrumb() {
   const { pathname } = useLocation();
   const { getAppliedTheme } = useTheme();
 
+  // Hide breadcrumb on home page or dashboard
+  if (pathname === "/" || pathname === "/dashboard") {
+    return null;
+  }
+
   const appliedTheme = getAppliedTheme();
   const isDark = appliedTheme === "dark";
 
@@ -18,61 +23,57 @@ export default function Breadcrumb() {
   };
 
   const path = pathname.toLowerCase();
-
-  const crumbs =
-    routeHierarchy[path] ||
+  const crumbs = routeHierarchy[path] ||
     ["Home"].concat(
       pathname
         .split("/")
         .filter(Boolean)
-        .map((p) => p.replace(/-/g, " ")),
+        .map((p) => p.replace(/-/g, " "))
     );
 
   return (
     <>
-      {/* THEME-AWARE CSS */}
       <style>{`
-  .breadcrumb-wrapper {
-    position: sticky;
-    top: 60px; /* navbar height */
-    z-index: 999;
-    padding: 10px 20px;
-    font-size: 14px;
-    background: ${isDark ? "#111827" : "#eaf9ff"};
-    border-bottom: 1px solid ${isDark ? "#374151" : "#e5e7eb"};
-    border-top: 5px solid ${isDark ? "rgba(255,255,255,0.2)" : "#ffffff"}; 
-  }
+        .breadcrumb-wrapper {
+          position: relative;
+          z-index: 10;
+          padding: 12px 20px;
+          font-size: 14px;
+          background: ${isDark ? "#111827" : "#eaf9ff"};
+          border-bottom: 1px solid ${isDark ? "#374151" : "#e5e7eb"};
+          border-top: 4px solid ${isDark ? "rgba(255,255,255,0.15)" : "#ffffff"};
+        }
 
-  .breadcrumb a {
-    color: ${isDark ? "#60a5fa" : "#2563eb"};
-    text-decoration: none;
-    margin-right: 6px;
-  }
+        .breadcrumb a {
+          color: ${isDark ? "#60a5fa" : "#2563eb"};
+          text-decoration: none;
+          margin-right: 6px;
+        }
 
-  .breadcrumb span {
-    color: ${isDark ? "#9ca3af" : "#6b7280"};
-    margin-right: 6px;
-  }
+        .breadcrumb a:hover {
+          text-decoration: underline;
+        }
 
-  .breadcrumb .active {
-    font-weight: 500;
-    color: ${isDark ? "#f9fafb" : "#111827"};
-  }
-`}</style>
+        .breadcrumb span {
+          color: ${isDark ? "#9ca3af" : "#6b7280"};
+          margin-right: 6px;
+        }
+
+        .breadcrumb .active {
+          font-weight: 500;
+          color: ${isDark ? "#f9fafb" : "#111827"};
+        }
+      `}</style>
 
       <div className="breadcrumb-wrapper">
         <nav className="breadcrumb">
           {crumbs.map((label, index) => {
             const isLast = index === crumbs.length - 1;
-
-            const to =
-              index === 0
-                ? "/"
-                : "/" +
-                  crumbs
-                    .slice(1, index + 1)
-                    .map((c) => c.toLowerCase().replace(/\s+/g, "-"))
-                    .join("/");
+            const to = index === 0 ? "/" : "/" +
+              crumbs
+                .slice(1, index + 1)
+                .map((c) => c.toLowerCase().replace(/\s+/g, "-"))
+                .join("/");
 
             return isLast ? (
               <span key={to} className="active">

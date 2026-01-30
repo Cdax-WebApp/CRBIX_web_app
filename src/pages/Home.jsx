@@ -9,7 +9,7 @@ import BuildProject from "../components/Dashbord/BuildProject";
 import TrustedBy from "../components/Dashbord/TrustedBy";
 import Testimonials from "../components/Dashbord/studentSuccess";
 import GetCertified from "../components/Dashbord/CertificationSection";
-import WhatsAppButton from "../whatsapp/WhatsAppButton";
+import WhatsAppButton from "../components/whatsapp/WhatsAppButton";
 
 /*  COMPONENT  */
 export default function HomeSections() {

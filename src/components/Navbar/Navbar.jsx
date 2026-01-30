@@ -642,7 +642,7 @@ export default function Navbar() {
                           setSearchResults([]);
                           setSuggestions([]);
                         }}
-                        className="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                        className="absolute right-14 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                       >
                         <FiX size={18} />
                       </button>

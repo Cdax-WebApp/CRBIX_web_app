@@ -831,12 +831,13 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
                               name="password"
                               type="password"
                               style={getInputStyle("password")}
-                              placeholder="Password (min. 6 characters) *"
+                              placeholder="Password (6 to 15 characters) *"
                               value={formData.password}
                               onChange={handleInputChange}
                               onBlur={handleBlur}
                               required
                               minLength={6}
+                              maxLength="15"
                             />
                             {fieldErrors.password && (
                               <div style={errorTextStyle}>
@@ -1019,7 +1020,7 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
                             name="phoneNo"
                             type="tel"
                             style={getInputStyle("phoneNo")}
-                            placeholder="Phone Number (10 digits, optional)"
+                            placeholder="Phone Number (10 digits)"
                             value={formData.phoneNo}
                             onChange={handleInputChange}
                             onBlur={handleBlur}
@@ -1035,12 +1036,13 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
                             name="password"
                             type="password"
                             style={getInputStyle("password")}
-                            placeholder="Password (min. 6 characters) *"
+                            placeholder="Password (6 to 15 characters) *"
                             value={formData.password}
                             onChange={handleInputChange}
                             onBlur={handleBlur}
                             required
                             minLength={6}
+                            maxLength="15"
                           />
                           {fieldErrors.password && (
                             <div style={errorTextStyle}>
