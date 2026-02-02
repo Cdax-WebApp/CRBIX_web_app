@@ -23,17 +23,20 @@ export const FavoritesProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const [showReminder, setShowReminder] = useState(false);
-  const [reminderCourse, setReminderCourse] = useState(null);
+  const [reminderCourses, setReminderCourses] = useState([]); 
 
   const reminderTimerRef = useRef(null);
-  const [lastReminderTime, setLastReminderTime] = useState(0);
-  const [reminderCheckInterval, setReminderCheckInterval] = useState(300000);
+  
+  const POPUP_DELAY = 5 * 60 * 1000; // 5 minutes in milliseconds
+  const POPUP_DURATION = 15 * 1000; // 15 seconds
+  const REPEAT_INTERVAL = 5 * 60 * 1000; // 5 minutes between reminders
+  const DISMISS_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
   useEffect(() => {
     if (!isAuthenticated || !user?.id) {
       setFavorites([]);
       setShowReminder(false);
-      setReminderCourse(null);
+      setReminderCourses([]);
       return;
     }
 
@@ -42,6 +45,14 @@ export const FavoritesProvider = ({ children }) => {
         setLoading(true);
         const data = await getUserFavorites(user.id);
         setFavorites(Array.isArray(data) ? data : []);
+        
+        data.forEach((fav) => {
+          const courseId = fav.courseId || fav.id;
+          const favoritedKey = `favorited_time_${courseId}`;
+          if (!localStorage.getItem(favoritedKey)) {
+            localStorage.setItem(favoritedKey, Date.now().toString());
+          }
+        });
       } catch (err) {
         console.error(err);
       } finally {
@@ -52,61 +63,54 @@ export const FavoritesProvider = ({ children }) => {
     loadFavorites();
   }, [isAuthenticated, user?.id]);
 
-  const findCourseForReminder = useCallback(
-    async (currentFavorites) => {
-      if (!isAuthenticated || !user?.id || currentFavorites.length === 0) {
-        return null;
+  const findCoursesForReminder = useCallback(async (currentFavorites) => {
+    if (!isAuthenticated || !user?.id || currentFavorites.length === 0) {
+      return [];
+    }
+
+    const now = Date.now();
+    const coursesForReminder = [];
+
+    for (const favorite of currentFavorites) {
+      const courseId = favorite.courseId || favorite.id;
+
+      const favoritedTime = localStorage.getItem(`favorited_time_${courseId}`);
+      if (!favoritedTime) continue;
+      
+      const timeSinceFavorited = now - parseInt(favoritedTime);
+      
+      const lastReminderShown = localStorage.getItem(`reminder_shown_${courseId}`);
+      const timeSinceLastReminder = lastReminderShown ? now - parseInt(lastReminderShown) : Infinity;
+ 
+      const dismissed = localStorage.getItem(`reminder_dismissed_${courseId}`);
+      if (dismissed && now - parseInt(dismissed) < DISMISS_DURATION) {
+        continue;
       }
 
-      const now = Date.now();
-      if (now - lastReminderTime < reminderCheckInterval) {
-        return null;
+      if (timeSinceLastReminder < REPEAT_INTERVAL) {
+        continue;
       }
 
-      const shuffledFavorites = [...currentFavorites].sort(
-        () => Math.random() - 0.5,
-      );
-
-      for (const favorite of shuffledFavorites) {
-        const courseId = favorite.courseId || favorite.id;
-
-        const isStillFavorited = currentFavorites.some(
-          (fav) => fav.courseId === courseId || fav.id === courseId,
-        );
-        if (!isStillFavorited) continue;
-
-        const dismissed = localStorage.getItem(
-          `reminder_dismissed_${courseId}`,
-        );
-        if (dismissed && now - parseInt(dismissed) < 24 * 60 * 60 * 1000) {
-          continue;
-        }
-
-        const shown = localStorage.getItem(`reminder_shown_${courseId}`);
-        if (shown && now - parseInt(shown) < 30 * 1000) {
-          continue;
-        }
-
+      if (timeSinceFavorited >= POPUP_DELAY) {
         try {
           const purchased = await isCoursePurchased(courseId);
           if (!purchased) {
-            return {
+            coursesForReminder.push({
               id: courseId,
-              title:
-                favorite.title || favorite.courseTitle || `Course ${courseId}`,
+              title: favorite.title || favorite.courseTitle || `Course ${courseId}`,
               price: favorite.price || 999,
               image: favorite.image || favorite.thumbnailUrl || "",
-            };
+              favoritedTime: parseInt(favoritedTime),
+            });
           }
         } catch (err) {
-          continue;
+          console.error("Error checking purchase status:", err);
         }
       }
+    }
 
-      return null;
-    },
-    [isAuthenticated, user?.id, lastReminderTime, reminderCheckInterval],
-  );
+    return coursesForReminder;
+  }, [isAuthenticated, user?.id]);
 
   useEffect(() => {
     if (reminderTimerRef.current) {
@@ -115,34 +119,30 @@ export const FavoritesProvider = ({ children }) => {
 
     if (!isAuthenticated || favorites.length === 0) {
       setShowReminder(false);
-      setReminderCourse(null);
+      setReminderCourses([]);
       return;
     }
 
     const checkAndShowReminder = async () => {
-      const course = await findCourseForReminder(favorites);
+      const courses = await findCoursesForReminder(favorites);
 
-      if (course) {
-        setReminderCourse(course);
+      if (courses.length > 0) {
+        courses.forEach(course => {
+          localStorage.setItem(`reminder_shown_${course.id}`, Date.now().toString());
+        });
+        
+        setReminderCourses(courses);
         setShowReminder(true);
-        setLastReminderTime(Date.now());
-        localStorage.setItem(
-          `reminder_shown_${course.id}`,
-          Date.now().toString(),
-        );
 
         setTimeout(() => {
           setShowReminder(false);
-          setTimeout(() => setReminderCourse(null), 300);
-        }, 8000);
+          setTimeout(() => setReminderCourses([]), 300);
+        }, POPUP_DURATION);
       }
     };
 
-    setTimeout(checkAndShowReminder, 1000);
-    reminderTimerRef.current = setInterval(
-      checkAndShowReminder,
-      reminderCheckInterval,
-    );
+    checkAndShowReminder();
+    reminderTimerRef.current = setInterval(checkAndShowReminder, REPEAT_INTERVAL);
 
     return () => {
       if (reminderTimerRef.current) {
@@ -150,25 +150,24 @@ export const FavoritesProvider = ({ children }) => {
         reminderTimerRef.current = null;
       }
     };
-  }, [
-    isAuthenticated,
-    favorites.length,
-    reminderCheckInterval,
-    findCourseForReminder,
-  ]);
+  }, [isAuthenticated, favorites, findCoursesForReminder]);
 
-  const handleDismissReminder = useCallback((courseId, permanently = false) => {
+  const handleDismissReminder = useCallback((courseId = null, permanently = false) => {
     setShowReminder(false);
-
+    
     if (courseId) {
       const key = permanently
         ? `reminder_dismissed_${courseId}`
         : `reminder_shown_${courseId}`;
       localStorage.setItem(key, Date.now().toString());
+    } else if (permanently && reminderCourses.length > 0) {
+      reminderCourses.forEach(course => {
+        localStorage.setItem(`reminder_dismissed_${course.id}`, Date.now().toString());
+      });
     }
 
-    setTimeout(() => setReminderCourse(null), 300);
-  }, []);
+    setTimeout(() => setReminderCourses([]), 300);
+  }, [reminderCourses]);
 
   const handleReminderPurchaseClick = useCallback((course) => {
     setShowReminder(false);
@@ -176,7 +175,7 @@ export const FavoritesProvider = ({ children }) => {
       `reminder_purchase_clicked_${course.id}`,
       Date.now().toString(),
     );
-    setTimeout(() => setReminderCourse(null), 300);
+    setTimeout(() => setReminderCourses([]), 300);
     return course;
   }, []);
 
@@ -197,14 +196,12 @@ export const FavoritesProvider = ({ children }) => {
             ),
           );
 
+          localStorage.removeItem(`favorited_time_${courseId}`);
           localStorage.removeItem(`reminder_dismissed_${courseId}`);
           localStorage.removeItem(`reminder_shown_${courseId}`);
           localStorage.removeItem(`reminder_purchase_clicked_${courseId}`);
 
-          if (reminderCourse?.id === courseId) {
-            setShowReminder(false);
-            setTimeout(() => setReminderCourse(null), 300);
-          }
+          setReminderCourses(prev => prev.filter(course => course.id !== courseId));
         } else {
           const response = await addToFavorites(user.id, courseId);
           if (response?.favorite) {
@@ -216,6 +213,7 @@ export const FavoritesProvider = ({ children }) => {
               },
             ]);
 
+            localStorage.setItem(`favorited_time_${courseId}`, Date.now().toString());
             localStorage.removeItem(`reminder_dismissed_${courseId}`);
             localStorage.removeItem(`reminder_shown_${courseId}`);
           }
@@ -224,7 +222,7 @@ export const FavoritesProvider = ({ children }) => {
         console.error(err);
       }
     },
-    [isAuthenticated, user?.id, favorites, reminderCourse],
+    [isAuthenticated, user?.id, favorites],
   );
 
   const testReminder = useCallback(
@@ -232,30 +230,31 @@ export const FavoritesProvider = ({ children }) => {
       if (!isAuthenticated || favorites.length === 0) return;
 
       if (courseData) {
-        setReminderCourse(courseData);
+        setReminderCourses([courseData]);
         setShowReminder(true);
-        setLastReminderTime(Date.now());
         return;
       }
 
-      const fav = favorites[0];
-      const courseId = fav.courseId || fav.id;
-
-      setReminderCourse({
-        id: courseId,
-        title: fav.title || fav.courseTitle || `Course ${courseId}`,
+      const courses = favorites.slice(0, 3).map(fav => ({
+        id: fav.courseId || fav.id,
+        title: fav.title || fav.courseTitle || `Course ${fav.courseId || fav.id}`,
         price: fav.price || 999,
         image: fav.image || fav.thumbnailUrl || "",
-      });
+        favoritedTime: Date.now() - POPUP_DELAY, 
+      }));
+
+      setReminderCourses(courses);
       setShowReminder(true);
-      setLastReminderTime(Date.now());
     },
-    [isAuthenticated, favorites],
+    [isAuthenticated, favorites, POPUP_DELAY],
   );
 
   const forceNextReminder = useCallback(() => {
-    setLastReminderTime(0);
-  }, []);
+    favorites.forEach(fav => {
+      const courseId = fav.courseId || fav.id;
+      localStorage.removeItem(`reminder_shown_${courseId}`);
+    });
+  }, [favorites]);
 
   const clearAllReminders = useCallback(() => {
     if (reminderTimerRef.current) {
@@ -263,28 +262,16 @@ export const FavoritesProvider = ({ children }) => {
     }
 
     setShowReminder(false);
-    setReminderCourse(null);
-    setLastReminderTime(0);
+    setReminderCourses([]);
 
     favorites.forEach((fav) => {
       const id = fav.courseId || fav.id;
+      localStorage.removeItem(`favorited_time_${id}`);
       localStorage.removeItem(`reminder_dismissed_${id}`);
       localStorage.removeItem(`reminder_shown_${id}`);
+      localStorage.removeItem(`reminder_purchase_clicked_${id}`);
     });
   }, [favorites]);
-
-  const updateReminderInterval = useCallback((seconds) => {
-    const interval = seconds * 1000;
-    setReminderCheckInterval(interval);
-    localStorage.setItem("reminder_interval", interval.toString());
-  }, []);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("reminder_interval");
-    if (saved) {
-      setReminderCheckInterval(parseInt(saved));
-    }
-  }, []);
 
   return (
     <FavoritesContext.Provider
@@ -293,14 +280,12 @@ export const FavoritesProvider = ({ children }) => {
         toggleFavorite,
         loading,
         showReminder,
-        reminderCourse,
+        reminderCourses, 
         handleDismissReminder,
         handleReminderPurchaseClick,
         testReminder,
         forceNextReminder,
         clearAllReminders,
-        updateReminderInterval,
-        reminderCheckInterval,
       }}
     >
       {children}

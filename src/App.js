@@ -43,7 +43,7 @@ function AppLayout() {
   const location = useLocation();
   const { authOpen, authMode, openLogin, openSignup, closeAuth } = useAuth();
   const hideBreadcrumb = /^\/course\/\d+/.test(location.pathname);
-  const { showReminder, reminderCourse, handleDismissReminder, handleReminderPurchaseClick } = useFavorites();
+  const { showReminder, reminderCourses, handleDismissReminder, handleReminderPurchaseClick } = useFavorites();
 
   return (
     <>
@@ -97,7 +97,7 @@ function AppLayout() {
         {/* REMINDER POPUP */}
         <ReminderPopup
           isOpen={showReminder}
-          course={reminderCourse}
+          courses={reminderCourses}
           onDismiss={(courseId) => handleDismissReminder(courseId, false)}
           onDismissPermanently={(courseId) => handleDismissReminder(courseId, true)}
           onPurchase={handleReminderPurchaseClick}

@@ -31,21 +31,21 @@ export default function HomeSections() {
       <DomeGallery />
     </div>
       <LearningExperience />
-        <div className="border-t border-gray-300 dark:border-gray-700 my-6"></div>
+        <div className="border-t border-gray-500 dark:border-gray-700 my-6"></div>
       <GetCertified />
-      <div className="border-t border-gray-300 dark:border-gray-700 my-6"></div>
+      <div className="border-t border-gray-500 dark:border-gray-700 my-6"></div>
       <section id="courses">
         <CourseGridSection />
       </section>
-      <div className="border-t border-gray-300 dark:border-gray-700 my-6"></div>
+      <div className="border-t border-gray-500 dark:border-gray-700 my-6"></div>
       <WhyChooseUs /> 
-      <div className="border-t border-gray-300 dark:border-gray-700 my-6"></div>
+      <div className="border-t border-gray-500 dark:border-gray-700 my-6"></div>
       <CoursePlans />
-      <div className="border-t border-gray-300 dark:border-gray-700 my-6"></div>
+      <div className="border-t border-gray-500 dark:border-gray-700 my-6"></div>
       <BuildProject />
-      <div className="border-t border-gray-300 dark:border-gray-700 my-6"></div>
+      <div className="border-t border-gray-500 dark:border-gray-700 my-6"></div>
       <TrustedBy />
-      <div className="border-t border-gray-300 dark:border-gray-700 my-6"></div>
+      <div className="border-t border-gray-500 dark:border-gray-700 my-6"></div>
      <Testimonials /> 
      <WhatsAppButton />
     </div>

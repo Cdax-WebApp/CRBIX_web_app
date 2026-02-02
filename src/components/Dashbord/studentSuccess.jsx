@@ -8,7 +8,7 @@ const Testimonials = () => {
   const testimonials = [
     {
       id: 1,
-      name: "David Wilson",
+      name: "Sundar Bhardwaj",
       role: "Full Stack Developer",
       company: "Meta",
       rating: 5,
@@ -19,7 +19,7 @@ const Testimonials = () => {
     },
     {
       id: 2,
-      name: "Michael Chen",
+      name: "Prasanna Rathod",
       role: "Product Manager",
       company: "Microsoft",
       rating: 5,
@@ -30,7 +30,7 @@ const Testimonials = () => {
     },
     {
       id: 3,
-      name: "Priya Sharma",
+      name: "Vrunda Rathi",
       role: "Data Scientist",
       company: "Amazon",
       rating: 5,
@@ -78,9 +78,7 @@ const Testimonials = () => {
             </span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Consectetur adipiscing elit elit tellus, luctus nec ullamcorper
-            mattis, pulvinar dapibus leo. Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit.
+            Learners from diverse backgrounds trust our platform for industry-relevant skills, expert-led instruction, and measurable career growth. Our courses are designed to deliver real value, not just certificates.
           </p>
         </motion.div>
 
@@ -146,17 +144,6 @@ const Testimonials = () => {
                     />
                   ))}
                 </div>
-              </div>
-
-              {/* Date & Like */}
-              <div className="flex items-center justify-between mt-6">
-                <span className="text-gray-500 dark:text-gray-400 text-sm">
-                  {testimonials[activeReview].date}
-                </span>
-                <button className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition">
-                  <Heart size={18} />
-                  <span className="text-sm">Helpful</span>
-                </button>
               </div>
             </div>
           </motion.div>
@@ -224,20 +211,6 @@ const Testimonials = () => {
                     <p className="text-gray-700 dark:text-gray-300 text-sm line-clamp-2 mb-3">
                       "{review.content}"
                     </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-400 dark:text-gray-500">
-                        {review.date}
-                      </span>
-                      <div className="flex items-center gap-4">
-                        <button className="text-xs text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition">
-                          Helpful
-                        </button>
-                        <button className="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition">
-                          Reply
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </motion.div>
