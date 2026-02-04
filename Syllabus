@@ -1,0 +1,194 @@
+Syllabus for the Courses
+Web Development:
+  HTML:
+Introduction and Installation
+Formatting Tags
+Quotation Tags
+  Assessment
+Attributes
+Image Tag
+  Assessment
+Anchor Tag
+Media Tag
+  Assessment
+Iframe Tag
+  Assessment
+List tag
+  Assessment
+Table Tag
+  Assessment
+Form Tag
+Form Attributes
+  Assessment
+Class & ID
+Semantic and Non Semantic Elements
+  Assessment
+
+  CSS: 
+Introduction
+Types of CSS
+Selectors
+Color Property
+  Assessment
+Text Property
+  Assessment
+Border Property
+  Assessment
+Box Model
+Display Property
+  Assessment
+Float Property
+  Assessment
+Pseudo Classes
+  Assessment
+List Property
+Font Property
+  Assessment
+Transition Property
+  Assessment
+Transform Property
+  Assessment
+Background Image Property
+  Assessment
+Table Property
+  Assessment
+Position Property
+Z-index Property
+Opacity Property
+  Assessment
+Gradient Property
+  Assessment
+Animation Property
+  Assessment
+Media Query
+  Assessment
+
+  JS: 
+Introduction
+Syntax
+Variables
+Data Types
+JS Type Of
+  Assessment
+JS Errors and Console Statements
+  Assessment
+JS Operators
+JS Scope
+JS Hoisting
+Statements
+If Statements
+If-else Statements
+If-else-if Ladder
+  Assessment
+While Loop
+Do-while Loop
+For Loop
+  Assessment
+Switch Cases
+  Assessment
+JS Pop Up boxes
+  Assessment
+JS Functions
+  Assessment
+JS Events
+  Assessment
+JS Array
+  Assessment
+JS Array Methods
+  Assessment
+JS Objects
+  Assessment
+JS String 
+  Assessment
+JS String Methods
+  Assessment
+JS Random Methods
+  Assessment
+JS Math Methods
+  Assessment
+JS Number Methods
+  Assessment
+JS Date and Time Methods
+  Assessment
+JS DOM
+  Assessmnet
+
+  jQ:
+Introduction
+installation
+basic Syntax
+jQuery Selectors
+Get Set values
+  Assessment
+Get Set Attributes
+  Assessment
+jQuery Events
+  Assessment
+jQuery Effects
+  Assessment
+Append and prepend methods
+  Assessment
+jquery animation method
+  Assessment
+method chaining
+  Assessment
+jQuery Traversing Method
+  Assessment
+Ancestors method
+  Assessment
+Children Method
+Sibling Method
+Filtering Method
+  Assessment
+
+  BS: 
+Introduction
+installation
+classes of bootstrap
+  Assessment
+grid column system
+ordering class
+  Assessment
+offset class
+  Assessment
+jumbotron
+page header
+wells
+  Assessment
+glyphicons
+  Assessment
+panel
+  Assessment
+float and clearfix classes 
+  Assessment
+Background color classes
+text color classes
+  Assessment
+Margin and padding classes
+  Assessment
+Typography
+  Assessment
+Button Classes
+  Assessment
+Table Classes
+  Assessment
+Form Classes
+  Assessment
+Image Classes
+  Assessment
+Progress Bar
+Spinner
+  Assessment
+Navigation Classes
+  Assessment
+Pagination 
+Breadcrumb
+  Assessment
+Dropdown Classes
+  Assesment
+Collapse Classes
+  Assessment
+Alert Classes
+  Asseessemnt
+Carousel Plugin
+  Assessment
