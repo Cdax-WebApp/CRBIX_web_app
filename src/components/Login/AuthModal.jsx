@@ -78,7 +78,7 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
             "Only letters, spaces, hyphens (-) and apostrophes (') are allowed";
         } else if (value.trim().length < 2) {
           error = "First name must be at least 2 characters";
-        } else if (value.trim().length > 50) {
+        } else if (value.trim().length > 20) {
           error = "First name cannot exceed 50 characters";
         }
         break;
@@ -91,7 +91,7 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
             "Only letters, spaces, hyphens (-) and apostrophes (') are allowed";
         } else if (value.trim().length < 2) {
           error = "Last name must be at least 2 characters";
-        } else if (value.trim().length > 50) {
+        } else if (value.trim().length > 20) {
           error = "Last name cannot exceed 50 characters";
         }
         break;
@@ -101,13 +101,15 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
           error = "Email is required";
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           error = "Please enter a valid email address";
-        } else if (value.length > 100) {
+        } else if (value.length > 30) {
           error = "Email cannot exceed 100 characters";
         }
         break;
 
       case "phoneNo":
-        if (value.trim() && value !== "") {
+        if (!value.trim() || value === "") {
+          error = "Phone Number is required";
+        } else {
           const cleanPhone = value.replace(/\D/g, "");
           if (!/^\d+$/.test(cleanPhone)) {
             error = "Phone number must contain only digits";
@@ -194,7 +196,7 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
     let isValid = true;
 
     const fieldsToValidate = isPanelActive
-      ? ["firstName", "lastName", "email", "password", "cPass"]
+      ? ["firstName", "lastName", "email", "phoneNo", "password", "cPass"]
       : ["email", "password"];
 
     fieldsToValidate.forEach((field) => {
@@ -667,15 +669,21 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
                 exit={{ opacity: 0, y: -20 }}
                 className="fixed top-6 left-0 right-0 z-[10002] mx-auto w-[90%] max-w-sm px-4 py-3 rounded-lg shadow-xl"
                 style={{
-                  backgroundColor: darkMode ? 'rgba(6, 78, 59, 0.95)' : 'rgba(220, 252, 231, 0.95)',
-                  border: darkMode ? '1px solid rgb(5, 150, 105)' : '1px solid rgb(134, 239, 172)',
-                  color: darkMode ? '#d1fae5' : '#065f46',
-                  backdropFilter: 'blur(10px)'
+                  backgroundColor: darkMode
+                    ? "rgba(6, 78, 59, 0.95)"
+                    : "rgba(220, 252, 231, 0.95)",
+                  border: darkMode
+                    ? "1px solid rgb(5, 150, 105)"
+                    : "1px solid rgb(134, 239, 172)",
+                  color: darkMode ? "#d1fae5" : "#065f46",
+                  backdropFilter: "blur(10px)",
                 }}
               >
                 <div className="flex items-center justify-center gap-2">
                   <HiCheckCircle className="text-green-500 flex-shrink-0 text-lg" />
-                  <p className="text-center font-medium text-sm md:text-base">{successMsg}</p>
+                  <p className="text-center font-medium text-sm md:text-base">
+                    {successMsg}
+                  </p>
                 </div>
               </motion.div>
             )}
@@ -711,10 +719,14 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
                   exit={{ opacity: 0, y: -20 }}
                   className="fixed top-6 left-0 right-0 z-[10001] mx-auto w-[90%] max-w-sm px-4 py-3 rounded-lg shadow-xl"
                   style={{
-                    backgroundColor: darkMode ? 'rgba(127, 29, 29, 0.95)' : 'rgba(254, 226, 226, 0.95)',
-                    border: darkMode ? '1px solid rgb(153, 27, 27)' : '1px solid rgb(252, 165, 165)',
-                    color: darkMode ? '#fecaca' : '#7f1d1d',
-                    backdropFilter: 'blur(10px)'
+                    backgroundColor: darkMode
+                      ? "rgba(127, 29, 29, 0.95)"
+                      : "rgba(254, 226, 226, 0.95)",
+                    border: darkMode
+                      ? "1px solid rgb(153, 27, 27)"
+                      : "1px solid rgb(252, 165, 165)",
+                    color: darkMode ? "#fecaca" : "#7f1d1d",
+                    backdropFilter: "blur(10px)",
                   }}
                 >
                   <div className="flex items-center justify-center gap-2">
@@ -819,6 +831,7 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
                               value={formData.phoneNo}
                               onChange={handleInputChange}
                               onBlur={handleBlur}
+                              required
                               maxLength="10"
                             />
                             {fieldErrors.phoneNo && (
@@ -1024,6 +1037,7 @@ export default function AuthModal({ isOpen, onClose, mode = "login" }) {
                             value={formData.phoneNo}
                             onChange={handleInputChange}
                             onBlur={handleBlur}
+                            required
                             maxLength="10"
                           />
                           {fieldErrors.phoneNo && (
