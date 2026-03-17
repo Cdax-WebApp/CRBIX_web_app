@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "https://cdaxx-backend.onrender.com/api";
+  process.env.REACT_APP_API_URL || "https://cdaxx-backend-t6a3.onrender.com/api";
 
 export const videoApi = {
   markVideoAsCompleted: async (data) => {

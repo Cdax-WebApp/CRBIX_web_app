@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://cdaxx-backend.onrender.com/api',
+  baseURL: 'https://cdaxx-backend-t6a3.onrender.com/api',
   timeout: 15000, 
   headers: {
     'Content-Type': 'application/json',

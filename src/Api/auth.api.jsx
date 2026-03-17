@@ -1,4 +1,4 @@
-const API_BASE = "https://cdaxx-backend.onrender.com/api/auth";
+const API_BASE = "https://cdaxx-backend-t6a3.onrender.com/api/auth";
 
 export const registerUser = async (userData) => {
   try {
